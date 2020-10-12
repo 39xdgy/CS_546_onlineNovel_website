@@ -1,1 +1,1 @@
-# Novel Forum
+# Scribble Hub
