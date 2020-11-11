@@ -1,0 +1,24 @@
+{
+  "name": "rent_a_ride",
+  "version": "1.0.0",
+  "description": "This is a final project for group 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/39xdgy/rent_a_ride.git"
+  },
+  "author": "group 1",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/39xdgy/rent_a_ride/issues"
+  },
+  "homepage": "https://github.com/39xdgy/rent_a_ride#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.3"
+  }
+}
