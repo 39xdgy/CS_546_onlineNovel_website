@@ -1,4 +1,4 @@
-
+//function to validate array type field
 function validateArray(argument,type="A"){
 
     if (!argument) throw `One of the sent parameter is missing`;  
@@ -9,12 +9,14 @@ function validateArray(argument,type="A"){
         }
     }
 
+//function to validate number type field
 function validateNumber(argument,type="N"){
         if(!argument) throw `Sent Parameter is missing`;
         if (typeof argument !== "number") throw `Passed argument ${argument} is not a number`;
         if (!Number.isInteger(argument)) throw `Passed argument ${argument} is not an Integer`;
 }
 
+//function to validate object type field
 function validateObject(argument,type="O"){
     
     if (!argument) throw `Sent parameter is missing`;    
@@ -26,6 +28,7 @@ function validateObject(argument,type="O"){
 /* if (type==="F"){
             if (typeof argument !== "function") throw `Sent Parameter ${argument} is not a function`;} */
 
+//function to validate string type field
 function validateString(stringArg){
     if (!stringArg) throw `Sent parameter is missing`;
     if (typeof stringArg !== "string") throw `Parameter sent ${stringArg} is not a string`
@@ -34,6 +37,7 @@ function validateString(stringArg){
 
 }
 
+//function to validate date type field and converts date from string to date type
 function validateDate(argument){
 
     let daysInMonth = function (m, y) {
@@ -71,6 +75,7 @@ function validateDate(argument){
     else throw `Sent Parameter ${argument} is an invalid Date`;
 }
 
+//function to format date in mm/dd/yy field
 function formatDateInString(argument){
     let month = argument.getMonth() + 1;
     let day = argument.getDate();
