@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/39xdgy/rent_a_ride#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "mongodb": "^3.6.3"
   }
