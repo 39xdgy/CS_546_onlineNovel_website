@@ -1,0 +1,82 @@
+const mongoCollections = require('../config/mongoCollections');
+const cars = mongoCollections.cars;
+const {ObjectID} = require("mongodb"); 
+const validate = require("./validate");
+
+async function getCarById(id) {
+    let parsedId = ObjectID(id);
+    const carsCollections = await cars();
+    const car = await carsCollections.findOne({_id:parsedId});
+    if(car===null) throw `Could not find any user for id ${id}`;
+    car._id = car._id.toString();
+    return car;
+}
+
+async function getAllCars() {
+    const carsCollection = await cars();
+    const carList = await carsCollection.find({}).toArray();
+    if (!carList) throw 'No books in system';
+    return carList;
+}
+
+async function createCar(carObject){
+
+    const newCar = {
+        ownedBy : carObject.ownedBy,
+        licensePlate : carObject.licensePlate,
+        brand : carObject.brand,
+        model : carObject.model,
+        makeYear : carObject.makeYear,
+        type : carObject.type,
+        color : carObject.color,
+        features : carObject.features,
+        noOfPassengers : carObject.noOfPassengers,
+        bootSpace : carObject.bootSpace,
+        images : carObject.images,
+        houseNo : carObject.houseNo,
+        street : carObject.street,
+        city : carObject.city,
+        state : carObject.state,
+        zip : carObject.zip,
+        price : carObject.price,
+        reviews : [],
+        rating : 0,
+        bookingIds : [],
+        rented : false
+    }
+
+    const carsCollections = await cars();
+    const insertedInfo = await carsCollections.insertOne(newCar);
+    if(insertedInfo.insertedCount===0) throw `New User cannot be added`;
+
+    const addedNewCar = await getCarById(insertedInfo.insertedId.toString());
+    return addedNewCar;
+}
+
+async function deleteCar(id) {
+    try{
+        car = await getCarById(id);
+    } catch(e) {
+        console.log(e);
+        return;
+    }
+    let parsedId;
+    try {
+        parsedId = ObjectID(id);
+    }catch(e) {
+        throw 'Id is not a valid ObjectID';
+    }
+    const carsCollection = await cars();
+    const deletedInfo = await carsCollection.removeOne({_id: parsedId});
+    if (deletedInfo.deletedCount === 0) {
+        throw `Could not delete car with id of ${id}`;
+    }
+    return {"bookID" : id, "deleted" : true};
+}
+
+module.exports = {
+    getAllCars,
+    getCarById,
+    createCar,
+    deleteCar
+};
