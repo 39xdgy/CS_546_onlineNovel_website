@@ -2,7 +2,7 @@ const mongoCollections = require('../config/mongoCollections');
 const users = mongoCollections.users;
 const bcrypt = require("bcrypt");
 const saltRounds = 16;
-const {ObjectID} = require("mongodb"); 
+const {ObjectID} = require("mongodb");
 const validate = require("./validate");
 
 //fetching user with id
