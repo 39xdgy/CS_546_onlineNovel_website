@@ -1,11 +1,13 @@
 const rentingInfoRoutes = require('./rentingInfo');
 const userRoutes = require('./users');
 const carsRoutes = require('./cars');
+const reviewsRoutes = require('./reviews');
 
 const constructorMethod = (app) => {
     app.use('/rentingInfo', rentingInfoRoutes);
     app.use("/users", userRoutes);
     app.use('/cars', carsRoutes); 
+    app.use('/reviews', reviewsRoutes); 
 
     app.use('*', (req, res) => {
         res.status(404).json({ Error: 'Page not found'});
