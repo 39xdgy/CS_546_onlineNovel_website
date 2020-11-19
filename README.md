@@ -1,7 +1,5 @@
 # Rent-A-Ride
 
-# Rent-A-Ride
-
 Group Members
 1. Vishal Manjunath
 2. Shaunak Saklikar
