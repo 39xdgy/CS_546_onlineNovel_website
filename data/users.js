@@ -1,5 +1,5 @@
 const mongoCollections = require('../config/mongoCollections');
-const users = mongoCollections.users;
+const usersColl = mongoCollections.users;
 const bcrypt = require("bcrypt");
 const saltRounds = 16;
 const {ObjectID} = require("mongodb");
@@ -9,7 +9,7 @@ const validate = require("./validate");
 async function getUserById(id){
 
     let parsedId = ObjectID(id);
-    const userCollections = await users();
+    const userCollections = await usersColl();
     const user = await userCollections.findOne({_id:parsedId});
     if(user===null) throw `Could not find any user for id ${id}`;
     user._id = user._id.toString();
@@ -27,15 +27,15 @@ async function getUserByEmailId(emailIDParam){
 
 //getting all the users
 async function getAllUsers(){
-    const userCollections = await users();
-    const users = await userCollections.find({}).toArray();
+    const userCollections = await usersColl();
+    const users = await userCollections.find({},{ projection: { _id: 0, emailID: 1,driverLicense:1}}).toArray();
     return users; 
 }
 
 //login function
 async function login(emailIDParam,password){
     let loginResult = false;
-    const userCollections = await users();
+    const userCollections = await usersColl();
     const user = await userCollections.findOne({emailID:emailIDParam});
     if(user===null) throw `User not available for the User Id ${emailID}`;
     loginResult = await bcrypt.compare(password,user.hashedPassword);
@@ -43,20 +43,40 @@ async function login(emailIDParam,password){
     else throw `Invalid Password ${password}`;
 }
 
+
+async function addProfilePicture(id, profilePicture) {
+  //  let objRevId = "";
+  //  if (typeof(id) === "string") objRevId = ObjectId.createFromHexString(id);
+    const userCollection = await usersColl();
+    let parsedId = ObjectID(id);
+    let updatedUserData = {};
+    updatedUserData.profilePicture = profilePicture;
+    const updateInfoUser = await userCollection.updateOne({ _id: parsedId }, { $set: updatedUserData });
+    if (updateInfoUser.modifiedCount === 0 && updateInfoUser.deletedCount === 0) throw "could not update user";
+    const updatedUser = await getUserById(id);
+    return updatedUser;
+}
+
 // creating a new user @SmitaRath
 async function createUser(userObject){
 
+    validate.validateString(userObject.firstName);
+    validate.validateString(userObject.lastName);
     const userDob = validate.validateDate(userObject.dob);
+    validate.validateEmailId(userObject.emailID);
+    validate.validateDriverLicenseNumber(userObject.driverLicense);
+    validate.validateString(userObject.zip);
 
     // hashing password @SmitaRath
     const hash = await bcrypt.hash(userObject.password,saltRounds);
+
     //creating new user object @SmitaRath
     const newUser = {
-        firstName : userObject.firstName,
-        lastName : userObject.lastName,
+        firstName : userObject.firstName.trim(),
+        lastName : userObject.lastName.trim(),
         dob : userDob,
-        emailID : userObject.emailID,
-        driverLicense : userObject.driverLicense,
+        emailID : userObject.emailID.toLowerCase(),
+        driverLicense : userObject.driverLicense.toUpperCase(),
         profilePicture : userObject.profilePicture,
         city : userObject.city,
         state : userObject.state,
@@ -69,7 +89,7 @@ async function createUser(userObject){
         savedCars : []
     }
 
-    const userCollections = await users();
+    const userCollections = await usersColl();
     const insertedInfo = await userCollections.insertOne(newUser);
     if(insertedInfo.insertedCount===0) throw `New User cannot be added`;
 
@@ -90,7 +110,7 @@ async function updateUser(userObject){
         state : userObject.state,
         zip : userObject.zip
     }
-    const userCollections = await users();
+    const userCollections = await usersColl();
     const updatedInfo = await userCollections.updateOne({ _id: parsedId },{ $set: updatedUser});
     if(updatedInfo.modifiedCount===0) throw `Update is not successful, kindly provide new details`;
 
@@ -103,5 +123,6 @@ module.exports={
     createUser,
     updateUser,
     getUserById,
-    getAllUsers
+    getAllUsers,
+    addProfilePicture
 }
