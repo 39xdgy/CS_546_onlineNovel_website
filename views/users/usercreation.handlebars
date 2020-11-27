@@ -1,0 +1,74 @@
+<div>
+    <form id="usercreation-form-id" method="POST" action="/users/createUser" >
+    <label>
+        First Name *
+        <input type="text" name="firstName" id="firstName-id" placeholder="First Name" value="{{users.firstName}}" required>
+    </label>
+    <br>
+    <br>
+    <label>
+        Last Name 
+        <input type="text" name="lastName" id="lastName-id" placeholder="Last Name" value="{{users.lastName}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Date Of Birth *
+        <input type="date" name="dob" id="dob-id" required value="{{users.dob}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Email Id/Username *
+        <input type="email" name="emailID" id="email-id" placeholder="Email Id" required value="{{users.emailID}}">
+    </label>
+    <br>
+    <br>
+   <!-- <ul id="usernames-id" name = "usernames" hidden>
+      {{#each users}}
+        <li value="{{emailID}}">{{emailID}}</li>
+      {{/each}}
+    </ul>
+    <ul id="licenses-id" name = "licenses" hidden>
+      {{#each users}}
+        <li value="{{driverLicense}}">{{driverLicense}}</li>
+      {{/each}}
+    </ul> -->
+    <label>
+        Password *
+        <input type="password" name="password" id="password-id" required placeholder="password">
+    </label>
+    <br>
+    <br>
+    <label>
+        Confirm Password *
+        <input type="password" name="confirm" id="confirm-id" required placeholder="confirm password">
+    </label>
+    <br>
+    <br>
+    <label> 
+        Driver's License Number *
+        <input name="driverLicense" id="driverLicense-id" placeholder="Driver's License Number" required value="{{users.driverLicense}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Zip Code *
+        <input name="zip" type="number" id="zip-id" placeholder="Zip Code" required value="{{users.zip}}">
+    </label>
+    <br>
+    <br>
+    <button type="submit">Submit</button>
+    <button type="reset">Clear Form</button>
+    </form>
+
+    {{#if hasErrors}}
+    <ul class="error-list">
+    {{#each errors}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+  </ul>
+ {{/if}}
+</div>
