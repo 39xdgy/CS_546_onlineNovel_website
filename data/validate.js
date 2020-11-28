@@ -270,9 +270,9 @@ function validateDate(argument){
         let day = parseInt(parts[2], 10);
         let month = parseInt(parts[1], 10);
         let year = parseInt(parts[0], 10);
-        if(today.getFullYear()-year!=18) throw `You should be 18 years or above to rent a ride`;
-        if(month-1 > today.getMonth()) throw `You should be 18 years or above to rent a ride`;
-        if(day > today.getDate()) throw `You should be 18 years or above to rent a ride`;
+        if(today.getFullYear()-year<18) throw `You should be 18 years or above to rent a ride`;
+        if(today.getFullYear()-year==18 && month-1 > today.getMonth()) throw `You should be 18 years or above to rent a ride`;
+        if(today.getFullYear()-year==18 && month-1 == today.getMonth() && day > today.getDate()) throw `You should be 18 years or above to rent a ride`;
         if(!(isValidDate(day,month,year))) throw `Sent Parameter ${argument} is an invalid Date`;
         let returnDate = new Date(year,month-1,day);
         return returnDate;
@@ -291,7 +291,7 @@ function formatDateInString(argument){
         month = 0 + "" + month;
     }
     let year = argument.getFullYear();
-    let formatDate = `${month}/${day}/${year}`;
+    let formatDate = `${year}-${month}-${day}`;
     console.log(formatDate);
     return formatDate;
 }

@@ -13,6 +13,7 @@ async function getUserById(id){
     const user = await userCollections.findOne({_id:parsedId});
     if(user===null) throw `Could not find any user for id ${id}`;
     user._id = user._id.toString();
+    user.dob=validate.formatDateInString(user.dob);
     return user;
 }
 
@@ -61,10 +62,13 @@ async function addProfilePicture(id, profilePicture) {
 async function createUser(userObject){
 
     validate.validateString(userObject.firstName);
-    validate.validateString(userObject.lastName);
+    if(userObject.lastName){
+        validate.validateString(userObject.lastName);
+        userObject.lastName=userObject.lastName.trim();
+        }
     const userDob = validate.validateDate(userObject.dob);
     validate.validateEmailId(userObject.emailID);
-    validate.validateDriverLicenseNumber(userObject.driverLicense);
+    validate.validateDriverLicenseNumber(userObject.driverLicense,userObject.state);
     validate.validateString(userObject.zip);
 
     // hashing password @SmitaRath
@@ -73,7 +77,7 @@ async function createUser(userObject){
     //creating new user object @SmitaRath
     const newUser = {
         firstName : userObject.firstName.trim(),
-        lastName : userObject.lastName.trim(),
+        lastName : userObject.lastName,
         dob : userDob,
         emailID : userObject.emailID.toLowerCase(),
         driverLicense : userObject.driverLicense.toUpperCase(),
@@ -94,27 +98,38 @@ async function createUser(userObject){
     if(insertedInfo.insertedCount===0) throw `New User cannot be added`;
 
     const addedNewUser = await getUserById(insertedInfo.insertedId.toString());
+   // addedNewUser.dob=validate.formatDateInString(addedNewUser.dob);
     return addedNewUser;
 }
 
 //updating user
-async function updateUser(userObject){
-    let userDob = validate.validateDate(userObject.dob);
-    let parsedId = ObjectID(userObject.id);
+async function updateUser(userObject,id){
+    let parsedId = ObjectID(id);
+
+    validate.validateString(userObject.firstName);
+    if(userObject.lastName){
+    validate.validateString(userObject.lastName);
+    userObject.lastName=userObject.lastName.trim();
+    }
+    const userDob = validate.validateDate(userObject.dob);
+    validate.validateDriverLicenseNumber(userObject.driverLicense,userObject.state);
+    validate.validateString(userObject.zip);
+
     const updatedUser = {
-        firstName : userObject.firstName,
+        firstName : userObject.firstName.trim(),
         lastName : userObject.lastName,
         dob : userDob,
-        profilePicture : userObject.profilePicture,
+        driverLicense:userObject.driverLicense.toUpperCase(),
         city : userObject.city,
         state : userObject.state,
         zip : userObject.zip
+
     }
     const userCollections = await usersColl();
     const updatedInfo = await userCollections.updateOne({ _id: parsedId },{ $set: updatedUser});
-    if(updatedInfo.modifiedCount===0) throw `Update is not successful, kindly provide new details`;
 
-    const modifiedUser = await getUserById(userObject.id);
+    const modifiedUser = await getUserById(id);
+  //  modifiedUser.dob=validate.formatDateInString(modifiedUser.dob);
     return modifiedUser;
 }
 
