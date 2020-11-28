@@ -7,12 +7,8 @@ const multer = require("multer");
 const path = require('path');
 const upload = multer({ dest: 'public/uploads' });
 const fs = require('fs');
-const axios = require('axios');
 const { default: Axios } = require("axios");
 
-router.get('/upload/profilepic',async(req,res)=>{
-    res.render("users/uploadProfilePic");
-})
 
 router.post('/upload/profilepic', upload.single('profilePicture'), async (req, res) => {
   let img = fs.readFileSync(req.file.path);
@@ -24,15 +20,26 @@ router.post('/upload/profilepic', upload.single('profilePicture'), async (req, r
 }
 
   const addingProfilePicture = await usersData.addProfilePicture(userId, finalImg);
-  res.contentType('image/jpeg');
-  res.send(addingProfilePicture.profilePicture.image.buffer);
+  res.redirect('/users/editUser');
 });
+
+router.get('/profilepic/:id', async (req, res) => {
+    const getUser = await usersData.getUserById(req.params.id);
+    const profilepicData = getUser.profilePicture;
+    if(profilepicData == ""){
+      return res.status(400).send({
+        message: 'No Profile Pic Found!'
+     })
+    } else {
+      res.contentType('image/jpeg');
+      res.send(profilepicData.image.buffer);
+    }
+    return;
+  });
 
 router.get("/createUser", async(req,res)=>{
     try{
-    const allUsers = await usersData.getAllUsers();
-    res.render("users/usercreation",{users:allUsers})
-    //res.json(allUsers);
+    res.render("users/usercreation")
     }
     catch(error){
         console.log(error);
@@ -56,11 +63,14 @@ router.post("/createUser", async(req,res)=>{
     catch(error){
         errorList.push("First Name: " + error);
     }
-    try{
-        validation.validateString(newUserData.lastName);
-    }
-    catch(error){
-        errorList.push("Last Name: " + error);
+    if(newUserData.lastName.trim())
+    {
+        try{
+            validation.validateString(newUserData.lastName);
+        }
+        catch(error){
+            errorList.push("Last Name: " + error);
+        }
     }
     try{
         validation.validateDate(newUserData.dob);
@@ -95,8 +105,16 @@ router.post("/createUser", async(req,res)=>{
     try{
         validation.validateString(newUserData.zip);
         const { data } = await Axios.get("http://ziptasticapi.com/"+newUserData.zip);
-        newUserData.city=data.city;
+        if(data.error) 
+        {
+        newUserData.city="";
+        newUserData.state="";
+        throw 'Sent Parameter is invalid';
+        }
+        else{
+            newUserData.city=data.city;
         newUserData.state=data.state;
+        }
     }
     catch(error){
         errorList.push("Zip: " + error);
@@ -107,6 +125,7 @@ router.post("/createUser", async(req,res)=>{
             return obj.driverLicense === newUserData.driverLicense.toUpperCase()
             });
         if(existingDriverLicense) throw "Sent Parameter already present, use some other Driver license no.";
+        if(newUserData.state)       
         validation.validateDriverLicenseNumber(newUserData.driverLicense,newUserData.state);
     }
     catch(error){
@@ -114,6 +133,7 @@ router.post("/createUser", async(req,res)=>{
     }
 
     if(errorList.length>0){
+        res.status(400);
         res.render("users/usercreation",{
             hasErrors:true,
             errors:errorList,
@@ -124,7 +144,13 @@ router.post("/createUser", async(req,res)=>{
     
     try{
         const newUser = await usersData.createUser(newUserData);
-        res.json(newUser);
+        res.render("users/userProfile",{
+            success:true,
+            users:newUser,
+            profileFlag:true,
+            message:"Profile created successfully",
+            id:newUser._id
+        });
     }
     catch(error){
         console.log(error);
@@ -153,23 +179,127 @@ router.post("/login", async(req,res)=>{
     }
 });
 
-router.get("/editUser/:id", async(req,res)=>{
+router.get("/profile", async(req,res)=>{
+    let userId = "5fac6dc0108d0f5ce003fefa";
     try{
-        const user = await usersData.getUserById(req.params.id);
-        res.json(user);
+        const user = await usersData.getUserById(userId);
+        res.render("users/userProfile",{users:user,profileFlag:true,id:userId});
     }
     catch(error){
         res.status(500).send();
     }
 });
 
-router.put("/editUser", async(req,res)=>{
-    const userData = req.body;
+router.get("/editUser", async(req,res)=>{
+    let userId = "5fac6dc0108d0f5ce003fefa";
     try{
-        const user = await usersData.updateUser(userData);
-        res.json(user);
+        const user = await usersData.getUserById(userId);
+        res.render("users/userProfile",{users:user,editFlag:true,id:userId});
     }
     catch(error){
+        res.status(500).send();
+    }
+});
+
+router.post("/editUser", async(req,res)=>{
+    let userId = "5fac6dc0108d0f5ce003fefa";
+    const newUserData = req.body;
+    const errorList=[];
+    let allUsers;
+    try{
+    allUsers = await usersData.getAllUsers();
+    existingUser = await usersData.getUserById(userId);
+    }
+    catch(error){
+        console.log(error);
+    }
+    try{
+        validation.validateString(newUserData.firstName);
+    }
+    catch(error){
+        errorList.push("First Name: " + error);
+    }
+    if(newUserData.lastName.trim())
+    {
+        try{
+            validation.validateString(newUserData.lastName);
+        }
+        catch(error){
+            errorList.push("Last Name: " + error);
+        }
+    }
+    try{
+        validation.validateDate(newUserData.dob);
+    }
+    catch(error){
+        errorList.push("Date Of Birth: " + error);
+    }
+
+    try{
+        validation.validateString(newUserData.zip);
+        const { data } = await Axios.get("http://ziptasticapi.com/"+newUserData.zip);
+        if(data.error) {
+        newUserData.city="";
+        newUserData.state="";
+        throw `Sent parameter is invalid`;
+        }
+        else{
+            newUserData.city=data.city;
+            newUserData.state=data.state;  
+        }
+    }
+    catch(error){
+        errorList.push("Zip: " + error);
+    }
+
+    if(newUserData.zip!=existingUser.zip && newUserData.state){
+        try{
+            validation.validateDriverLicenseNumber(newUserData.driverLicense,newUserData.state);
+        }
+        catch(error){
+            errorList.push("Driver's License: " + error);
+        }
+    }
+
+    if(newUserData.driverLicense.toUpperCase()!=existingUser.driverLicense)
+    {
+    try{
+        let existingDriverLicense = allUsers.find( obj => {
+            return obj.driverLicense === newUserData.driverLicense.toUpperCase()
+            });
+        if(existingDriverLicense) throw "Sent Parameter already present, use some other Driver license no.";
+        if (newUserData.state)
+        validation.validateDriverLicenseNumber(newUserData.driverLicense,newUserData.state);
+    }
+    catch(error){
+        errorList.push("Driver's License: " + error);
+    }
+}
+
+    if(errorList.length>0){
+        res.status(400);
+        res.render("users/userProfile",{
+            hasErrors:true,
+            errors:errorList,
+            users:newUserData,
+            editFlag:true,
+            id:existingUser._id
+        });
+        return;
+    }
+
+    try{
+        const user = await usersData.updateUser(newUserData,userId);
+        res.render("users/userProfile",{
+            profileFlag:true,
+            users:user,
+            success:true,
+            message:"Updated Successfully",
+            id:user._id
+        });
+    }
+    catch(error){
+        console.log(error);
         res.status(400).json({Error:error});
     }
 });
