@@ -19,11 +19,15 @@
   },
   "homepage": "https://github.com/39xdgy/rent_a_ride#readme",
   "dependencies": {
+    "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",
     "handlebars": "^4.7.6",
-    "mongodb": "^3.6.3"
+    "mongodb": "^3.6.3",
+    "fs": "0.0.1-security",
+    "multer": "^1.4.2",
+    "path": "^0.12.7"
   }
 }
