@@ -34,7 +34,8 @@ app.use("/", async(req,res,next)=>{
   if(!req.session.AuthCookie 
     && req.originalUrl!="/users/login"
     && req.originalUrl!="/users/createUser"
-    && req.originalUrl!="/users/logout")
+    && req.originalUrl!="/users/logout"
+    && req.originalUrl!="/home")
   {
     res.status(401);
     //should redirect to home page once home page is ready
