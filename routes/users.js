@@ -8,12 +8,13 @@ const path = require('path');
 const upload = multer({ dest: 'public/uploads' });
 const fs = require('fs');
 const { default: Axios } = require("axios");
+const validate = require("../data/validate");
 
 
 router.post('/upload/profilepic', upload.single('profilePicture'), async (req, res) => {
   let img = fs.readFileSync(req.file.path);
   let encode_image = img.toString('base64');
-  let userId = "5fac6dc0108d0f5ce003fefa";
+  let userId = req.session.AuthCookie;
   var finalImg = {
     contentType: req.file.mimetype,
     image: Buffer.from(encode_image, 'base64')
@@ -160,8 +161,7 @@ router.post("/createUser", async(req,res)=>{
 
 router.get("/login", async(req,res)=>{
     try{
-        const allUsers = await usersData.getAllUsers();
-        res.json(allUsers);
+        res.render("users/login");
     }
     catch(error){
         res.status(500).send();
@@ -171,16 +171,30 @@ router.get("/login", async(req,res)=>{
 router.post("/login", async(req,res)=>{
     const userData=req.body;
     try{
-        const user = await usersData.login(userData.emailID, userData.password);
-        res.json(user);
+    validation.validateEmailId(userData.emailID);
     }
     catch(error){
-        res.status(400).json({Error:error});
+        res.status(400);
+        res.render("users/login",{error:true,users:userData,message:"Email Id: " +error});
+        return;
+    }
+    try{
+        const user = await usersData.login(userData.emailID, userData.password);
+        req.session.AuthCookie=user._id;
+        console.log("test");
+        res.render("users/userProfile",{layout:null,profileFlag:true,users:user,id:user._id});
+        //res.redirect("/users/profile");
+    }
+    catch(error){
+        res.status(400);
+        console.log("error");
+       // res.render("users/login",{layout:null,error:true,users:userData,message:error});
+        res.json({message:error});
     }
 });
 
 router.get("/profile", async(req,res)=>{
-    let userId = "5fac6dc0108d0f5ce003fefa";
+    let userId = req.session.AuthCookie;
     try{
         const user = await usersData.getUserById(userId);
         res.render("users/userProfile",{users:user,profileFlag:true,id:userId});
@@ -191,7 +205,7 @@ router.get("/profile", async(req,res)=>{
 });
 
 router.get("/editUser", async(req,res)=>{
-    let userId = "5fac6dc0108d0f5ce003fefa";
+    let userId = req.session.AuthCookie;
     try{
         const user = await usersData.getUserById(userId);
         res.render("users/userProfile",{users:user,editFlag:true,id:userId});
@@ -202,7 +216,7 @@ router.get("/editUser", async(req,res)=>{
 });
 
 router.post("/editUser", async(req,res)=>{
-    let userId = "5fac6dc0108d0f5ce003fefa";
+    let userId = req.session.AuthCookie;
     const newUserData = req.body;
     const errorList=[];
     let allUsers;
@@ -252,12 +266,9 @@ router.post("/editUser", async(req,res)=>{
         errorList.push("Zip: " + error);
     }
 
-    if(newUserData.zip!=existingUser.zip && newUserData.state){
-        try{
-            validation.validateDriverLicenseNumber(newUserData.driverLicense,newUserData.state);
-        }
-        catch(error){
-            errorList.push("Driver's License: " + error);
+    if(newUserData.zip!=existingUser.zip && newUserData.driverLicense.toUpperCase()===existingUser.driverLicense){
+        {
+          errorList.push("Driver's License: " + "should be changed if zip code changes" );
         }
     }
 
@@ -303,5 +314,10 @@ router.post("/editUser", async(req,res)=>{
         res.status(400).json({Error:error});
     }
 });
+
+router.get("/logout", async(req,res)=>{
+    req.session.destroy();
+    res.json({Message:"Successfully Logged out"});
+})
 
 module.exports = router;
