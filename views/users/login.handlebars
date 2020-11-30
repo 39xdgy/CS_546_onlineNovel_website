@@ -2,26 +2,29 @@
     <h1>Login</h1>
 <div>
     <form id="loginform-id"  class="gjh">
-        <label>
+            <label>
             Username
             <input id="email-id" name="emailID" placeholder="Email ID" value="{{users.emailID}}" required>
-            </lable>
+            </label>
             <br><br>
             <label>
                 Password
             <input id="password-id" name="password" type="password"  placeholder="password" required>
+            </label>
             <br>
             <br>
             <button type=submit>Login</button>
-        </label>
-    </form>
-</div>
+        
 
-<div id="errorlist-id" class="error">
+    <div id="errorlist-id" class="error">
     {{#if error}}
     <p>{{message}}</p>
     {{/if}}
+    </div>
+    </form>
 </div>
+
+
 
 </section>
 
