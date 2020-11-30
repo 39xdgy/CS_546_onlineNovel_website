@@ -35,7 +35,8 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/users/login"
     && req.originalUrl!="/users/createUser"
     && req.originalUrl!="/users/logout"
-    && req.originalUrl!="/home")
+    && req.originalUrl!="/home"
+    && req.originalUrl!="/home/zip")
   {
     res.status(401);
     //should redirect to home page once home page is ready

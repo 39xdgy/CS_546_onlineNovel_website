@@ -1,7 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const usersColl = mongoCollections.users;
 const bcrypt = require("bcrypt");
-const saltRounds = 16;
+const saltRounds = 12;
 const {ObjectID} = require("mongodb");
 const validate = require("./validate");
 
@@ -46,14 +46,11 @@ async function login(emailIDParam,password){
 
 
 async function addProfilePicture(id, profilePicture) {
-  //  let objRevId = "";
-  //  if (typeof(id) === "string") objRevId = ObjectId.createFromHexString(id);
     const userCollection = await usersColl();
     let parsedId = ObjectID(id);
     let updatedUserData = {};
     updatedUserData.profilePicture = profilePicture;
     const updateInfoUser = await userCollection.updateOne({ _id: parsedId }, { $set: updatedUserData });
-    if (updateInfoUser.modifiedCount === 0 && updateInfoUser.deletedCount === 0) throw "could not update user";
     const updatedUser = await getUserById(id);
     return updatedUser;
 }
@@ -62,10 +59,10 @@ async function addProfilePicture(id, profilePicture) {
 async function createUser(userObject){
 
     validate.validateString(userObject.firstName);
-    if(userObject.lastName){
+    if(userObject.lastName.trim()){
         validate.validateString(userObject.lastName);
         userObject.lastName=userObject.lastName.trim();
-        }
+    }
     const userDob = validate.validateDate(userObject.dob);
     validate.validateEmailId(userObject.emailID);
     validate.validateDriverLicenseNumber(userObject.driverLicense,userObject.state);
@@ -107,7 +104,7 @@ async function updateUser(userObject,id){
     let parsedId = ObjectID(id);
 
     validate.validateString(userObject.firstName);
-    if(userObject.lastName){
+    if(userObject.lastName.trim()){
     validate.validateString(userObject.lastName);
     userObject.lastName=userObject.lastName.trim();
     }

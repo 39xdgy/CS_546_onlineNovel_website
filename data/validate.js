@@ -280,7 +280,7 @@ function validateDate(argument){
     //else throw `Sent Parameter ${argument} is an invalid Date`;
 }
 
-//function to format date in mm/dd/yy field
+//function to format date in yyyy-mm-dd field
 function formatDateInString(argument){
     let month = argument.getMonth() + 1;
     let day = argument.getDate();
@@ -292,7 +292,6 @@ function formatDateInString(argument){
     }
     let year = argument.getFullYear();
     let formatDate = `${year}-${month}-${day}`;
-    console.log(formatDate);
     return formatDate;
 }
 

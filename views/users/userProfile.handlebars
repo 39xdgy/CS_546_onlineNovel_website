@@ -1,7 +1,15 @@
-<h1>Welcome {{users.firstName}} {{users.lastName}}</h1>
-<div>
-    <a href="/users/logout">Logout</a>
 
+    <div class="topnav">
+    <a href="/users/rented">Rented Car</a>
+    <a href="/users/history">Past Rented Cars</a>
+    <a href="/users/posted">My Cars</a>
+     <a href="/users/saved" id="saved-id">Saved Cars</a>
+     <a href="/users/profile" id="profile-id">Profile</a>
+    <a href="/users/logout" id="logout-id">Logout</a>
+    </div>
+
+    <h1>Welcome {{users.firstName}} {{users.lastName}}</h1>
+    <div>
     {{#if profileFlag}}
     <form id="profile-form-id" method="GET" action="/users/editUser" >
     <img src="/users/profilepic/{{id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
@@ -64,15 +72,20 @@
     <div>
     {{#if editFlag}}
     <h2>Update your profile picture</h2>
-    <form action="/users/upload/profilepic" enctype="multipart/form-data" method="POST"> 
+    <form action="/users/upload/profilepic"  enctype="multipart/form-data" method="POST"> 
     <img src="/users/profilepic/{{id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
     <br>
     <br>
 
-            <input type="file" name="profilePicture" accept="image/*" class="btn" required/>
+            <input type="file" name="profilePicture" accept=".png, .jpeg" class="btn" required/>
         
             <input type="submit" value="Upload and Submit"/>
+
+            {{#if error}}
+            <p>{{error}}</p>
+             {{/if}}
     </form>
+    
     <br>
     <br>
     <h2>Update your profile details</h2>
@@ -110,11 +123,8 @@
     <br>
     <br>
     <button type="submit">Submit</button>
-    </form>
-    {{/if}}
-    </div>
 
-        <div id="diverror-id">
+    <div id="diverror-id">
     
     <ul id="errorlist-id">
       {{#if hasErrors}}
@@ -130,6 +140,12 @@
     <p>{{message}}</p>
     {{/if}}
     </div> 
+    </form>
+    {{/if}}
+    </div>
+
+        
+
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src ="../public/js/editUser.js"></script>
