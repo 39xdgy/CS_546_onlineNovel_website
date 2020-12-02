@@ -333,19 +333,35 @@ router.get("/logout", async(req,res)=>{
 })
 
 router.get("/saved", async(req,res)=>{
-    res.json({Message:"Saved Cars"});
+    const savedInfo = await usersData.getSavedCars(req.session.AuthCookie);
+    if(savedInfo.length!=0)
+    res.render("users/userdashboard",{cars:savedInfo,heading:"Saved Cars",postedsavedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not added any car to your saved list",heading:"Saved Cars"});
 })
 
 router.get("/rented", async(req,res)=>{
-    res.json({Message:"rented Cars"});
+    const rentedInfo = await usersData.getCurrentlyRentedCar(req.session.AuthCookie);
+    if(rentedInfo)
+    res.render("users/userdashboard",{cars:rentedInfo,heading:"Booked Car",rentedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not booked any Car",heading:"Booked Car"});
 })
 
 router.get("/posted", async(req,res)=>{
-    res.json({Message:"posted Cars"});
+    const postedCarsInfo = await usersData.getPostedCars(req.session.AuthCookie);
+    if(postedCarsInfo.length!=0)
+    res.render("users/userdashboard",{cars:postedCarsInfo,heading:"Posted Cars",postedsavedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not posted any car",heading:"Posted Cars"});
 })
 
 router.get("/history", async(req,res)=>{
-    res.json({Message:"history Cars"});
+    const pastCarsInfo = await usersData.getPastRentedCars(req.session.AuthCookie);
+    if(pastCarsInfo.length!=0)
+    res.render("users/userdashboard",{cars:pastCarsInfo,heading:"Past Rented Cars",pastRentedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not any Car in the past",heading:"Past Rented Cars"});
 })
 
 module.exports = router;
