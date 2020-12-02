@@ -36,7 +36,7 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/users/createUser"
     && req.originalUrl!="/users/logout"
     && req.originalUrl!="/home"
-    && req.originalUrl!="/home/zip")
+    && req.originalUrl!="/home/welcome")
   {
     res.status(401);
     //should redirect to home page once home page is ready
@@ -46,7 +46,7 @@ app.use("/", async(req,res,next)=>{
   next();
 });
 
-app.use("/login", async(req,res,next)=>{
+app.use("/users/login", async(req,res,next)=>{
   if(req.session.AuthCookie)  
     res.redirect("/users/profile");
     next();
