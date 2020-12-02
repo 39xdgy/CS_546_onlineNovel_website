@@ -7,13 +7,13 @@ router.get("/welcome", async(req,res)=>{
 });
 
 router.post("/", async(req,res)=>{
-   //code for retruning the top rated cars for the zip code.
+   //code for returning the top rated cars for the zip code.
    res.json({Message:"under dev"});
 });
 
 router.get("/", async(req,res)=>{
     //code for retruning the top rated cars for the zip code.
     res.json({Message:"under dev"});
- });
+});
 
 module.exports=router;
