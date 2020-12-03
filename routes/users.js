@@ -330,7 +330,7 @@ router.post("/editUser", async(req,res)=>{
 
 router.get("/logout", async(req,res)=>{
     req.session.destroy();
-    res.json({Message:"Successfully Logged out"});
+    res.render("home/home",{Message:"Search cars based on your preference"});
 })
 
 router.get("/saved", async(req,res)=>{

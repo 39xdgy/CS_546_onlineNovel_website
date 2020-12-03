@@ -3,11 +3,13 @@ const usersData = require("./users");
 const validateData = require("./validate");
 const carsData = require('./cars');
 const reviewData = require('./reviews')
+const homeData = require("./home");
 
 module.exports = {
     rentingInfo: rentingInfoData,
     users: usersData,
     cars: carsData,
     validate: validateData,
-    reviews: reviewData
+    reviews: reviewData,
+    home: homeData
 };
