@@ -42,6 +42,7 @@ app.use("/", async(req,res,next)=>{
     res.status(401);
     res.redirect("/home");
   }
+  else
   next();
 }); 
 
