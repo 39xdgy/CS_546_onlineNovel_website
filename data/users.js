@@ -42,6 +42,7 @@ async function login(emailIDParam,password){
     const user = await userCollections.findOne({emailID:emailIDParam});
     if(user===null) throw `Email Address or password is invalid`;
     user._id=user._id.toString();
+    user.dob=validate.formatDateInString(user.dob);
     loginResult = await bcrypt.compare(password,user.hashedPassword);
     if(loginResult) return user;
     else throw `Email address or password is invalid`;
@@ -197,6 +198,20 @@ async function getPostedCars(id){
     return postedCarsVar;
 }
 
+async function updatePastRentedCars(id){
+    const today=new Date();
+    const userCollection = await usersColl();
+    const user = await userCollection.findOne({_id:ObjectID(id)});
+    if(user.rentedCar)
+    {
+        const rentingInfoCollection = await rentingInfoColl();
+        const rentingData = await rentingInfoCollection.findOne({_id:ObjectID(user.rentedCar)});
+        if(rentingData.endDate<today){
+            const updatedUserData = await userCollection.updateOne({_id:ObjectID(id)},{ $push: { pastRentedCars: user.rentedCar },$set:{rentedCar:""}});
+        }
+    }
+}
+
 module.exports={
     login,
     createUser,
@@ -207,5 +222,6 @@ module.exports={
     getCurrentlyRentedCar,
     getPastRentedCars,
     getSavedCars,
-    getPostedCars
+    getPostedCars,
+    updatePastRentedCars
 }

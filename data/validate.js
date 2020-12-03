@@ -295,6 +295,39 @@ function formatDateInString(argument){
     return formatDate;
 }
 
+function validateGeneralDate(argument){
+
+    let daysInMonth = function (m, y) {
+        switch (m) {
+            case 1 :
+                return (y % 4 === 0 && y % 100) || y % 400 === 0 ? 29 : 28;
+            case 8 : case 3 : case 5 : case 10 :
+                return 30;
+            default :
+                return 31
+        }
+    };
+    
+    
+    let isValidDate = function (d, m, y) {
+        m = parseInt(m, 10) - 1;
+        return m >= 0 && m < 12 && d > 0 && d <= daysInMonth(m, y);
+    };
+
+    validateString(argument);
+    //if (argument.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/) )
+    //{
+        let today = new Date();
+        let parts = argument.split("-");
+        let day = parseInt(parts[2], 10);
+        let month = parseInt(parts[1], 10);
+        let year = parseInt(parts[0], 10);
+        if(!(isValidDate(day,month,year))) throw `Sent Parameter ${argument} is an invalid Date`;
+        let returnDate = new Date(year,month-1,day);
+        return returnDate;
+    //}
+    //else throw `Sent Parameter ${argument} is an invalid Date`;
+}
 
 
 module.exports={
@@ -305,5 +338,6 @@ module.exports={
     validateDate,
     formatDateInString,
     validateEmailId,
-    validateDriverLicenseNumber
+    validateDriverLicenseNumber,
+    validateGeneralDate
 }
