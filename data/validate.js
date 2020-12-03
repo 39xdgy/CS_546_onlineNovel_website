@@ -14,7 +14,7 @@ function validateArray(argument,type="A"){
 function validateEmailId(argument){
    // if(!(argument.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]@[a-zA-Z0-9-](?:\.[a-zA-Z0-9-])$/)))
     if(!(argument.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)))
-    throw `Sent Parameter ${argument}  is invalid email address`;
+    throw `Sent Parameter format is not correct`;
 }
 
 function validateDriverLicenseNumber(licenseNumber,stateCode){

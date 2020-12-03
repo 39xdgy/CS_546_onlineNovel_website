@@ -17,14 +17,14 @@ async function getUserById(id){
     return user;
 }
 
-/*//fetching user with Emailid
-async function getUserByEmailId(emailIDParam){
+//fetching user with Emailid
+/*async function getUserByEmailId(emailIDParam){
     const userCollections = await users();
-    const user = await userCollections.findOne({email:emailIDParam});
+    const user = await userCollections.findOne({emailID:emailIDParam});
     if(user===null) throw `Could not find any user for id ${emailIDParam}`;
     user._id = user._id.toString();
     return user;
-}*/
+} */
 
 //getting all the users
 async function getAllUsers(){
@@ -38,10 +38,10 @@ async function login(emailIDParam,password){
     let loginResult = false;
     const userCollections = await usersColl();
     const user = await userCollections.findOne({emailID:emailIDParam});
-    if(user===null) throw `User not available for the User Id ${emailID}`;
+    if(user===null) throw `Email Address or password is invalid`;
     loginResult = await bcrypt.compare(password,user.hashedPassword);
     if(loginResult) return user;
-    else throw `Invalid Password ${password}`;
+    else throw `Email address or password is invalid`;
 }
 
 
@@ -81,7 +81,7 @@ async function createUser(userObject){
         dob : userDob,
         emailID : userObject.emailID.toLowerCase(),
         driverLicense : userObject.driverLicense.toUpperCase(),
-        profilePicture : userObject.profilePicture,
+        profilePicture : "",
         city : userObject.city,
         state : userObject.state,
         zip : userObject.zip,

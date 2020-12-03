@@ -74,9 +74,21 @@ async function deleteCar(id) {
     return {"bookID" : id, "deleted" : true};
 }
 
+async function addCarPictures(id, carPictures) {
+    const carsCollection = await cars();
+    let parsedId = ObjectID(id);
+    let updatedCarData = {};
+    updatedCarData.images = carPictures;
+    const updateInfoCar = await carsCollection.updateOne({ _id: parsedId}, { $set: updatedCarData});
+    if ( updateInfoCar.modifiedCount === 0 && updateInfoCar.deletedCount === 0) throw "Could not upload car images";
+    const updatedCar = await getCarById(id);
+    return updatedCar;
+}
+
 module.exports = {
     getAllCars,
     getCarById,
     createCar,
-    deleteCar
+    deleteCar,
+    addCarPictures
 };

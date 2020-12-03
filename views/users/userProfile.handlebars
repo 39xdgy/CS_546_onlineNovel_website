@@ -1,4 +1,7 @@
+<h1>Welcome {{users.firstName}} {{users.lastName}}</h1>
 <div>
+    <a href="/users/logout">Logout</a>
+
     {{#if profileFlag}}
     <form id="profile-form-id" method="GET" action="/users/editUser" >
     <img src="/users/profilepic/{{id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
@@ -60,6 +63,7 @@
 
     <div>
     {{#if editFlag}}
+    <h2>Update your profile picture</h2>
     <form action="/users/upload/profilepic" enctype="multipart/form-data" method="POST"> 
     <img src="/users/profilepic/{{id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
     <br>
@@ -71,6 +75,7 @@
     </form>
     <br>
     <br>
+    <h2>Update your profile details</h2>
     <form id="useredit-form-id" method="POST" action="/users/editUser">
 
     <label>

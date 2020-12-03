@@ -18,7 +18,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.set('views', path.join(__dirname, 'views'));
 
-
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
 
 app.use(session({
     name: 'AuthCookie',
@@ -27,13 +28,33 @@ app.use(session({
     saveUninitialized: true
 })) 
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
+app.use("/", async(req,res,next)=>{
+ 
+  
+  if(!req.session.AuthCookie 
+    && req.originalUrl!="/users/login"
+    && req.originalUrl!="/users/createUser"
+    && req.originalUrl!="/users/logout"
+    && req.originalUrl!="/home"
+    && req.originalUrl!="/cars/createCar")
+  {
+    res.status(401);
+    //should redirect to home page once home page is ready
+    //res.redirect();
+    res.json({Message: "Not Authorized"});
+  }
+  next();
+});
+
+app.use("/login", async(req,res,next)=>{
+  if(req.session.AuthCookie)  
+    res.redirect("/users/profile");
+    next();
+});
 
 
 
 configRoutes(app);
-
 app.listen(3000, () => {
   console.log("We've now got a server!");
   console.log('Your routes will be running on http://localhost:3000');

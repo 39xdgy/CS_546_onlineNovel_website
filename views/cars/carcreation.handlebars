@@ -1,0 +1,82 @@
+<h1>Car Creation</h1>
+<div>
+    <form id="carcreation-form-id" method="POST" action="/cars/createCar">
+    <label>
+        OwnedBy *
+        <input type="text" name="ownedBy" id="ownedBy-id" placeholder="Owned By" value="{{cars.ownedBy}}" required>
+    </label> 
+    <br>
+    <br>
+    <label>
+        License Plate *
+        <input type="text" name="licensePlate" id="licensePlate-id" placeholder="License Plate" value="{{cars.licensePlate}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Brand *
+        <input type="text" name="brand" id="brand-id" placeholder="Brand" value="{{cars.brand}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Model
+        <input type="text" name="model" id="model-id" placeholder="Model" value="{{cars.model}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Make Year
+        <input type="number" name="makeYear" id="makeYear-id" placeholder="Make Year" value="{{cars.makeYear}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Type
+        <input type="text" name="type" id="type-id" placeholder="Type" value="{{cars.type}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Color
+        <input type="text" name="color" id="color-id" placeholder="Color" value="{{cars.color}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Features
+        <input type="text" name="features" id="features-id" placeholder="Features" value="{{cars.features}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        No of Passengers
+        <input type="number" name="noOfPassengers" id="noOfPassengers-id" placeholder="No of Passengers" value="{{cars.noOfPassengers}}">
+    </label>
+    <br>
+    <br>
+    <label>
+        Boot Space
+        <input type="text" name="bootSpace" id="bootSpace-id" placeholder="Boot Space" value="{{cars.bootSpace}}">
+    </label>
+    <br>
+    <br>
+    </form>
+</div>
+
+<div id="diverror-id">
+    
+    <ul id="errorlist-id">
+      {{#if hasErrors}}
+    {{#each errors}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+    {{/if}}
+   </ul>
+ 
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src ="../public/js/users.js"></script>
