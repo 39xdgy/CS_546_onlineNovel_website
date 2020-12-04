@@ -195,6 +195,7 @@ router.post("/login", async(req,res)=>{
     try{
         const user = await usersData.login(userData.emailID, userData.password);
         req.session.AuthCookie=user._id;
+        await usersData.updatePastRentedCars(user._id);
         res.render("users/userProfile",{layout:null,profileFlag:true,users:user,id:user._id});
         //res.redirect("/users/profile");
     }
@@ -329,7 +330,7 @@ router.post("/editUser", async(req,res)=>{
 
 router.get("/logout", async(req,res)=>{
     req.session.destroy();
-    res.json({Message:"Successfully Logged out"});
+    res.render("home/home",{Message:"Search cars based on your preference"});
 })
 
 router.get("/saved", async(req,res)=>{
@@ -362,6 +363,7 @@ router.get("/history", async(req,res)=>{
     res.render("users/userdashboard",{cars:pastCarsInfo,heading:"Past Rented Cars",pastRentedFlag:true});
     else
     res.render("users/userdashboard",{Message:"You have not any Car in the past",heading:"Past Rented Cars"});
-})
+});
+
 
 module.exports = router;

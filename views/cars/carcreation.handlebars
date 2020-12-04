@@ -1,81 +1,111 @@
-<h1>Car Creation</h1>
+<h1>Create Car</h1>
 <div>
     <form id="carcreation-form-id" method="POST" action="/cars/createCar">
     <label>
-        OwnedBy *
+        Owned By
         <input type="text" name="ownedBy" id="ownedBy-id" placeholder="Owned By" value="{{cars.ownedBy}}" required>
-    </label> 
-    <br>
-    <br>
-    <label>
-        License Plate *
-        <input type="text" name="licensePlate" id="licensePlate-id" placeholder="License Plate" value="{{cars.licensePlate}}">
     </label>
     <br>
     <br>
     <label>
-        Brand *
-        <input type="text" name="brand" id="brand-id" placeholder="Brand" value="{{cars.brand}}">
+        License Plate
+        <input type="text" name="licensePlate" id="licensePlate-id" placeholder="License Plate" value="{{cars.licensePlate}}" required>
+    </label>
+    <br>
+    <br>
+    <label>
+        Brand
+        <input type="text" name="brand" id="brand-id" placeholder="Brand" value="{{cars.brand}}" required>
     </label>
     <br>
     <br>
     <label>
         Model
-        <input type="text" name="model" id="model-id" placeholder="Model" value="{{cars.model}}">
+        <input type="text" name="model" id="model-id" placeholder="Model" value="{{cars.model}}" required>
     </label>
     <br>
     <br>
     <label>
-        Make Year
-        <input type="number" name="makeYear" id="makeYear-id" placeholder="Make Year" value="{{cars.makeYear}}">
+        Make Year 
+        <input type="number" name="makeYear" id="makeYear-id" placeholder="Make Year" value="{{cars.makeYear}}" required>
     </label>
     <br>
     <br>
     <label>
         Type
-        <input type="text" name="type" id="type-id" placeholder="Type" value="{{cars.type}}">
+        <input type="text" name="type" id="type-id" placeholder="Type" value="{{cars.type}}" required>
     </label>
     <br>
     <br>
     <label>
         Color
-        <input type="text" name="color" id="color-id" placeholder="Color" value="{{cars.color}}">
+        <input type="text" name="color" id="color-id" placeholder="Color" value="{{cars.color}}" required>
     </label>
     <br>
     <br>
     <label>
         Features
-        <input type="text" name="features" id="features-id" placeholder="Features" value="{{cars.features}}">
+        <input type="text" name="features" id="features-id" placeholder="Features" value="{{cars.features}}" required>
     </label>
     <br>
     <br>
     <label>
         No of Passengers
-        <input type="number" name="noOfPassengers" id="noOfPassengers-id" placeholder="No of Passengers" value="{{cars.noOfPassengers}}">
+        <input type="number" name="noOfPassengers" id="noOfPassengers-id" placeholder="No of Passengers" value="{{cars.noOfPassengers}}" required>
     </label>
     <br>
     <br>
     <label>
         Boot Space
-        <input type="text" name="bootSpace" id="bootSpace-id" placeholder="Boot Space" value="{{cars.bootSpace}}">
+        <input type="number" name="bootSpace" id="bootSpace-id" placeholder="Boot Space" value="{{cars.bootSpace}}" required>
     </label>
     <br>
     <br>
+    <label>
+        Images
+    </label>
+    <br>
+    <br>
+    <h5>Address</h5>
+    <label>
+        House No
+        <input type="number" name="houseNo" id="houseNo-id" placeholder="House No" value="{{cars.houseNo}}" required>
+    </label>
+    <br>
+    <br>
+    <label>
+        Street
+        <input type="text" name="street" id="street-id" placeholder="Street" value="{{cars.street}}" required>
+    </label>
+    <br>
+    <br>
+    <label>
+        City
+        <input type="text" name="city" id="city-id" placeholder="City" value="{{cars.city}}" required>
+    </label>
+    <br>
+    <br>
+    <label>
+        State
+        <input type="text" name="state" id="state-id" placeholder="State" value="{{cars.state}}" required>
+    </label>
+    <br>
+    <br>
+    <label>
+        Zip
+        <input type="number" name="zip" id="zip-id" placeholder="Zip" value="{{cars.zip}}" required>
+    </label>
+    <br>
+    <br>
+    <label>
+        Price 
+        <input type="number" name="price" id="price-id" placeholder="Price" value="{{cars.price}}" required>
+    </label>
+    <br>
+    <br>
+    <button type="submit" id="submit-id">Create Car</button>
+    <button type="reset">Clear Form</button>
     </form>
-</div>
-
-<div id="diverror-id">
-    
-    <ul id="errorlist-id">
-      {{#if hasErrors}}
-    {{#each errors}}
-    <li>
-      {{this}}
-    </li>
-    {{/each}}
-    {{/if}}
-   </ul>
- 
 </div>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>

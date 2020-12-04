@@ -1,0 +1,81 @@
+<div class="topnav">
+<a href="/home">Home</a>
+<a href="/users/rented">Rented Car</a>
+<a href="/users/history">Past Rented Cars</a>
+<a href="/users/posted">My Cars</a>
+    <a href="/users/saved" id="saved-id">Saved Cars</a>
+    <a href="/users/profile" id="profile-id">Profile</a>
+    <a href="/users/editUser" id="edit-id">Edit Profile</a>
+<a href="/users/logout" id="logout-id">Logout</a>
+</div>
+
+<h1>{{cars.brand}} - {{cars.model}}</h1>
+
+<div>
+    {{#if carprofileFlag}}
+    <form id="carprofile-form-id">
+        <!-- <img> -->
+        <br>
+        <br>
+        <label>
+            Owned By
+            <input type="text" name="ownedBy" id="ownedByCP-id" placeholder="Owned By" value="{{cars.ownedBy}}" required disabled>
+        </label>
+        <br>
+        <br>
+        <label>
+            Brand
+            <input type="text" name="brand" id="brandCP-id" placeholder="Brand" value="{{cars.brand}}" required disabled>
+        </label>
+        <br>
+        <br>
+        <label>
+        Model
+        <input type="text" name="model" id="modelCP-id" placeholder="Model" value="{{cars.model}}" required disabled>
+        </label>
+        <br>
+        <br>
+        <label>
+            Make Year 
+            <input type="number" name="makeYear" id="makeYearCP-id" placeholder="Make Year" value="{{cars.makeYear}}" required disabled> 
+        </label>
+        <br>
+        <br>
+        <label>
+            Type
+            <input type="text" name="type" id="typeCP-id" placeholder="Type" value="{{cars.type}}" required disabled>
+        </label>
+        <br>
+        <br>
+        <label>
+            Color
+            <input type="text" name="color" id="colorCP-id" placeholder="Color" value="{{cars.color}}" required disabled>
+        </label>
+        <br>
+        <br>
+        <label>
+            Features
+            <input type="text" name="features" id="featuresCP-id" placeholder="Features" value="{{cars.features}}" required disabled>
+        </label>
+        <br>
+        <br>
+        <label>
+            No of Passengers
+            <input type="number" name="noOfPassengers" id="noOfPassengersCP-id" placeholder="No of Passengers" value="{{cars.noOfPassengers}}" required disabled>
+        </label>
+        <br>
+        <br>
+        <label>
+            Boot Space
+            <input type="number" name="bootSpace" id="bootSpaceCP-id" placeholder="Boot Space" value="{{cars.bootSpace}}" required disabled>
+        </label>
+        <br>
+        <br>
+    </form>
+    {{/if}}
+</div>
+
+   
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src ="../public/js/editUser.js"></script>

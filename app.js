@@ -36,20 +36,24 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/users/createUser"
     && req.originalUrl!="/users/logout"
     && req.originalUrl!="/home"
+    && req.originalUrl!="/home/welcome"
+    && req.originalUrl!="/"
+    && req.originalUrl!="/home/search"
     && req.originalUrl!="/cars/createCar"
-    && req.originalUrl!="/home/welcome")
+  )
+
   {
     res.status(401);
-    //should redirect to home page once home page is ready
-    //res.redirect();
-    res.json({Message: "Not Authorized"});
+    res.redirect("/home");
   }
+  else
   next();
 }); 
 
 app.use("/users/login", async(req,res,next)=>{
   if(req.session.AuthCookie)  
     res.redirect("/users/profile");
+    else
     next();
 });
 

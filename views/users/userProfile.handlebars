@@ -6,6 +6,7 @@
     <a href="/users/posted">My Cars</a>
      <a href="/users/saved" id="saved-id">Saved Cars</a>
      <a href="/users/profile" id="profile-id">Profile</a>
+     <a href="/users/editUser" id="edit-id">Edit Profile</a>
     <a href="/users/logout" id="logout-id">Logout</a>
     </div>
 
@@ -14,7 +15,7 @@
 
     <div>
     {{#if profileFlag}}
-    <form id="profile-form-id" method="GET" action="/users/editUser" >
+    <form id="profile-form-id">
     <img src="/users/profilepic/{{id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
     <br>
     <br>
@@ -65,9 +66,6 @@
         Zip Code 
         <input name="zip" type="number" id="zipP-id" placeholder="Zip Code" required value="{{users.zip}}" disabled>
     </label>
-    <br>
-    <br>
-    <button type="submit" id="editbutton-id">Edit Profile</button>
     </form>
     {{/if}}
     </div>
