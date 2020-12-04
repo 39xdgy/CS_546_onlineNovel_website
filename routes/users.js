@@ -12,9 +12,17 @@ const validate = require("../data/validate");
 
 
 router.post('/upload/profilepic', upload.single('profilePicture'), async (req, res) => {
+  
+    let userId = req.session.AuthCookie; 
+  try{ 
+  let str = req.file.originalname;
+  let index = str.indexOf(".");
+  let extension = str.substr(index+1,str.length-1);
+  if(extension.toLowerCase()!="png" && extension.toLowerCase()!="jpg")
+     throw "Kindly upload png or jpg file";
   let img = fs.readFileSync(req.file.path);
   let encode_image = img.toString('base64');
-  let userId = req.session.AuthCookie;
+  
   var finalImg = {
     contentType: req.file.mimetype,
     image: Buffer.from(encode_image, 'base64')
@@ -22,6 +30,11 @@ router.post('/upload/profilepic', upload.single('profilePicture'), async (req, r
 
   const addingProfilePicture = await usersData.addProfilePicture(userId, finalImg);
   res.redirect('/users/editUser');
+}
+catch(e){
+    const user = await usersData.getUserById(userId);
+    res.render("users/userProfile",{users:user,editFlag:true,id:userId,error:e});
+}
 });
 
 router.get('/profilepic/:id', async (req, res) => {
@@ -145,6 +158,7 @@ router.post("/createUser", async(req,res)=>{
     
     try{
         const newUser = await usersData.createUser(newUserData);
+        req.session.AuthCookie=newUser._id;
         res.render("users/userProfile",{
             success:true,
             users:newUser,
@@ -181,13 +195,11 @@ router.post("/login", async(req,res)=>{
     try{
         const user = await usersData.login(userData.emailID, userData.password);
         req.session.AuthCookie=user._id;
-        console.log("test");
         res.render("users/userProfile",{layout:null,profileFlag:true,users:user,id:user._id});
         //res.redirect("/users/profile");
     }
     catch(error){
         res.status(400);
-        console.log("error");
        // res.render("users/login",{layout:null,error:true,users:userData,message:error});
         res.json({message:error});
     }
@@ -318,6 +330,38 @@ router.post("/editUser", async(req,res)=>{
 router.get("/logout", async(req,res)=>{
     req.session.destroy();
     res.json({Message:"Successfully Logged out"});
+})
+
+router.get("/saved", async(req,res)=>{
+    const savedInfo = await usersData.getSavedCars(req.session.AuthCookie);
+    if(savedInfo.length!=0)
+    res.render("users/userdashboard",{cars:savedInfo,heading:"Saved Cars",postedsavedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not added any car to your saved list",heading:"Saved Cars"});
+})
+
+router.get("/rented", async(req,res)=>{
+    const rentedInfo = await usersData.getCurrentlyRentedCar(req.session.AuthCookie);
+    if(rentedInfo)
+    res.render("users/userdashboard",{cars:rentedInfo,heading:"Booked Car",rentedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not booked any Car",heading:"Booked Car"});
+})
+
+router.get("/posted", async(req,res)=>{
+    const postedCarsInfo = await usersData.getPostedCars(req.session.AuthCookie);
+    if(postedCarsInfo.length!=0)
+    res.render("users/userdashboard",{cars:postedCarsInfo,heading:"Posted Cars",postedsavedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not posted any car",heading:"Posted Cars"});
+})
+
+router.get("/history", async(req,res)=>{
+    const pastCarsInfo = await usersData.getPastRentedCars(req.session.AuthCookie);
+    if(pastCarsInfo.length!=0)
+    res.render("users/userdashboard",{cars:pastCarsInfo,heading:"Past Rented Cars",pastRentedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not any Car in the past",heading:"Past Rented Cars"});
 })
 
 module.exports = router;
