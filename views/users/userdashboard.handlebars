@@ -46,7 +46,11 @@
       <td>Rejected</td>
       {{/if}}
       <td>{{totalPrice}}</td>
+       {{#if review}}
        <td><a href="">Post Review</a></td>
+       {{else}}
+       <td>Posted or Not Required</td>
+       {{/if}}
       </tr>
    
     {{/each}}
@@ -153,7 +157,11 @@
       <td>{{bookingStatus}}</td>
       <td>{{totalPrice}}</td>
       <td>{{currentStatus}}</td>
+      {{#if pfa}}
        <td><a href=""><a href="">Approve/Reject</a></a></td>
+       {{else}}
+       <td>Done</td>
+       {{/if}}
       </tr>
    
     {{/each}}

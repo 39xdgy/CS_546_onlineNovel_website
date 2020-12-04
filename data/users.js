@@ -150,6 +150,8 @@ async function getPastRentedCars(id){
         rentedCar._id=rentedCar._id.toString();
         rentedCar.startDate=validate.formatDateInString(rentedCar.startDate);
         rentedCar.endDate=validate.formatDateInString(rentedCar.endDate);
+        if(rentedCar.status) rentedCar.review = true;
+        else rentedCar.review=false;
         pastRentedArray.push(rentedCar);
      }
      return pastRentedArray;
@@ -202,17 +204,20 @@ async function getPostedCars(id){
     return modifiedList;
 }
 
-async function updatePastRentedCars(id){
+async function updatePastRentedCars(){
     const today=new Date();
     const userCollection = await usersColl();
-    const user = await userCollection.findOne({_id:ObjectID(id)});
+   // const user = await userCollection.findOne({_id:ObjectID(id)});
+     const userList = await userCollection.find({}).toArray();
     const rentingInfoCollection = await rentingInfoColl();
+    for(let user of userList)
+    {
     if(user.rentedCar)
     {
         
         const rentingData = await rentingInfoCollection.findOne({_id:ObjectID(user.rentedCar)});
         if(rentingData.endDate.getDate()<today.getDate()){
-            const updatedUserData = await userCollection.updateOne({_id:ObjectID(id)},{ $push: { pastRentedCars: user.rentedCar },$set:{rentedCar:""}});
+            const updatedUserData = await userCollection.updateOne({_id:ObjectID(user._id)},{ $push: { pastRentedCars: user.rentedCar },$set:{rentedCar:""}});
         }
     }
 
@@ -222,11 +227,12 @@ async function updatePastRentedCars(id){
             const rentingData = await rentingInfoCollection.find({carId:arr}).toArray();
             for(let arr1 of rentingData){
                 if(arr1.endDate.getDate()<today.getDate())
-                    await rentingInfoCollection.updateOne({_id:ObjectId(arr1._id)},{$set:{currentStatus:"C"}});
+                    await rentingInfoCollection.updateOne({_id:arr1._id},{$set:{currentStatus:"C"}});
             }
         }
         
     }
+}
 }
 
 async function getAllOrders(userId){
@@ -243,9 +249,14 @@ async function getAllOrders(userId){
             arr1.brand=arr.brand;
             arr1.type=arr.type;
             arr1.licensePlate=arr.licensePlate;
+            arr1.pfa=false;
             if(arr1.bookingStatus==="A") arr1.bookingStatus="Approved";
             if(arr1.bookingStatus==="R") arr1.bookingStatus="Rejected";
-            if(arr1.bookingStatus==="PFA") arr1.bookingStatus="Pending for Aprroval";
+            if(arr1.bookingStatus==="PFA") 
+            {
+                arr1.bookingStatus="Pending for Aprroval";
+                arr1.pfa=true;
+            }
             if(arr1.currentStatus==="C")  arr1.currentStatus="Closed";
             if(arr1.currentStatus==="O")  arr1.currentStatus="Open";
             returnArray.push(arr1);

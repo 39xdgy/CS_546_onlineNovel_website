@@ -48,9 +48,9 @@ async function getSearchResult(searchData){
             flag=true;
             const rentingData = await rentingInfoCollection.find({carId:arr._id}).toArray();
             for(let arr1 of rentingData){
-                if(arr1.bookingStatus!="C" && arr1.currentStatus!="R")
+                if(arr1.bookingStatus!="R"  && arr1.currentStatus!="C")
                 {
-                    if(((searchData.fromDate<arr1.startDate && searchData.toDate<arr1.endDate) || 
+                    if(((searchData.fromDate<arr1.startDate && searchData.toDate<arr1.startDate) || 
                     (searchData.fromDate>arr1.endDate && searchData.toDate>arr1.endDate)))
                         flag=true;
                     else

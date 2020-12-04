@@ -57,34 +57,26 @@
 <br>
 <br>
 
+
+
 {{#if availFlag}}
 
 {{#if login}}
-
-<div class="row">
-  {{#each cars}}
-  <div class="column">
-    <div class="card">
-      <h3><a href="">{{brand}} {{model}}</a></h3>
-      <p>Type: {{type}}</p>
-      <p>Color: {{color}}</p>
-      <p>Rating: {{rating}}</p>
-      <p>Price: {{price}}/day</p>
-    </div>
-  </div>
-  {{/each}}
-</div>
-
 {{else}}
 <form class="dashboard-class">
   <p class="message-class">Please login to book a ride.</p>
 </form>
+{{/if}}
 
 <div class="row">
   {{#each cars}}
   <div class="column">
     <div class="card">
+      {{#if ../login}}
+      <h3><a href="">{{brand}} {{model}}</a></h3>
+      {{else}}
       <h3>{{brand}} {{model}}</h3>
+      {{/if}}
       <p>Type: {{type}}</p>
       <p>Color: {{color}}</p>
       <p>Rating: {{rating}}</p>
@@ -93,7 +85,7 @@
   </div>
   {{/each}}
 </div>
-{{/if}}
+
 
 {{else}}
 <form>
