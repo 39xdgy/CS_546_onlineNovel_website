@@ -4,7 +4,7 @@ const rentingInfoColl = mongoCollections.rentingInfo;
 const carsColl = mongoCollections.cars;
 const bcrypt = require("bcrypt");
 const saltRounds = 12;
-const {ObjectID} = require("mongodb");
+const {ObjectID, ObjectId} = require("mongodb");
 const validate = require("./validate");
 
 //fetching user with id
@@ -195,21 +195,63 @@ async function getCurrentlyRentedCar(id){
 async function getPostedCars(id){
     const carCollection = await carsColl();
     const postedCarsVar = await carCollection.find({ownedBy:id}).toArray();
-    return postedCarsVar;
+    let modifiedList = postedCarsVar.map((arr)=> {
+        arr._id=arr._id.toString();
+        return arr;
+    });
+    return modifiedList;
 }
 
 async function updatePastRentedCars(id){
     const today=new Date();
     const userCollection = await usersColl();
     const user = await userCollection.findOne({_id:ObjectID(id)});
+    const rentingInfoCollection = await rentingInfoColl();
     if(user.rentedCar)
     {
-        const rentingInfoCollection = await rentingInfoColl();
+        
         const rentingData = await rentingInfoCollection.findOne({_id:ObjectID(user.rentedCar)});
-        if(rentingData.endDate<today){
+        if(rentingData.endDate.getDate()<today.getDate()){
             const updatedUserData = await userCollection.updateOne({_id:ObjectID(id)},{ $push: { pastRentedCars: user.rentedCar },$set:{rentedCar:""}});
         }
     }
+
+    if(user.postedCars.length!=0){
+        for(let arr of user.postedCars)
+        {
+            const rentingData = await rentingInfoCollection.find({carId:arr}).toArray();
+            for(let arr1 of rentingData){
+                if(arr1.endDate.getDate()<today.getDate())
+                    await rentingInfoCollection.updateOne({_id:ObjectId(arr1._id)},{$set:{currentStatus:"C"}});
+            }
+        }
+        
+    }
+}
+
+async function getAllOrders(userId){
+    const returnArray=[];
+    const postedCars = await getPostedCars(userId);
+    const rentingInfoCollection = await rentingInfoColl();
+    for(let arr of postedCars){
+        const rentingInfo = await rentingInfoCollection.find({carId:arr._id}).toArray();
+        for(let arr1 of rentingInfo){
+            arr1._id=arr1._id.toString();
+            arr1.startDate=validate.formatDateInString(arr1.startDate);
+            arr1.endDate=validate.formatDateInString(arr1.endDate);
+            arr1.model=arr.model;
+            arr1.brand=arr.brand;
+            arr1.type=arr.type;
+            arr1.licensePlate=arr.licensePlate;
+            if(arr1.bookingStatus==="A") arr1.bookingStatus="Approved";
+            if(arr1.bookingStatus==="R") arr1.bookingStatus="Rejected";
+            if(arr1.bookingStatus==="PFA") arr1.bookingStatus="Pending for Aprroval";
+            if(arr1.currentStatus==="C")  arr1.currentStatus="Closed";
+            if(arr1.currentStatus==="O")  arr1.currentStatus="Open";
+            returnArray.push(arr1);
+        }
+    }
+    return returnArray;
 }
 
 module.exports={
@@ -223,5 +265,6 @@ module.exports={
     getPastRentedCars,
     getSavedCars,
     getPostedCars,
-    updatePastRentedCars
+    updatePastRentedCars,
+    getAllOrders
 }

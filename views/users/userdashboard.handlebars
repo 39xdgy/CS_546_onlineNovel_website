@@ -3,6 +3,7 @@
     <a href="/users/rented">Rented Car</a>
     <a href="/users/history">Past Rented Cars</a>
     <a href="/users/posted">My Cars</a>
+    <a href="/users/orders">Orders</a>
      <a href="/users/saved" id="saved-id">Saved Cars</a>
      <a href="/users/profile" id="profile-id">Profile</a>
        <a href="/users/editUser" id="edit-id">Edit Profile</a>
@@ -98,8 +99,9 @@
      <th scope="col">Type</th>
      <th scope="col">Color</th>
      <th scope="col">License Plate</th>
+      <th scope="col">Make Year</th>
      <th scope="col">Rating</th>
-     <th scope="col">Status</th>
+     <th scope="col">Price</th>
     </tr>
   </thead>
   <tbody>
@@ -111,20 +113,56 @@
       <td>{{type}}</td>
       <td>{{color}}</td>
       <td>{{licensePlate}}</td>
+      <td>{{makeYear}}</td>
        <td>{{rating}}</td>
-      {{#if status}}
-      <td>Booked</td>
-      {{else}}
-      <td>Not Booked</td>
-      {{/if}} 
+        <td>{{price}}</td>
     </tr>
     {{/each}}
   </tbody>
 </table>
 {{/if}}
 
+
+{{#if orderFlag}}
+ <table>
+  <thead>
+    <tr>
+     <th>Car Page</th>
+     <th>Brand</th>
+     <th scope="col">Model</th>
+     <th scope="col">Type</th>
+     <th scope="col">License Plate</th>
+     <th scope="col">Booking Start Date</th>
+     <th scope="col">Booking End Date</th>
+     <th scope="col">Booking Status</th>
+     <th scope="col">Total Price</th> 
+     <th scope="col">Current Status</th> 
+      <th scope="col">Approval/Rejection</th> 
+    </tr>
+  </thead>
+  <tbody>
+     {{#each cars}} 
+    <tr>
+      <td><a href="">Car Details</a></td>
+      <td>{{brand}}</td>
+      <td>{{model}}</td>
+      <td>{{type}}</td>
+      <td>{{licensePlate}}</td>
+      <td>{{startDate}}</td>
+      <td>{{endDate}}</td>
+      <td>{{bookingStatus}}</td>
+      <td>{{totalPrice}}</td>
+      <td>{{currentStatus}}</td>
+       <td><a href=""><a href="">Approve/Reject</a></a></td>
+      </tr>
+   
+    {{/each}}
+  </tbody>
+</table>
+{{/if}}
+
 {{#if Message}}
-<p>{{Message}}</p>
+<p class="message-class">{{Message}}</p>
 {{/if}}
 
 </form>

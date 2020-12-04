@@ -362,8 +362,16 @@ router.get("/history", async(req,res)=>{
     if(pastCarsInfo.length!=0)
     res.render("users/userdashboard",{cars:pastCarsInfo,heading:"Past Rented Cars",pastRentedFlag:true});
     else
-    res.render("users/userdashboard",{Message:"You have not any Car in the past",heading:"Past Rented Cars"});
+    res.render("users/userdashboard",{Message:"You have not booked any car in the past",heading:"Past Rented Cars"});
 });
 
+router.get("/orders",async(req,res)=>{
+    const allOrders = await usersData.getAllOrders(req.session.AuthCookie);
+    
+    if(allOrders.length!=0)
+    res.render("users/userdashboard",{cars:allOrders,heading:"All orders for your posted cars",orderFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"Your posted cars are not booked yet",heading:"All orders for your posted cars"});
+})
 
 module.exports = router;
