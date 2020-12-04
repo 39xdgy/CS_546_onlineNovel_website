@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const data = require("../data");
 const rentingInfoData = data.rentingInfo;
+const carData = data.cars;
+const userData = data.users;
 
 router.get('/', async (req, res) => {
     try{
@@ -12,6 +14,57 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/test', async (req, res) => {
+    try{
+        res.status(200).render("rentingInfo/confirm");
+    } catch(e){
+        res.status(404).render("rentingInfo/create_renting", {error_flag: true, message: "test error"})
+    }
+})
+
+router.get('/find_date', async (req, res) => {
+    try{
+        let tomorrow = new Date()
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        let user_name = 
+        res.status(200).render("rentingInfo/create_renting", { min_date: tomorrow.toISOString().split('T')[0]});
+    } catch(e){
+        console.log(e)
+        res.status(404).render("rentingInfo/create_renting", {error_flag: true, message: e})
+    }
+})
+
+router.post('/find_date', async (req, res) => {
+    try{
+        if(!req.body || !req.body.start_date || !req.body.end_date){
+            res.status(401).render('rentingInfo/create_renting', {error_flag: true, message: "Missing dates"})
+        }
+        let startDate = req.body.start_date
+        let endDate = req.body.end_date
+        //testing 
+        let userId = "5f962413f7e76872649d3903"
+        let carId = "5f962413f7e76872649d3903"
+        let totalPrice = 500
+        new_rent = await rentingInfoData.create(startDate, endDate, false, totalPrice, userId, carId)
+        req.body.new_rent = new_rent;
+        console.log(req.body.new_rent)
+        res.redirect("/rentingInfo/confirm")
+        //res.render('rentingInfo/confirm_renting', {new_rent: new_rent})
+    } catch(e){
+        res.status(404).json({message: e})
+    }
+})
+
+router.get('/confirm', async (req, res) => {
+    try{
+        res.status(200).render("rentingInfo/confirm", {new_rent: new_rent})
+    } catch(e){
+        res.status(404).json({message: "Error"})
+    }
+    
+})
+
+/*
 
 router.get('/:id', async (req, res) => {
     const renting_id = req.params.id
@@ -42,6 +95,6 @@ router.post('/', async (req, res) => {
     } catch(e){
         res.status(404).json({message: e});
     }
-})
+})*/
 
 module.exports = router;

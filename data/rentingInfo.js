@@ -1,21 +1,25 @@
 const mongoCollections = require('../config/mongoCollections');
-
+const { validateDate } = require('./validate');
+const validateData = require("./validate");
 const rentingInfo = mongoCollections.rentingInfo;
 
 
 async function create(startDate, endDate, status, totalPrice, userId, carId){
-    if (!startDate || !endDate || !status || !totalPrice || !userId || !carId) throw "Error: missing input";
+    if (!startDate || !endDate || !totalPrice || !userId || !carId) throw "Error: missing input";
     if (typeof(startDate) !== "string" || typeof(endDate) !== "string" || 
         typeof(status) !== "boolean" || typeof(totalPrice) !== "number" || 
         typeof(userId) !== "string" || typeof(carId) !== "string") throw "Error: input format is wrong"
+    
     date_form_start = new Date(startDate)
     date_form_end = new Date(endDate)
+    /*
     if (!date_form_end || !date_form_start) throw "Error: date format is not correct";
-    arr_start = startDate.split("/")
-    arr_end = endDate.split("/")
+    arr_start = startDate.split("-")
+    arr_end = endDate.split("-")
 
     if (arr_start.length !== 3 || arr_end.length !== 3) throw "Error: date format is not correnct";
     [month, date, year] = arr_start
+    console.log(date_form_start.getFullYear(), date_form_start.getMonth(), date_form_start.getDate(), arr_start)
     if (date_form_start.getFullYear() != year || 
         date_form_start.getMonth() + 1 != month ||
         date_form_start.getDate() != date) throw "Error: startDate is not correct";
@@ -24,15 +28,12 @@ async function create(startDate, endDate, status, totalPrice, userId, carId){
         date_form_end.getMonth() + 1 != month ||
         date_form_end.getDate() != date) throw "Error: endDate is not correct";
 
-
+    */
+    //if(!validateData.validateDate(startDate) || !validateDate(endDate)) throw "Error: date is not correct"
     if (totalPrice <= 0) throw "Error: price should be bigger then 0";
-
     userId_obj = myDBfunction(userId)
     carId_obj = myDBfunction(carId)
-    
-
     const renting_db_func = await rentingInfo();
-
     
     let newRenting = {
         "startDate": date_form_start,
@@ -60,6 +61,7 @@ async function getAllRenting(){
 
 
 
+
 async function getrentById(input_id){
     if(!input_id) throw "Error: No input";
     if(typeof(input_id) !== "string") throw "Error: input is not a string";
@@ -72,7 +74,16 @@ async function getrentById(input_id){
     return rent_info
 }
 
+async function getrentByCarId(input_id){
+    if(!input_id) throw "Error: No input";
+    if(typeof(input_id) !== "string") throw "Error: input is not a string";
+    obj_id = myDBfunction(input_id);
 
+    const renting_db_func = await rentingInfo()
+    const rent_info = await renting_db_func.find({'carId': input_id}, {projection: {_id: 1, startDate: 1, endDate: 1}}).toArray();
+
+    return rent_info
+}
 
 
 function myDBfunction(id) {
@@ -97,5 +108,5 @@ function myDBfunction(id) {
 
 
   module.exports = {
-      create, getAllRenting, getrentById
+      create, getAllRenting, getrentById, getrentByCarId
   }

@@ -30,21 +30,25 @@ app.use(session({
 
 app.use("/", async(req,res,next)=>{
  
-  
+  /*
   if(!req.session.AuthCookie 
     && req.originalUrl!="/users/login"
     && req.originalUrl!="/users/createUser"
     && req.originalUrl!="/users/logout"
     && req.originalUrl!="/home"
-    && req.originalUrl!="/home/welcome")
+    && req.originalUrl!="/home/welcome"
+    //&& req.originalUrl!="/rentingInfo/test"
+    )
   {
     res.status(401);
     //should redirect to home page once home page is ready
     //res.redirect();
     res.json({Message: "Not Authorized"});
   }
+  */
   next();
 });
+
 
 app.use("/users/login", async(req,res,next)=>{
   if(req.session.AuthCookie)  

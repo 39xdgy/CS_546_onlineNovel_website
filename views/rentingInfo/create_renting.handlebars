@@ -1,0 +1,27 @@
+<h1>Ranting form</h1>
+
+
+<p id = "user_info">{{user_name}}</p>
+
+<p id = "car_info">{{car_type}}</p>
+
+
+
+
+<form action = "find_date" method = "POST" id = "renting_info_form">
+    <label>startDate</label>
+    <input id = "pick_date" name = "start_date" type ="date" min = {{min_date}}>
+
+    <label>endDate</label>
+    <input id = "pick_date" name = "end_date" type ="date">
+
+    <input type = "submit" value = "Submit" class = "Submit">
+</form>
+
+
+{{#if error_flag}}
+    <p class = "error_info">{{message}}</p>
+{{/if}}
+
+
+<script src="/public/js/renting_info.js"></script>
