@@ -1,0 +1,113 @@
+    <h1>Choose your favorite Car</h1>
+    {{#if login}}
+    <a href="/users/profile" class="login"> My Profile</a>
+    {{else}}
+    <a href="/users/login" class="login">Login</a>
+    <a href="/users/createUser" class="login">Sign up</a>
+    {{/if}}
+    <br>
+    <br>
+   
+    <label>
+    <form class="search-form" method="POST" action="/home/search"> 
+    Zip Code
+    <input type="number" name="zip" placeholder="Zip Code" size="5">
+    </label>
+    <label>
+  
+    Pickup Date
+    <input type="date" name="fromDate" id="fromDate" placeholder="From Date" min="{{minDate}}">
+    </label>
+    <label>
+    Drop off Date
+    <input type="date" name="toDate" id="toDate" placeholder="To Date" disabled>
+    </label>
+    <label>
+    Type Of Car
+    <input type="text" name="type" placeholder="Type Of Car">
+    </label>
+    <label>
+        <br>
+        <br>
+    Brand
+    <input type="text" name="brand" placeholder="Brand">
+    </label>
+    <label>
+    Model
+    <input type="text" name="model" placeholder="Model">
+    </label>
+    <br>
+    <br>
+    <button type="submit">Search</button>
+    
+    {{#if sortFlag}}
+    <br>
+    <br>
+    <label>
+      Sort the search result
+   <select name="sort">
+    <option value="">Select</option>
+     <option value="price">Price</option>
+     <option value="rating">Rating</option>
+   </select>
+    </label>
+    <button type="submit">Sort</button>
+    {{/if}}
+</form>
+<br>
+<br>
+
+{{#if availFlag}}
+
+{{#if login}}
+
+<div class="row">
+  {{#each cars}}
+  <div class="column">
+    <div class="card">
+      <h3><a href="">{{brand}} {{model}}</a></h3>
+      <p>Type: {{type}}</p>
+      <p>Color: {{color}}</p>
+      <p>Rating: {{rating}}</p>
+      <p>Price: {{price}}/day</p>
+    </div>
+  </div>
+  {{/each}}
+</div>
+
+{{else}}
+<form class="dashboard-class">
+  <p class="message-class">Please login to book a ride.</p>
+</form>
+
+<div class="row">
+  {{#each cars}}
+  <div class="column">
+    <div class="card">
+      <h3>{{brand}} {{model}}</h3>
+      <p>Type: {{type}}</p>
+      <p>Color: {{color}}</p>
+      <p>Rating: {{rating}}</p>
+      <p>Price: {{price}}/day</p>
+    </div>
+  </div>
+  {{/each}}
+</div>
+{{/if}}
+
+{{else}}
+<form>
+    <p>{{Message}}</p>
+</form>
+{{/if}}
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script>
+   $('#fromDate').change(function(){
+    var toDate = $('#fromDate').val();
+    $('#toDate').prop("disabled", false);
+    $("#toDate").attr("min", toDate);
+    $("#toDate").val(toDate);
+ });
+</script>

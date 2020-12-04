@@ -195,6 +195,7 @@ router.post("/login", async(req,res)=>{
     try{
         const user = await usersData.login(userData.emailID, userData.password);
         req.session.AuthCookie=user._id;
+        await usersData.updatePastRentedCars(user._id);
         res.render("users/userProfile",{layout:null,profileFlag:true,users:user,id:user._id});
         //res.redirect("/users/profile");
     }
@@ -329,23 +330,48 @@ router.post("/editUser", async(req,res)=>{
 
 router.get("/logout", async(req,res)=>{
     req.session.destroy();
-    res.json({Message:"Successfully Logged out"});
+    res.render("home/home",{Message:"Search cars based on your preference"});
 })
 
 router.get("/saved", async(req,res)=>{
-    res.json({Message:"Saved Cars"});
+    const savedInfo = await usersData.getSavedCars(req.session.AuthCookie);
+    if(savedInfo.length!=0)
+    res.render("users/userdashboard",{cars:savedInfo,heading:"Saved Cars",postedsavedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not added any car to your saved list",heading:"Saved Cars"});
 })
 
 router.get("/rented", async(req,res)=>{
-    res.json({Message:"rented Cars"});
+    const rentedInfo = await usersData.getCurrentlyRentedCar(req.session.AuthCookie);
+    if(rentedInfo)
+    res.render("users/userdashboard",{cars:rentedInfo,heading:"Booked Car",rentedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not booked any Car",heading:"Booked Car"});
 })
 
 router.get("/posted", async(req,res)=>{
-    res.json({Message:"posted Cars"});
+    const postedCarsInfo = await usersData.getPostedCars(req.session.AuthCookie);
+    if(postedCarsInfo.length!=0)
+    res.render("users/userdashboard",{cars:postedCarsInfo,heading:"Posted Cars",postedsavedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not posted any car",heading:"Posted Cars"});
 })
 
 router.get("/history", async(req,res)=>{
-    res.json({Message:"history Cars"});
+    const pastCarsInfo = await usersData.getPastRentedCars(req.session.AuthCookie);
+    if(pastCarsInfo.length!=0)
+    res.render("users/userdashboard",{cars:pastCarsInfo,heading:"Past Rented Cars",pastRentedFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"You have not booked any car in the past",heading:"Past Rented Cars"});
+});
+
+router.get("/orders",async(req,res)=>{
+    const allOrders = await usersData.getAllOrders(req.session.AuthCookie);
+    
+    if(allOrders.length!=0)
+    res.render("users/userdashboard",{cars:allOrders,heading:"All orders for your posted cars",orderFlag:true});
+    else
+    res.render("users/userdashboard",{Message:"Your posted cars are not booked yet",heading:"All orders for your posted cars"});
 })
 
 module.exports = router;

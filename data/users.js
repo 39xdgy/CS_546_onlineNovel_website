@@ -1,8 +1,10 @@
 const mongoCollections = require('../config/mongoCollections');
 const usersColl = mongoCollections.users;
+const rentingInfoColl = mongoCollections.rentingInfo;
+const carsColl = mongoCollections.cars;
 const bcrypt = require("bcrypt");
 const saltRounds = 12;
-const {ObjectID} = require("mongodb");
+const {ObjectID, ObjectId} = require("mongodb");
 const validate = require("./validate");
 
 //fetching user with id
@@ -39,6 +41,8 @@ async function login(emailIDParam,password){
     const userCollections = await usersColl();
     const user = await userCollections.findOne({emailID:emailIDParam});
     if(user===null) throw `Email Address or password is invalid`;
+    user._id=user._id.toString();
+    user.dob=validate.formatDateInString(user.dob);
     loginResult = await bcrypt.compare(password,user.hashedPassword);
     if(loginResult) return user;
     else throw `Email address or password is invalid`;
@@ -130,11 +134,137 @@ async function updateUser(userObject,id){
     return modifiedUser;
 }
 
+async function getPastRentedCars(id){
+     let pastRentedArray=[];
+     let parsedId = ObjectID(id);
+     const userCollection = await usersColl();
+     const pastRented = await userCollection.findOne({_id:parsedId},{ projection:{_id:0,pastRentedCars:1}});
+     const rentingInfoCollection = await rentingInfoColl();
+     const carCollection = await carsColl();
+     for(let arr of pastRented.pastRentedCars){
+        const rentedCar = await rentingInfoCollection.findOne({_id:ObjectID(arr)});
+        const carInfo= await carCollection.findOne({_id:ObjectID(rentedCar.carId)});
+        rentedCar.brand = carInfo.brand;
+        rentedCar.model=carInfo.model;
+        rentedCar.type=carInfo.type;
+        rentedCar._id=rentedCar._id.toString();
+        rentedCar.startDate=validate.formatDateInString(rentedCar.startDate);
+        rentedCar.endDate=validate.formatDateInString(rentedCar.endDate);
+        pastRentedArray.push(rentedCar);
+     }
+     return pastRentedArray;
+}
+
+async function getSavedCars(id){
+    let savedCars=[];
+    let parsedId = ObjectID(id);
+    const userCollection = await usersColl();
+    const savedCarsVar = await userCollection.findOne({_id:parsedId},{ projection:{_id:0,savedCars:1}});
+    const carCollection = await carsColl();
+    for(let arr of savedCarsVar.savedCars){
+       const carInfo= await carCollection.findOne({_id:ObjectID(arr)});
+       carInfo._id=carInfo._id.toString();
+       savedCars.push(carInfo);
+    }
+    return savedCars;
+}
+
+async function getCurrentlyRentedCar(id){
+    let parsedId = ObjectID(id);
+    const userCollection = await usersColl();
+    const rentedCarVar = await userCollection.findOne({_id:parsedId},{projection:{_id:0,rentedCar:1}});
+    if(rentedCarVar.rentedCar)
+    {
+    const rentingInfoCollection = await rentingInfoColl();
+    const carCollection = await carsColl();
+    const rentedCarInfo = await rentingInfoCollection.findOne({_id:ObjectID(rentedCarVar.rentedCar)});
+    const carInfo = await carCollection.findOne({_id:ObjectID(rentedCarInfo.carId)});
+    rentedCarInfo.brand = carInfo.brand;
+    rentedCarInfo.model=carInfo.model;
+    rentedCarInfo.type=carInfo.type;
+    rentedCarInfo.startDate=validate.formatDateInString(rentedCarInfo.startDate);
+    rentedCarInfo.endDate=validate.formatDateInString(rentedCarInfo.endDate);
+    rentedCarInfo._id=rentedCarInfo._id.toString();
+    return rentedCarInfo;
+    }
+    else
+    return "";
+
+}
+
+async function getPostedCars(id){
+    const carCollection = await carsColl();
+    const postedCarsVar = await carCollection.find({ownedBy:id}).toArray();
+    let modifiedList = postedCarsVar.map((arr)=> {
+        arr._id=arr._id.toString();
+        return arr;
+    });
+    return modifiedList;
+}
+
+async function updatePastRentedCars(id){
+    const today=new Date();
+    const userCollection = await usersColl();
+    const user = await userCollection.findOne({_id:ObjectID(id)});
+    const rentingInfoCollection = await rentingInfoColl();
+    if(user.rentedCar)
+    {
+        
+        const rentingData = await rentingInfoCollection.findOne({_id:ObjectID(user.rentedCar)});
+        if(rentingData.endDate.getDate()<today.getDate()){
+            const updatedUserData = await userCollection.updateOne({_id:ObjectID(id)},{ $push: { pastRentedCars: user.rentedCar },$set:{rentedCar:""}});
+        }
+    }
+
+    if(user.postedCars.length!=0){
+        for(let arr of user.postedCars)
+        {
+            const rentingData = await rentingInfoCollection.find({carId:arr}).toArray();
+            for(let arr1 of rentingData){
+                if(arr1.endDate.getDate()<today.getDate())
+                    await rentingInfoCollection.updateOne({_id:ObjectId(arr1._id)},{$set:{currentStatus:"C"}});
+            }
+        }
+        
+    }
+}
+
+async function getAllOrders(userId){
+    const returnArray=[];
+    const postedCars = await getPostedCars(userId);
+    const rentingInfoCollection = await rentingInfoColl();
+    for(let arr of postedCars){
+        const rentingInfo = await rentingInfoCollection.find({carId:arr._id}).toArray();
+        for(let arr1 of rentingInfo){
+            arr1._id=arr1._id.toString();
+            arr1.startDate=validate.formatDateInString(arr1.startDate);
+            arr1.endDate=validate.formatDateInString(arr1.endDate);
+            arr1.model=arr.model;
+            arr1.brand=arr.brand;
+            arr1.type=arr.type;
+            arr1.licensePlate=arr.licensePlate;
+            if(arr1.bookingStatus==="A") arr1.bookingStatus="Approved";
+            if(arr1.bookingStatus==="R") arr1.bookingStatus="Rejected";
+            if(arr1.bookingStatus==="PFA") arr1.bookingStatus="Pending for Aprroval";
+            if(arr1.currentStatus==="C")  arr1.currentStatus="Closed";
+            if(arr1.currentStatus==="O")  arr1.currentStatus="Open";
+            returnArray.push(arr1);
+        }
+    }
+    return returnArray;
+}
+
 module.exports={
     login,
     createUser,
     updateUser,
     getUserById,
     getAllUsers,
-    addProfilePicture
+    addProfilePicture,
+    getCurrentlyRentedCar,
+    getPastRentedCars,
+    getSavedCars,
+    getPostedCars,
+    updatePastRentedCars,
+    getAllOrders
 }
