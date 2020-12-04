@@ -48,13 +48,17 @@ async function getSearchResult(searchData){
             flag=true;
             const rentingData = await rentingInfoCollection.find({carId:arr._id}).toArray();
             for(let arr1 of rentingData){
-                if(((searchData.fromDate<arr1.startDate && searchData.toDate<arr1.endDate) || 
-                (searchData.fromDate>arr1.endDate && searchData.toDate>arr1.endDate)))
-                flag=true;
-                else
+                if(arr1.bookingStatus!="C" && arr1.currentStatus!="R")
                 {
-                flag=false;
-                break;}
+                    if(((searchData.fromDate<arr1.startDate && searchData.toDate<arr1.endDate) || 
+                    (searchData.fromDate>arr1.endDate && searchData.toDate>arr1.endDate)))
+                        flag=true;
+                    else
+                    {
+                        flag=false;
+                        break;
+                    }
+                }
             }
             if(flag)
                 returnArray.push(arr);
