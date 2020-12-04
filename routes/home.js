@@ -2,12 +2,14 @@ const express = require("express");
 const router = express.Router();
 const dataInfo = require("../data");
 const homeInfo = dataInfo.home;
+const usersData = dataInfo.users;
 const validation = dataInfo.validate;
 
 let todayDate=new Date();
 let today=validation.formatDateInString(todayDate);
 
 router.get("/", async(req,res)=>{
+    await usersData.updatePastRentedCars();
     res.render("home/welcome");
 });
 
@@ -15,9 +17,9 @@ router.post("/home", async(req,res)=>{
    const carList = await homeInfo.getTopRatedCars(req.body.zip);
    if(carList.length!=0){
     if(req.session.AuthCookie)
-   res.render("home/home",{cars:carList,availFlag:true,login:true,minDate:today});
+   res.render("home/home",{cars:carList,availFlag:true,login:true,minDate:today,sortFlag:true});
    else 
-   res.render("home/home",{cars:carList,availFlag:true,minDate:today});
+   res.render("home/home",{cars:carList,availFlag:true,minDate:today,sortFlag:true});
    }
    else{
     if(req.session.AuthCookie)

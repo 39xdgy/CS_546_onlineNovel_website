@@ -195,7 +195,6 @@ router.post("/login", async(req,res)=>{
     try{
         const user = await usersData.login(userData.emailID, userData.password);
         req.session.AuthCookie=user._id;
-        await usersData.updatePastRentedCars(user._id);
         res.render("users/userProfile",{layout:null,profileFlag:true,users:user,id:user._id});
         //res.redirect("/users/profile");
     }

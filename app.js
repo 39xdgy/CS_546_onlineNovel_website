@@ -29,8 +29,7 @@ app.use(session({
 })) 
 
 app.use("/", async(req,res,next)=>{
- 
-  
+   req.session.accessCount=1;  
   if(!req.session.AuthCookie 
     && req.originalUrl!="/users/login"
     && req.originalUrl!="/users/createUser"
