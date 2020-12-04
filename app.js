@@ -35,8 +35,12 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/users/createUser"
     && req.originalUrl!="/users/logout"
     && req.originalUrl!="/home"
+    && req.originalUrl!="/home/welcome"
     && req.originalUrl!="/"
-    && req.originalUrl!="/home/search")
+    && req.originalUrl!="/home/search"
+    && req.originalUrl!="/cars/createCar"
+  )
+
   {
     res.status(401);
     res.redirect("/home");
