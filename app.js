@@ -31,17 +31,19 @@ app.use(session({
 app.use("/", async(req,res,next)=>{
  
   /*
+   req.session.accessCount=1;  
   if(!req.session.AuthCookie 
     && req.originalUrl!="/users/login"
     && req.originalUrl!="/users/createUser"
     && req.originalUrl!="/users/logout"
     && req.originalUrl!="/home"
     && req.originalUrl!="/home/welcome"
-    && req.originalUrl!="/rentingInfo/test"
     && req.originalUrl!="/"
     && req.originalUrl!="/home/search"
-    )
-    
+    && req.originalUrl!="/cars/createCar"
+    && req.originalUrl!="/rentingInfo/test"
+  )
+
   {
     res.status(401);
     res.redirect("/home");
