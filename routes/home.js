@@ -10,7 +10,7 @@ let today=validation.formatDateInString(todayDate);
 
 router.get("/", async(req,res)=>{
     await usersData.updatePastRentedCars();
-    res.render("home/welcome");
+    res.render("home/welcome",{minDate:today});
 });
 
 router.post("/home", async(req,res)=>{

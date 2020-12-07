@@ -9,6 +9,8 @@ const upload = multer({ dest: 'public/uploads' });
 const fs = require('fs');
 const { default: Axios } = require("axios");
 const validate = require("../data/validate");
+let todayDate=new Date();
+let today=validation.formatDateInString(todayDate);
 
 
 router.post('/upload/profilepic', upload.single('profilePicture'), async (req, res) => {
@@ -33,6 +35,7 @@ router.post('/upload/profilepic', upload.single('profilePicture'), async (req, r
 }
 catch(e){
     const user = await usersData.getUserById(userId);
+    res.status(400);
     res.render("users/userProfile",{users:user,editFlag:true,id:userId,error:e});
 }
 });
@@ -199,7 +202,7 @@ router.post("/login", async(req,res)=>{
         //res.redirect("/users/profile");
     }
     catch(error){
-        res.status(400);
+        res.status(401);
        // res.render("users/login",{layout:null,error:true,users:userData,message:error});
         res.json({message:error});
     }
@@ -329,7 +332,7 @@ router.post("/editUser", async(req,res)=>{
 
 router.get("/logout", async(req,res)=>{
     req.session.destroy();
-    res.render("home/home",{Message:"Search cars based on your preference"});
+    res.render("home/home",{Message:"Search cars based on your preference",minDate:today});
 })
 
 router.get("/saved", async(req,res)=>{
