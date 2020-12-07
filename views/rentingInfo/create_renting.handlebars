@@ -1,0 +1,41 @@
+<h1>Ranting form</h1>
+
+
+
+
+<form action = "find_date" method = "POST" id = "renting_info_form">
+    
+    <label id = "user_id" name = "user_id">User: {{user_id}}</label><br>
+
+    <label id = "car_id" name = "car_id">Car: {{car_id}}</label><br>
+
+    
+    <label>startDate</label>
+    <input id = "start_date" name = "start_date" type ="date" min = {{min_date}}>
+
+    <label>endDate</label>
+    <input id = "end_date" name = "end_date" type ="date" disabled>
+
+    <input type = "submit" value = "Submit" class = "Submit">
+</form>
+
+
+{{#if error_flag}}
+    <p class = "error_info">{{message}}</p>
+{{/if}}
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<!--<script src="/public/js/renting_info.js"></script>-->
+<script>
+    $('#start_date').change(function(){
+    var toDate = $('#start_date').val();
+    $('#end_date').prop("disabled", false);
+    $("#end_date").attr("min", toDate);
+    $("#end_date").val(toDate);
+});
+</script>

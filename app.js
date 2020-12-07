@@ -29,6 +29,8 @@ app.use(session({
 })) 
 
 app.use("/", async(req,res,next)=>{
+ 
+  /*
    req.session.accessCount=1;  
   if(!req.session.AuthCookie 
     && req.originalUrl!="/users/login"
@@ -39,15 +41,17 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/"
     && req.originalUrl!="/home/search"
     && req.originalUrl!="/cars/createCar"
+    && req.originalUrl!="/rentingInfo/test"
   )
 
   {
     res.status(401);
     res.redirect("/home");
   }
-  else
+  */
   next();
 }); 
+
 
 app.use("/users/login", async(req,res,next)=>{
   if(req.session.AuthCookie)  
