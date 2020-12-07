@@ -9,7 +9,6 @@ const validate = require("./validate");
 
 //fetching user with id
 async function getUserById(id){
-
     let parsedId = ObjectID(id);
     const userCollections = await usersColl();
     const user = await userCollections.findOne({_id:parsedId});

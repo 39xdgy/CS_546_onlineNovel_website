@@ -26,8 +26,16 @@ router.get('/find_date', async (req, res) => {
     try{
         let tomorrow = new Date()
         tomorrow.setDate(tomorrow.getDate() + 1);
-        let user_name = 
-        res.status(200).render("rentingInfo/create_renting", { min_date: tomorrow.toISOString().split('T')[0]});
+        let car_id = req.session.car
+        let user_info = await userData.getUserById(req.session.AuthCookie)
+        let user_name = user_info.emailID
+        //test data
+        req.session.car="5fcc4716b985898448140df6";
+
+        let car_info = await carData.getCarById(req.session.car)
+        let car_name = car_info.brand + " " + car_info.module
+
+        res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, min_date: tomorrow.toISOString().split('T')[0]});
     } catch(e){
         console.log(e)
         res.status(404).render("rentingInfo/create_renting", {error_flag: true, message: e})
@@ -41,30 +49,65 @@ router.post('/find_date', async (req, res) => {
         }
         let startDate = req.body.start_date
         let endDate = req.body.end_date
-        //testing 
-        let userId = "5f962413f7e76872649d3903"
-        let carId = "5f962413f7e76872649d3903"
-        let totalPrice = 500
-        new_rent = await rentingInfoData.create(startDate, endDate, false, totalPrice, userId, carId)
-        req.body.new_rent = new_rent;
-        console.log(req.body.new_rent)
-        res.redirect("/rentingInfo/confirm")
-        //res.render('rentingInfo/confirm_renting', {new_rent: new_rent})
+        let calculate_start = new Date(startDate)
+        let calculate_end = new Date(endDate)
+        let carId = req.session.car
+        let difference_in_time = calculate_end.getTime() - calculate_start.getTime()
+        let difference_in_day = difference_in_time / (1000 * 3600 * 24);
+        let car_info = await carData.getCarById(req.session.car)
+        let totalPrice = car_info.price * (difference_in_day + 1)
+        let new_rent = await rentingInfoData.create(startDate, endDate, false,"PFA","O", totalPrice, req.session.AuthCookie, carId)
+
+        res.redirect("/rentingInfo/confirm/" + new_rent._id)
     } catch(e){
+        console.log(e)
         res.status(404).json({message: e})
     }
 })
 
-router.get('/confirm', async (req, res) => {
+router.get('/confirm/:id', async (req, res) => {
     try{
-        res.status(200).render("rentingInfo/confirm", {new_rent: new_rent})
+        let rent_info = await rentingInfoData.getrentById(req.params.id)
+        let user_info = await userData.getUserById(rent_info.userId)
+        let user_name = user_info.emailID
+
+        let car_info = await carData.getCarById(rent_info.carId)
+        let car_name = car_info.brand + " " + car_info.module
+
+        
+        if(rent_info.bookingStatus === "A"){
+            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, car_owner: car_info.ownedBy, message: "You got approved"})
+        }
+        if(rent_info.bookingStatus === "R"){
+            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, car_owner: car_info.ownedBy, message: "You got rejected"})
+        }
+        else res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, car_owner: car_info.ownedBy, message: "Pending"})
     } catch(e){
         res.status(404).json({message: "Error"})
     }
     
 })
 
-/*
+router.post('/confirm/approve/:id', async(req, res) => {
+    try{
+        let input_id = req.params.id
+        
+        let renting_info = await rentingInfoData.approve(input_id)
+        res.redirect("/rentingInfo/confirm/" + input_id)
+    } catch(e){
+        res.status(404).json({message: "Error"})
+    }
+})
+
+router.post('/confirm/reject/:id', async(req, res) => {
+    try{
+        let input_id = req.params.id
+        let renting_info = await rentingInfoData.reject(input_id)
+        res.redirect("/rentingInfo/confirm/" + input_id)
+    } catch(e){
+        res.status(404).json({message: "Error"})
+    }
+})
 
 router.get('/:id', async (req, res) => {
     const renting_id = req.params.id
@@ -73,13 +116,13 @@ router.get('/:id', async (req, res) => {
         return 
     }
     try{
-        const rentingInfo = await rentingInfoData.getrentById(renting_id);
-        res.status(200).json(rentingInfo)
+        const rentingInfo = await rentingInfoData.getrentByUserId(renting_id);
+        res.status(200).render("rentingInfo/order_history", {order: rentingInfo})
     } catch(e){
         res.status(404).json({message: e})
     }
 })
-
+/*
 router.post('/', async (req, res) => {
     let req_body = req.body;
     //startDate, endDate, status, totalPrice, userId, carId

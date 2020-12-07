@@ -1,20 +1,16 @@
-const mongoCollections = require('../config/mongoCollections');
 
-const rentingInfo = mongoCollections.rentingInfo;
 
-const date_info = document.getElementById('pick_date');
 
-//const car_date_info = await rentingInfo(document.getElementById('car_id'));
-/*
-car_date_info = ["12-10-2020"]
+let start_date = document.getElementById("start_date")
 
-if (!car_date_info){
-    $('pick_date').datepicker({
-        beforeShowDay: function(date){
-            let string = jQuery.datepicker.formatDate('mm-dd-yyyy', date);
-            return [$.inArray(string, array) == -1];
-        }
-    })
-}
 
-*/
+
+
+$('#start_date').change(function(){
+    var toDate = $('#start_date').val();
+    $('#end_date').prop("disabled", false);
+    $("#end_date").attr("min", toDate);
+    $("#end_date").val(toDate);
+});
+
+
