@@ -34,8 +34,8 @@ router.get('/find_date', async (req, res) => {
 
         let car_info = await carData.getCarById(req.session.car)
         let car_name = car_info.brand + " " + car_info.module
-
-        res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, min_date: tomorrow.toISOString().split('T')[0]});
+        let tomorrow_value = tomorrow.toISOString().split('T')[0]
+        res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, min_date: tomorrow_value});
     } catch(e){
         console.log(e)
         res.status(404).render("rentingInfo/create_renting", {error_flag: true, message: e})
@@ -91,9 +91,8 @@ router.get('/confirm/:id', async (req, res) => {
 router.post('/confirm/approve/:id', async(req, res) => {
     try{
         let input_id = req.params.id
-        
         let renting_info = await rentingInfoData.approve(input_id)
-        res.redirect("/rentingInfo/confirm/" + input_id)
+        res.json({success: true, message: "You got approved!"})
     } catch(e){
         res.status(404).json({message: "Error"})
     }
@@ -103,7 +102,7 @@ router.post('/confirm/reject/:id', async(req, res) => {
     try{
         let input_id = req.params.id
         let renting_info = await rentingInfoData.reject(input_id)
-        res.redirect("/rentingInfo/confirm/" + input_id)
+        res.json({success: true, message: "You got rejected :("})
     } catch(e){
         res.status(404).json({message: "Error"})
     }
