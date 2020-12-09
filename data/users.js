@@ -2,6 +2,7 @@ const mongoCollections = require('../config/mongoCollections');
 const usersColl = mongoCollections.users;
 const rentingInfoColl = mongoCollections.rentingInfo;
 const carsColl = mongoCollections.cars;
+const reviewColl = mongoCollections.reviews;
 const bcrypt = require("bcrypt");
 const saltRounds = 12;
 const {ObjectID, ObjectId} = require("mongodb");
@@ -38,7 +39,7 @@ async function getAllUsers(){
 async function login(emailIDParam,password){
     let loginResult = false;
     const userCollections = await usersColl();
-    const user = await userCollections.findOne({emailID:emailIDParam});
+    const user = await userCollections.findOne({emailID:emailIDParam.toLowerCase()});
     if(user===null) throw `Email Address or password is invalid`;
     user._id=user._id.toString();
     user.dob=validate.formatDateInString(user.dob);
@@ -140,17 +141,26 @@ async function getPastRentedCars(id){
      const pastRented = await userCollection.findOne({_id:parsedId},{ projection:{_id:0,pastRentedCars:1}});
      const rentingInfoCollection = await rentingInfoColl();
      const carCollection = await carsColl();
+     const reviewCollection = await reviewColl();
      for(let arr of pastRented.pastRentedCars){
         const rentedCar = await rentingInfoCollection.findOne({_id:ObjectID(arr)});
         const carInfo= await carCollection.findOne({_id:ObjectID(rentedCar.carId)});
+        
         rentedCar.brand = carInfo.brand;
         rentedCar.model=carInfo.model;
         rentedCar.type=carInfo.type;
         rentedCar._id=rentedCar._id.toString();
         rentedCar.startDate=validate.formatDateInString(rentedCar.startDate);
         rentedCar.endDate=validate.formatDateInString(rentedCar.endDate);
-        if(rentedCar.status) rentedCar.review = true;
-        else rentedCar.review=false;
+        if(rentedCar.status) 
+        { 
+            const reviewInfo = await reviewCollection.findOne({rentingId:rentedCar._id});
+            if(reviewInfo==null)
+            rentedCar.review = true;
+            else
+            rentedCar.review = false;
+        }
+        else rentedCar.review=false; 
         pastRentedArray.push(rentedCar);
      }
      return pastRentedArray;
