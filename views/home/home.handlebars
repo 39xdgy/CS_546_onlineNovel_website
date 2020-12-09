@@ -1,10 +1,18 @@
-    <h1>Choose your favorite Car</h1>
+    <div class="topnav">
     {{#if login}}
-    <a href="/users/profile" class="login"> My Profile</a>
+    <a href="/users/profile"> My Profile</a>
+     <a href="/users/logout" id="logout-id">Logout</a>
     {{else}}
-    <a href="/users/login" class="login">Login</a>
-    <a href="/users/createUser" class="login">Sign up</a>
+    <a href="/users/login">Login</a>
+    <a href="/users/createUser">Sign up</a>
     {{/if}}
+    </div>
+    
+    <br>
+    <br>
+
+    <h1>Choose your favorite Car</h1>
+
     <br>
     <br>
    
@@ -73,7 +81,7 @@
   <div class="column">
     <div class="card">
       {{#if ../login}}
-      <h3><a href="">{{brand}} {{model}}</a></h3>
+      <h3><a href="/cars/profile/{{_id}}">{{brand}} {{model}}</a></h3>
       {{else}}
       <h3>{{brand}} {{model}}</h3>
       {{/if}}

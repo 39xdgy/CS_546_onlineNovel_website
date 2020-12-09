@@ -30,7 +30,7 @@ app.use(session({
 
 app.use("/", async(req,res,next)=>{
  
-  /*
+  
    req.session.accessCount=1;  
   if(!req.session.AuthCookie 
     && req.originalUrl!="/users/login"
@@ -43,12 +43,11 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/cars/createCar"
     && req.originalUrl!="/rentingInfo/test"
   )
-
   {
     res.status(401);
     res.redirect("/home");
   }
-  */
+  else
   next();
 }); 
 
