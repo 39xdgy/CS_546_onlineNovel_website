@@ -154,17 +154,14 @@ async function reject(input_id){
     
     let list_postedCars = user_info.postedCars
     list_postedCars.push(user_info.rentedCar)
-    console.log(list_postedCars)
     let user_patch = {
         postedCars: list_postedCars,
         rentedCar: ""
     }
-    console.log("about to reject")
     let rentingInfo_patch = {
         bookingStatus: "R",
         currentStatus: "C"
     }
-    console.log("about to reject")
     await user_db_func.updateOne({_id: myDBfunction(renting_info.userId)}, {$set: user_patch})
     return await this.patchrentingInfo(input_id, rentingInfo_patch)
 }
