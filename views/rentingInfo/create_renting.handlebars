@@ -11,10 +11,10 @@
 
     
     <label>startDate</label>
-    <input id = "start_date" name = "start_date" type ="date" min = {{min_date}}>
+    <input booked_date = {{booked_date_arr}} type="text" id = "start_date" class = "date_input" name = "start_date" min = {{min_date}}>
 
     <label>endDate</label>
-    <input id = "end_date" name = "end_date" type ="date" disabled>
+    <input type="text" id = "end_date" class = "date_input" name = "end_date" disabled>
 
     <input type = "submit" value = "Submit" class = "Submit">
 </form>
@@ -26,6 +26,9 @@
 
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>

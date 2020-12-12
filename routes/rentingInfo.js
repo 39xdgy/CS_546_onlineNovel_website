@@ -14,28 +14,24 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/test', async (req, res) => {
-    try{
-        res.status(200).render("rentingInfo/confirm");
-    } catch(e){
-        res.status(404).render("rentingInfo/create_renting", {error_flag: true, message: "test error"})
-    }
-})
-
 router.get('/find_date', async (req, res) => {
     try{
-        let tomorrow = new Date()
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        
         let car_id = req.session.car
         let user_info = await userData.getUserById(req.session.AuthCookie)
         let user_name = user_info.emailID
         //test data
         req.session.car="5fcc4716b985898448140df6";
-
+        let booked_date_arr = await rentingInfoData.getrentByCarId(req.session.car);
+        let out_arr = []
+        for(let i in booked_date_arr){
+            out_arr.push([booked_date_arr[i].startDate.toISOString().split('T')[0], booked_date_arr[i].endDate.toISOString().split('T')[0]])
+        }
+        console.log(out_arr)
         let car_info = await carData.getCarById(req.session.car)
         let car_name = car_info.brand + " " + car_info.module
-        let tomorrow_value = tomorrow.toISOString().split('T')[0]
-        res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, min_date: tomorrow_value});
+        
+        res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, booked_date_arr: out_arr});
     } catch(e){
         console.log(e)
         res.status(404).render("rentingInfo/create_renting", {error_flag: true, message: e})
@@ -73,15 +69,19 @@ router.get('/confirm/:id', async (req, res) => {
 
         let car_info = await carData.getCarById(rent_info.carId)
         let car_name = car_info.brand + " " + car_info.module
+        let car_owner = car_info.ownedBy;
 
+        if(car_owner !== req.session.AuthCookie){
+            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, is_login: false})
+        }
         
-        if(rent_info.bookingStatus === "A"){
-            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, car_owner: car_info.ownedBy, message: "You got approved"})
+        else if(rent_info.bookingStatus === "A"){
+            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, is_login: true})
         }
-        if(rent_info.bookingStatus === "R"){
-            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, car_owner: car_info.ownedBy, message: "You got rejected"})
+        else if(rent_info.bookingStatus === "R"){
+            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, is_login: true})
         }
-        else res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, car_owner: car_info.ownedBy, message: "Pending"})
+        else res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, is_login: true})
     } catch(e){
         res.status(404).json({message: "Error"})
     }
@@ -121,22 +121,6 @@ router.get('/:id', async (req, res) => {
         res.status(404).json({message: e})
     }
 })
-/*
-router.post('/', async (req, res) => {
-    let req_body = req.body;
-    //startDate, endDate, status, totalPrice, userId, carId
-    if (!req_body || !req_body.startDate || !req_body.endDate ||
-        !req_body.status || !req_body.totalPrice || !req_body.userId || !req_body.carId){
-            res.status(400).json({error: 'Missing input'});
-            return;
-        }
-    try{
-        const {startDate, endDate, status, totalPrice, userId, carId} = req_body;
-        const new_rentingInfo = await rentingInfoData.create(startDate, endDate, status, totalPrice, userId, carId)
-        res.status(200).json(new_rentingInfo);
-    } catch(e){
-        res.status(404).json({message: e});
-    }
-})*/
+
 
 module.exports = router;
