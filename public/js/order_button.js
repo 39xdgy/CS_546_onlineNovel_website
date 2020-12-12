@@ -6,14 +6,11 @@
     let booking_status = $("#message").attr('state')
     
     //let login_user = $().session.get('car')
-    //console.log(login_user)
-    /*
-    if($.session.get('AuthCookie') !== $("car_info").attr("car_owner")){
-        acc_btn.attr('disabled', true)
-        rej_btn.attr('disabled', true)
-    }
-    else */
-    if(booking_status === "PFA"){
+    console.log($("#car_info").attr("is_login"))
+    console.log($("#car_info").attr("is_login") == "true")
+    
+
+    if(booking_status === "PFA" && $("#car_info").attr("is_login") == "true"){
         acc_btn.attr('disabled', false)
         rej_btn.attr('disabled', false)
     }
@@ -21,14 +18,11 @@
         acc_btn.attr('disabled', true)
         rej_btn.attr('disabled', true)
         
-        if(booking_status === "A") document.getElementById('message').innerHTML = 'You got approved!'
-        if(booking_status === "R") document.getElementById('message').innerHTML = 'You got rejected :('
+        if(booking_status === "A") document.getElementById('message').innerHTML = 'approved'
+        if(booking_status === "R") document.getElementById('message').innerHTML = 'rejected'
         
         
     }
-
-
-
 
     acc_btn.on('click', function(event) {
         event.preventDefault();
@@ -38,7 +32,7 @@
         }
 
         $.ajax(reqConfig).then(function (resMessage) {
-            document.getElementById('message').innerHTML = 'You got approved!'
+            document.getElementById('message').innerHTML = 'approved'
             acc_btn.attr('disabled', true)
             rej_btn.attr('disabled', true)
         }) 
@@ -53,7 +47,7 @@
             url: '/rentingInfo/confirm/reject/' + $('#order_id').html().split(": ")[1]
         }
         $.ajax(reqConfig).then(function (resMessage) {
-            document.getElementById('message').innerHTML = 'You got rejected :('
+            document.getElementById('message').innerHTML = 'rejected'
             acc_btn.attr('disabled', true)
             rej_btn.attr('disabled', true)
         })
