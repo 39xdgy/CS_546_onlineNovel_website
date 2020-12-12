@@ -12,15 +12,27 @@ const { default: Axios} = require('axios');
 const { cars } = require("../config/mongoCollections");
 const { stringify } = require("querystring");
 
-router.get('/profile/:id', async(req, res)=> {
-    try{
-        const car = await carsData.getCarById(id);
-        res.render('cars/carprofile')
-    } catch(error){
-        res.status(401);
-        res.json({message:error});
+//images
+/*router.post('/cars/upload', upload.array('uploadedImages', 10), async (req, res) => {
+    var file = req.files;
+    let img;
+    let encode_image;
+    let returnArray=[];
+    let finalImg;
+    for(let arr of file){
+        img = fs.readFileSync(arr.path);
+        encode_image = img.toString('base64');
+        
+        finalImg = {
+        contentType: arr.mimetype,
+        image: Buffer.from(encode_image, 'base64')
+        }
+        returnArray.push(finalImg);
     }
-})
+save return array to db
+create a method in db to update images field
+});*/
+
 
 router.get('/createCar', async (req, res) => {
     try {
@@ -140,5 +152,16 @@ router.post('/createCar', async (req, res) => {
         res.status(400).json({ Error: error });
     }
 });
+
+router.get('/profile/:id', async(req, res)=> {
+    try{
+        const car = await carsData.getCarById(req.params.id);
+        res.render("cars/carprofile", {cars: car, carprofileFlag:true, id: car._id});
+    } catch(error){
+        res.status(401);
+        res.json({message:error});
+    }
+})
+
 
 module.exports = router;
