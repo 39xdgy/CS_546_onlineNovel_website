@@ -87,7 +87,7 @@ router.post('/createCar', async (req, res) => {
     } catch(error) {
         errorList.push("Street: " + error);
     }
-    try {
+    /*try {
         validation.validateString(newCarData.city);
     } catch(error) {
         errorList.push("City: " + error);
@@ -96,12 +96,28 @@ router.post('/createCar', async (req, res) => {
         validation.validateString(newCarData.state);
     } catch(error) {
         errorList.push("State: " + error);
+    }*/
+    try{
+        validation.validateString(newCarData.zip);
+        const { data } = await Axios.get("http://ziptasticapi.com/"+newCarData.zip);
+        if(data.error) 
+        {
+        newCarData.city="";
+        newCarData.state="";
+        throw 'Sent Parameter is invalid';
+        }
+        else{
+        newCarData.city=data.city;
+        newCarData.state=data.state;
+        }
+    }catch(error){
+        errorList.push("Zip: " + error);
     }
-    try {
+    /*try {
         validation.validateNumber(newCarData.zip);
     } catch(error) {
         errorList.push("Zip: " + error);
-    }
+    }*/
     try {
         validation.validateNumber(newCarData.price);
     } catch(error) {

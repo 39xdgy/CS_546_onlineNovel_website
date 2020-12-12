@@ -10,7 +10,7 @@
 </div>
 
 <h1>{{cars.brand}} - {{cars.model}}</h1>
-
+<h1>Price/day: {{cars.price}}</h1>
 <div>
    {{#if carprofileFlag}}
     <form id="carprofile-form-id">
@@ -71,6 +71,41 @@
         </label>
         <br>
         <br>
+        <div>
+            <h3>Pick-Up and Drop Location</h3>
+            <form id="caraddress-id">
+                <label>
+                    House No:
+                    <input type="number" name="houseNo" id="houseNoCP-id" placeholder="House No" value="{{cars.houseNo}}" required disabled>
+                </label>
+                <br>
+                <br>
+                <label>
+                    Street
+                    <input type="text" name="street" id="street-id" placeholder="Street" value="{{cars.street}}" required disabled>
+                </label>
+                <br>
+                <br>
+                <label>
+                    City
+                    <input type="text" name="city" id="city-id" placeholder="City" value="{{cars.city}}" required disabled>
+                </label>
+                <br>
+                <br>
+                <label>
+                    State
+                    <input type="text" name="state" id="state-id" placeholder="State" value="{{cars.state}}" required disabled>
+                </label>
+                <br>
+                <br>
+                <label>
+                    Zip
+                    <input type="number" name="zip" id="zip-id" placeholder="Zip" value="{{cars.zip}}" required disabled>
+                </label>
+                <br>
+                <br>
+            </form>
+        </div>
     </form>
    {{/if}}
 </div>
