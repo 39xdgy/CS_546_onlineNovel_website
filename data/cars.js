@@ -20,14 +20,13 @@ async function getAllCars() {
 }
 
 async function createCar(carObject){
-
     const newCar = {
         ownedBy : carObject.ownedBy,
         licensePlate : carObject.licensePlate,
-        brand : carObject.brand,
-        model : carObject.model,
+        brand : carObject.brand.toLowerCase(),
+        model : carObject.model.toLowerCase(),
         makeYear : carObject.makeYear,
-        type : carObject.type,
+        type : carObject.type.toLowerCase(),
         color : carObject.color,
         features : carObject.features,
         noOfPassengers : carObject.noOfPassengers,

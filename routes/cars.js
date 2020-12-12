@@ -9,15 +9,17 @@ const path = require('path');
 const upload = multer({ dest: 'public/uploads'});
 const fs = require('fs');
 const { default: Axios} = require('axios');
+const { cars } = require("../config/mongoCollections");
+const { stringify } = require("querystring");
 
-router.get('/carProfile/:id', async (req, res) => {
-    const carData = await carsData.getCarById(req.params.id);
-    res.render("cars/carProfile", {
-        success: true,
-        cars: carData,
-        carprofileFlag: true,
-        id: newCar._id
-    });
+router.get('/profile/:id', async(req, res)=> {
+    try{
+        const car = await carsData.getCarById(id);
+        res.render('cars/carprofile')
+    } catch(error){
+        res.status(401);
+        res.json({message:error});
+    }
 })
 
 router.get('/createCar', async (req, res) => {
@@ -105,12 +107,11 @@ router.post('/createCar', async (req, res) => {
     } catch(error) {
         errorList.push("Price: " + error);
     }
-//Validation Ends
+//Validation Ends   
 
     try {
         const newCar = await carsData.createCar(newCarData);
-        //req.session.AuthCookie = newCar._id;
-        res.render("cars/carProfile", {
+        res.render("cars/carprofile", {
             success: true,
             cars: newCar,
             carprofileFlag: true,

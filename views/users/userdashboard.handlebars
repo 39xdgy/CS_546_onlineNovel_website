@@ -7,6 +7,7 @@
      <a href="/users/saved" id="saved-id">Saved Cars</a>
      <a href="/users/profile" id="profile-id">Profile</a>
        <a href="/users/editUser" id="edit-id">Edit Profile</a>
+        <a href="/cars/createCar" id="car-id">Post Your Car</a>
     <a href="/users/logout" id="logout-id">Logout</a>
     </div>
 
@@ -34,7 +35,7 @@
   <tbody>
      {{#each cars}} 
     <tr>
-      <td><a href="">Car Details</a></td>
+      <td><a href="/cars/carProfile/{{carId}}">Car Details</a></td>
       <td>{{brand}}</td>
       <td>{{model}}</td>
       <td>{{type}}</td>
@@ -47,7 +48,7 @@
       {{/if}}
       <td>{{totalPrice}}</td>
        {{#if review}}
-       <td><a href="">Post Review</a></td>
+       <td><a href="/reviews/postReview/{{_id}}">Post Review</a></td>
        {{else}}
        <td>Posted or Not Required</td>
        {{/if}}
@@ -74,7 +75,7 @@
   </thead>
   <tbody>
     <tr>
-        <td><a href="">Car Details</a></td>
+        <td><a href="/cars/profile/{{cars.carId}}">Car Details</a></td>
       <td>{{cars.brand}}</td>
       <td>{{cars.model}}</td>
       <td>{{cars.type}}</td>
@@ -111,7 +112,7 @@
   <tbody>
      {{#each cars}} 
     <tr>
-      <td><a href="">Car Details</a></td>
+      <td><a href="/cars/profile/{{_id}}">Car Details</a></td>
       <td>{{brand}}</td>
       <td>{{model}}</td>
       <td>{{type}}</td>
@@ -147,7 +148,7 @@
   <tbody>
      {{#each cars}} 
     <tr>
-      <td><a href="">Car Details</a></td>
+      <td><a href="/cars/profile/{{carId}}">Car Details</a></td>
       <td>{{brand}}</td>
       <td>{{model}}</td>
       <td>{{type}}</td>
@@ -158,7 +159,7 @@
       <td>{{totalPrice}}</td>
       <td>{{currentStatus}}</td>
       {{#if pfa}}
-       <td><a href=""><a href="">Approve/Reject</a></a></td>
+       <td><a href="/rentingInfo/confirm/{{_id}}">Approve/Reject</a></a></td>
        {{else}}
        <td>Done</td>
        {{/if}}
