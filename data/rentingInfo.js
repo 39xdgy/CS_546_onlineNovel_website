@@ -92,7 +92,7 @@ async function getrentByCarId(input_id){
     obj_id = myDBfunction(input_id);
 
     const renting_db_func = await rentingInfo()
-    const rent_info = await renting_db_func.find({'carId': input_id}, {projection: {_id: 1, startDate: 1, endDate: 1}}).toArray();
+    const rent_info = await renting_db_func.find({'carId': input_id}, {projection: {_id: 0, startDate: 1, endDate: 1}}).toArray();
 
     return rent_info
 }
@@ -135,7 +135,8 @@ async function approve(input_id){
     let obj_id = myDBfunction(input_id)
     let patch_info = {
         bookingStatus: "A",
-        currentStatus: "O"
+        currentStatus: "O",
+        status: true
     }
     let output = await this.patchrentingInfo(input_id, patch_info)
     return output
