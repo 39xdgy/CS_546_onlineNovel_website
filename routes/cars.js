@@ -10,6 +10,16 @@ const upload = multer({ dest: 'public/uploads'});
 const fs = require('fs');
 const { default: Axios} = require('axios');
 
+router.get('/carProfile/:id', async (req, res) => {
+    const carData = await carsData.getCarById(req.params.id);
+    res.render("cars/carProfile", {
+        success: true,
+        cars: carData,
+        carprofileFlag: true,
+        id: newCar._id
+    });
+})
+
 router.get('/createCar', async (req, res) => {
     try {
         res.render('cars/carcreation');
