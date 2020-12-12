@@ -19,6 +19,16 @@ async function getAllCars() {
     return carList;
 }
 
+async function addCarPictures(id, carPictures) {
+    const carsCollection = await cars();
+    let parsedId = ObjectID(id);
+    let updatedCarData = {};
+    updatedCarData.images = carPictures;
+    const updateInfoCar = await carsCollection.updateOne({ _id: parsedId }, { $set: updatedCarData });
+    const updatedCar = await getCarById(id);
+    return updatedCar;
+}
+
 async function createCar(carObject){
     const newCar = {
         ownedBy : carObject.ownedBy,
