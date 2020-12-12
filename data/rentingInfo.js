@@ -3,19 +3,22 @@ const mongoCollections = require('../config/mongoCollections');
 const rentingInfo = mongoCollections.rentingInfo;
 
 
-async function create(startDate, endDate, status, totalPrice, userId, carId){
-    if (!startDate || !endDate || !status || !totalPrice || !userId || !carId) throw "Error: missing input";
+async function create(startDate, endDate, status, bookingStatus, currentStatus, totalPrice, userId, carId){
+    if (!startDate || !endDate || !bookingStatus || !currentStatus || !totalPrice || !userId || !carId) throw "Error: missing input";
     if (typeof(startDate) !== "string" || typeof(endDate) !== "string" || 
         typeof(status) !== "boolean" || typeof(totalPrice) !== "number" || 
+        typeof(bookingStatus) !== "string" || typeof(currentStatus) !== "string" ||
         typeof(userId) !== "string" || typeof(carId) !== "string") throw "Error: input format is wrong"
+    
     date_form_start = new Date(startDate)
     date_form_end = new Date(endDate)
+    /*
     if (!date_form_end || !date_form_start) throw "Error: date format is not correct";
-    arr_start = startDate.split("/")
-    arr_end = endDate.split("/")
-
+    arr_start = startDate.split("-")
+    arr_end = endDate.split("-")
     if (arr_start.length !== 3 || arr_end.length !== 3) throw "Error: date format is not correnct";
     [month, date, year] = arr_start
+    console.log(date_form_start.getFullYear(), date_form_start.getMonth(), date_form_start.getDate(), arr_start)
     if (date_form_start.getFullYear() != year || 
         date_form_start.getMonth() + 1 != month ||
         date_form_start.getDate() != date) throw "Error: startDate is not correct";
@@ -23,21 +26,19 @@ async function create(startDate, endDate, status, totalPrice, userId, carId){
     if (date_form_end.getFullYear() != year || 
         date_form_end.getMonth() + 1 != month ||
         date_form_end.getDate() != date) throw "Error: endDate is not correct";
-
-
+    */
+    //if(!validateData.validateDate(startDate) || !validateDate(endDate)) throw "Error: date is not correct"
     if (totalPrice <= 0) throw "Error: price should be bigger then 0";
-
     userId_obj = myDBfunction(userId)
     carId_obj = myDBfunction(carId)
-    
-
     const renting_db_func = await rentingInfo();
-
     
     let newRenting = {
         "startDate": date_form_start,
         "endDate": date_form_end,
         status,
+        bookingStatus,
+        currentStatus,
         totalPrice,
         userId,
         carId
@@ -46,8 +47,15 @@ async function create(startDate, endDate, status, totalPrice, userId, carId){
     if(insertInfo.insertCount === 0) throw "Error: counld not add renting info";
     const newId = insertInfo.insertedId;
     const new_rented = await getrentById(newId.toString());
-    return new_rented;
 
+    let user_db_func = await user_db()
+
+    await user_db_func.updateOne({_id: userId_obj}, {$set: {rentedCar: newId.toString()}});
+
+
+
+
+    return new_rented;
 }
 
 

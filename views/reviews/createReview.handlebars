@@ -1,0 +1,15 @@
+<h1>Write Review</h1>
+<div class="col-sm-12 col-md-4">
+    <form id="newReviewForm" method="POST" action="/reviews/submitReview">
+        <label>Rating: 
+            <input id="newRating" type="number" name="rating" required>
+            </label>
+        <label>Comments: 
+            <textarea id="newComment" name="comment"></textarea>
+        </label>
+        <input type="submit" value="Submit Review"/>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src ="../public/js/reviews.js"></script>

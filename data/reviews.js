@@ -3,6 +3,9 @@ let { ObjectID } = require("mongodb");
 const mongoCollections = require('../config/mongoCollections');
 const reviews = mongoCollections.reviews;
 
+const carInfo = require('./cars');
+const userInfo = require('./users');
+
 
 let exportedMethods = {
     async getReviewById(id) {
@@ -29,8 +32,40 @@ let exportedMethods = {
         })
         return reviewList;
     },
+
+    async getReviewsPerUser(userId){
+        id = id.toString();
+        if(!id) throw "Pass id to fetch the data";
+        if(typeof id !== 'string' || id.length === 0 || id.length !== 24) throw "The id should be an non empty string";
+
+        const reviewCollection = await reviews();
+        const review = await reviewCollection.find({'userId':userId}).toArray();
+
+        if(!reviewList) throw "No books in the system";
+        reviewList.forEach((val) => {
+            val._id = (val._id).toString();
+        })
+
+        return reviewList;
+    },
     
-    async createReview(rating, comments, lenderReply = "", dateOfReview, userId, carId) {
+    async getreviewsPerCar(carId){
+        id = id.toString();
+        if(!id) throw "Pass id to fetch the data";
+        if(typeof id !== 'string' || id.length === 0 || id.length !== 24) throw "The id should be an non empty string";
+
+        const reviewCollection = await reviews();
+        const reviewList = await reviewCollection.find({'carId': carId}).toArray();
+
+        if(!reviewList) throw "No books in the system";
+        reviewList.forEach((val) => {
+            val._id = (val._id).toString();
+        })
+
+        return reviewList;
+    },
+
+    async createReview(rating, comments, lenderReply = "", dateOfReview, userId, carId, rentId) {
         //console.log("helloaboce errors")
         if(!rating || !comments || !dateOfReview ||!userId || !carId) throw "Input not provided";
         if(typeof rating !== 'number') throw 'Rating should be number';
@@ -40,15 +75,23 @@ let exportedMethods = {
         if(typeof userId  !== 'string' || userId.length !== 24 || userId.length === 0) throw 'The userid should be an non empty string';
         if(typeof carId  !== 'string' || carId.length !== 24 || carId.length === 0) throw 'The carid should be an non empty string';
         //console.log("hello4");
-        [month, day, year] = dateOfReview.split("/");
-    
+        //[month, day, year] = dateOfReview.split("/");
+        
+        //car infor
+        const car = await carInfo.getCarById(carId);
+        //userInfo
+        const user = await userInfo.getUserById(userId);
+
+
         let newReview = {
             rating: rating,
             comments: comments,
             lendersReply: lenderReply,
             dateOfReview: dateOfReview,
             userId: userId,
-            carId: carId
+            userName: user.firstName + " " + user.lastName,
+            carId: carId,
+            carname: car.brand + " " + car.model,
         }
         //console.log("hello5")
     

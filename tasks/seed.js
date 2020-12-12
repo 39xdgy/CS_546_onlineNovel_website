@@ -904,11 +904,25 @@ async function main() {
     let car22 = await cars.createCar(newCar22);
     let car23 = await cars.createCar(newCar23);
     let car24 = await cars.createCar(newCar24);
+    
+    console.log(`${5*car3.price}`);
+    console.log(new Date("11/12/2018"))
+    let rentInfo1 = await rentingInfo.create("11/12/2018", "15/12/2018", false, "PFA", "O", 5*car3.price, (user3._id).toString(), (car3._id).toString());
+    console.log(rentInfo1);
 
+    //console.log(Date())
 
-    //let rentInfo1 = await rentingInfo.create("startdat", "end",false,  "", "");
-
-
+    //console.log("Hello2");
+    //console.log("123456789012345678901234".length)
+    /*
+    const review1 = await reviews.createReview(5, "Hello", "", Date(), (user5._id).toString(), (car3._id).toString(), (rentInfo1._id).toString());
+    console.log("hello3")
+    console.log(review1);
+    const review2 = await reviews.createReview(4, "Hello2", "", Date(), (user7._id).toString(), (car12._id).toString(), (rentInfo2).toString());
+    console.log(review2)
+    console.log(await reviews.updateReview(review2._id, "Hello im a lender"))
+    console.log(await reviews.getAllReviews())
+    */
     await db.serverConfig.close();
 
     console.log('Done!');
