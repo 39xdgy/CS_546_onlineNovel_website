@@ -4,16 +4,18 @@ const dataInfo = require("../data");
 const homeInfo = dataInfo.home;
 const usersData = dataInfo.users;
 const validation = dataInfo.validate;
+const xss = require('xss');
 
 let todayDate=new Date();
 let today=validation.formatDateInString(todayDate);
 
 router.get("/", async(req,res)=>{
     await usersData.updatePastRentedCars();
-    res.render("home/welcome");
+    res.render("home/welcome",{minDate:today});
 });
 
 router.post("/home", async(req,res)=>{
+    xss(req.body.zip);
    const carList = await homeInfo.getTopRatedCars(req.body.zip);
    if(carList.length!=0){
     if(req.session.AuthCookie)
@@ -38,6 +40,12 @@ router.get("/home", async(req,res)=>{
 });
 
 router.post("/home/search", async(req,res)=>{
+    xss(req.body.zip);
+    xss(req.body.type);
+    xss(req.body.brand);
+    xss(req.body.model);
+    xss(req.body.fromDate);
+    xss(req.body.toDate);
     
     if(!req.body.sort)
     {

@@ -1,3 +1,8 @@
+
+ <div class="topnav">
+    <a href="/home">Home</a>
+    <a href="/users/login">Login</a>
+</div>
 <h1>Profile Creation</h1>
 <div>
     <form id="usercreation-form-id" method="POST" action="/users/createUser" >
@@ -63,7 +68,7 @@
     <button type="reset">Clear Form</button>
     
 
-    <div id="diverror-id">
+    <div id="diverror-id" class="error">
     <ul id="errorlist-id">
       {{#if hasErrors}}
     {{#each errors}}

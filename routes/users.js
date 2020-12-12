@@ -9,6 +9,9 @@ const upload = multer({ dest: 'public/uploads' });
 const fs = require('fs');
 const { default: Axios } = require("axios");
 const validate = require("../data/validate");
+const xss = require('xss');
+let todayDate=new Date();
+let today=validation.formatDateInString(todayDate);
 
 
 router.post('/upload/profilepic', upload.single('profilePicture'), async (req, res) => {
@@ -33,6 +36,7 @@ router.post('/upload/profilepic', upload.single('profilePicture'), async (req, r
 }
 catch(e){
     const user = await usersData.getUserById(userId);
+    res.status(400);
     res.render("users/userProfile",{users:user,editFlag:true,id:userId,error:e});
 }
 });
@@ -62,6 +66,14 @@ router.get("/createUser", async(req,res)=>{
 });
 
 router.post("/createUser", async(req,res)=>{
+    xss(req.body.firstName);
+    xss(req.body.lastName);
+    xss(req.body.dob);
+    xss(req.body.emailID);
+    xss(req.body.password);
+    xss(req.body.confirm);
+    xss(req.body.zip);
+    xss(req.body.driverLicense);
     const newUserData = req.body;
     const errorList=[];
     let allUsers;
@@ -183,6 +195,8 @@ router.get("/login", async(req,res)=>{
 });
 
 router.post("/login", async(req,res)=>{
+    xss(req.body.emailID);
+    xss(req.body.password);
     const userData=req.body;
     try{
     validation.validateEmailId(userData.emailID);
@@ -199,7 +213,7 @@ router.post("/login", async(req,res)=>{
         //res.redirect("/users/profile");
     }
     catch(error){
-        res.status(400);
+        res.status(401);
        // res.render("users/login",{layout:null,error:true,users:userData,message:error});
         res.json({message:error});
     }
@@ -217,6 +231,7 @@ router.get("/profile", async(req,res)=>{
 });
 
 router.get("/editUser", async(req,res)=>{
+    
     let userId = req.session.AuthCookie;
     try{
         const user = await usersData.getUserById(userId);
@@ -228,6 +243,11 @@ router.get("/editUser", async(req,res)=>{
 });
 
 router.post("/editUser", async(req,res)=>{
+    xss(req.body.firstName);
+    xss(req.body.lastName);
+    xss(req.body.dob);
+    xss(req.body.zip);
+    xss(req.body.driverLicense);
     let userId = req.session.AuthCookie;
     const newUserData = req.body;
     const errorList=[];
@@ -329,7 +349,7 @@ router.post("/editUser", async(req,res)=>{
 
 router.get("/logout", async(req,res)=>{
     req.session.destroy();
-    res.render("home/home",{Message:"Search cars based on your preference"});
+    res.render("home/home",{Message:"Search cars based on your preference",minDate:today});
 })
 
 router.get("/saved", async(req,res)=>{

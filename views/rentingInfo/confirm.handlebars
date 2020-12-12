@@ -1,0 +1,17 @@
+
+<form id = "confirm_form">
+    <label rent_id = {{new_rent._id}} id = "order_id">Order Id: {{new_rent._id}}</label><br>
+    <label>From: {{new_rent.startDate}}</label><br>
+    <label>To: {{new_rent.endDate}}</label><br>
+    <label>Price: {{new_rent.totalPrice}}</label><br>
+    <label>user: {{user_name}}</label><br>
+    <label is_login = {{is_login}} id = "car_info">car: {{car_name}}</label><br>
+    <label state = {{new_rent.bookingStatus}} id = "message">Pending</label><br>
+
+    <button type = "button" id = "accept_button">Accept</button>
+    <button type = "button" id = "reject_button">Reject</button><br>
+
+</form>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="/public/js/order_button.js"></script>
