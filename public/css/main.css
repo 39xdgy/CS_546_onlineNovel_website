@@ -88,6 +88,10 @@ h2{
     float: right;
 }
 
+#car-id{
+  float: right;
+}
+
 
 #logout-id{
     float: right;
@@ -166,6 +170,11 @@ table, th, td {
 
   .message-class{
     font-size: medium;
+  }
+
+  .error{
+    color:red;
+    font-weight: bold;
   }
 
 
