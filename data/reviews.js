@@ -34,12 +34,12 @@ let exportedMethods = {
     },
 
     async getReviewsPerUser(userId){
-        id = id.toString();
-        if(!id) throw "Pass id to fetch the data";
-        if(typeof id !== 'string' || id.length === 0 || id.length !== 24) throw "The id should be an non empty string";
+        userId = userId.toString();
+        if(!userId) throw "Pass id to fetch the data";
+        if(typeof userId !== 'string' || userId.length === 0 || userId.length !== 24) throw "The id should be an non empty string";
 
         const reviewCollection = await reviews();
-        const review = await reviewCollection.find({'userId':userId}).toArray();
+        const reviewList = await reviewCollection.find({'userId':userId}).toArray();
 
         if(!reviewList) throw "No books in the system";
         reviewList.forEach((val) => {
@@ -50,9 +50,9 @@ let exportedMethods = {
     },
     
     async getreviewsPerCar(carId){
-        id = id.toString();
-        if(!id) throw "Pass id to fetch the data";
-        if(typeof id !== 'string' || id.length === 0 || id.length !== 24) throw "The id should be an non empty string";
+        carId = carId.toString();
+        if(!carId) throw "Pass id to fetch the data";
+        if(typeof carId !== 'string' || carId.length === 0 || carId.length !== 24) throw "The id should be an non empty string";
 
         const reviewCollection = await reviews();
         const reviewList = await reviewCollection.find({'carId': carId}).toArray();

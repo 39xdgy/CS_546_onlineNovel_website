@@ -905,20 +905,106 @@ async function main() {
     let car23 = await cars.createCar(newCar23);
     let car24 = await cars.createCar(newCar24);
     
-    console.log(`${5*car3.price}`);
-    console.log(new Date("11/12/2018"))
-    let rentInfo1 = await rentingInfo.create("11/12/2018", "15/12/2018", false, "PFA", "O", 5*car3.price, (user3._id).toString(), (car3._id).toString());
-    console.log(rentInfo1);
 
-    //console.log(Date())
+   
+    
+    let rentInfo1 = await rentingInfo.create("11/12/2018", "15/12/2018", false, "PFA", "O", 5*car3.price, (user16._id).toString(), (car3._id).toString());
+    let review1 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo1.userId).toString(), (rentInfo1.carId).toString(), (rentInfo1._id).toString());
+
+    let rentInfo2 = await rentingInfo.create("13/12/2018", "17/12/2018", false, "A", "C", 5*car4.price, (user18._id).toString(), (car4._id).toString());
+    let review2 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo2.userId).toString(), (rentInfo2.carId).toString(), (rentInfo2._id).toString());
+    
+    let rentInfo3 = await rentingInfo.create("13/1/2018", "17/1/2018", false, "A", "O", 5*car11.price, (user20._id).toString(), (car10._id).toString());
+    let review3 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo3.userId).toString(), (rentInfo2.carId).toString(), (rentInfo2._id).toString());
+    
+    let rentInfo4 = await rentingInfo.create("15/1/2017", "20/1/2017", false, "R", "C", 5*car7.price, (user25._id).toString(), (car7._id).toString());
+    let review4 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo4.userId).toString(), (rentInfo4.carId).toString(), (rentInfo4._id).toString());
+    
+    let rentInfo5 = await rentingInfo.create("25/2/2017", "27/2/2017", true, "R", "C", 2*car12.price, (user25._id).toString(), (car11._id).toString());
+    let review5 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo5.userId).toString(), (rentInfo5.carId).toString(), (rentInfo5._id).toString());
+    
+    let rentInfo6 = await rentingInfo.create("25/3/2017", "27/3/2017", true, "R", "C", 2*car13.price, (user25._id).toString(), (car13._id).toString());
+    let review6 = await reviews.createReview(1, "No good Car", "", Date(), (rentInfo6.userId).toString(), (rentInfo6.carId).toString(), (rentInfo6._id).toString());
+    
+    let rentInfo7 = await rentingInfo.create("25/2/2020", "27/2/2020", true, "R", "O", 2*car15.price, (user25._id).toString(), (car15._id).toString());
+    let review7 = await reviews.createReview(5, "Okay Car", "", Date(), (rentInfo7.userId).toString(), (rentInfo7.carId).toString(), (rentInfo7._id).toString());
+    
+    let rentInfo8 = await rentingInfo.create("15/5/2020", "17/5/2020", true, "A", "O", 2*car15.price, (user20._id).toString(), (car15._id).toString());
+    let review8 = await reviews.createReview(5, "Okay Car", "", Date(), (rentInfo8.userId).toString(), (rentInfo8.carId).toString(), (rentInfo8._id).toString());
+    
+    let rentInfo9 = await rentingInfo.create("15/6/2020", "17/6/2020", true, "A", "O", 2*car15.price, (user19._id).toString(), (car15._id).toString());
+    let review9 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo9.userId).toString(), (rentInfo9.carId).toString(), (rentInfo9._id).toString());
+    
+    let rentInfo10 = await rentingInfo.create("15/7/2020", "25/7/2020", true, "R", "C", 10*car15.price, (user18._id).toString(), (car15._id).toString());
+    let review10 = await reviews.createReview(4, "Good Car", "", Date(), (rentInfo10.userId).toString(), (rentInfo10.carId).toString(), (rentInfo10._id).toString());
+
+    let rentInfo11 = await rentingInfo.create("15/7/2019", "25/7/2019", true, "R", "O", 10*car12.price, (user18._id).toString(), (car12._id).toString());
+    let review11 = await reviews.createReview(2, "No good", "", Date(), (rentInfo11.userId).toString(), (rentInfo11.carId).toString(), (rentInfo11._id).toString());
+    
+    let rentInfo12 = await rentingInfo.create("15/7/2018", "25/7/2018", true, "A", "C", 10*car12.price, (user18._id).toString(), (car12._id).toString());
+    let review12 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo12.userId).toString(), (rentInfo12.carId).toString(), (rentInfo12._id).toString());
+    
+    let rentInfo13 = await rentingInfo.create("15/7/2018", "25/7/2018", true, "A", "O", 10*car16.price, (user20._id).toString(), (car14._id).toString());
+    let review13 = await reviews.createReview(3, "Good Car", "", Date(), (rentInfo13.userId).toString(), (rentInfo13.carId).toString(), (rentInfo13._id).toString());
+    
+    //-----------------------------------------------------------------------------------_________-----__----_--_----_--_-__-_-___
+    let rentInfo14 = await rentingInfo.create("15/8/2018", "24/7/2018", true, "R", "C", 9*car15.price, (user23._id).toString(), (car14._id).toString());
+    let review14 = await reviews.createReview(3, "Good Car", "", Date(), (rentInfo14.userId).toString(), (rentInfo14.carId).toString(), (rentInfo14._id).toString());
+    
+    let rentInfo15 = await rentingInfo.create("15/7/2018", "23/7/2018", false, "A", "O", 8*car20.price, (user20._id).toString(), (car14._id).toString());
+    let review15 = await reviews.createReview(2, "Not good", "", Date(), (rentInfo15.userId).toString(), (rentInfo15.carId).toString(), (rentInfo15._id).toString());
+    
+    let rentInfo16 = await rentingInfo.create("11/3/2018", "25/3/2018", true, "R", "C", 14*car11.price, (user20._id).toString(), (car11._id).toString());
+    let review16 = await reviews.createReview(3, "Good Car", "", Date(), (rentInfo16.userId).toString(), (rentInfo16.carId).toString(), (rentInfo16._id).toString());
+    
+    let rentInfo17 = await rentingInfo.create("10/7/2020", "25/7/2020", false, "PFA", "C", 15*car19.price, (user24._id).toString(), (car19._id).toString());
+    let review17 = await reviews.createReview(4, "Good Car", "", Date(), (rentInfo17.userId).toString(), (rentInfo17.carId).toString(), (rentInfo17._id).toString());
+    
+    let rentInfo18 = await rentingInfo.create("15/8/2018", "25/8/2018", true, "A", "O", 10*car12.price, (user19._id).toString(), (car12._id).toString());
+    let review18 = await reviews.createReview(1, "Bad services", "", Date(), (rentInfo18.userId).toString(), (rentInfo18.carId).toString(), (rentInfo18._id).toString());
+    
+    let rentInfo19 = await rentingInfo.create("20/7/2018", "25/7/2018", false, "R", "O", 5*car1.price, (user25._id).toString(), (car14._id).toString());
+    let review19 = await reviews.createReview(3, "Good Car", "", Date(), (rentInfo19.userId).toString(), (rentInfo19.carId).toString(), (rentInfo19._id).toString());
+    
+    let rentInfo20 = await rentingInfo.create("15/7/2019", "25/7/2019", true, "R", "C", 10*car8.price, (user20._id).toString(), (car8._id).toString());
+    let review20 = await reviews.createReview(4, "Good Car", "", Date(), (rentInfo20.userId).toString(), (rentInfo20.carId).toString(), (rentInfo20._id).toString());
+    
+    let rentInfo21 = await rentingInfo.create("1/7/2018", "25/7/2018", false, "A", "C", 25*car2.price, (user23._id).toString(), (car2._id).toString());
+    let review21 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo21.userId).toString(), (rentInfo21.carId).toString(), (rentInfo21._id).toString());
+    
+    let rentInfo22 = await rentingInfo.create("5/7/2020", "25/7/2020", true, "A", "O", 20*car1.price, (user16._id).toString(), (car1._id).toString());
+    let review22 = await reviews.createReview(3, "Good Car", "", Date(), (rentInfo22.userId).toString(), (rentInfo22.carId).toString(), (rentInfo22._id).toString());
+    
+
+    /////-------------------------__--_--_----_-_-_--_-_________-----_-_--_--_-_--_--_--_--_--_----_----_--_--_-_-
+
+    
+
+    ///--------__--_--_--_--__-__-_--_--______--_--_--_--_-_--_--_-
+
+    review1 = await reviews.updateReview((review1._id).toString(), "Thank you");
+    review9 = await reviews.updateReview((review9._id).toString(), "It my pleasure");
+    review11 = await reviews.updateReview((review11._id).toString(), "We will make it more better");
+    review19 = await reviews.updateReview((review19._id).toString(), "It my pleasure");
+    review17 = await reviews.updateReview((review17._id).toString(), "Thank you");
+    review22 = await reviews.updateReview((review22._id).toString(), "It my pleasure");
+    review15 = await reviews.updateReview((review15._id).toString(), "It my pleasure");
+    review2 = await reviews.updateReview((review2._id).toString(), "Thank you");
+    review4 = await reviews.updateReview((review4._id).toString(), "It my pleasure");
+    review14 = await reviews.updateReview((review14._id).toString(), "We will make it more better");
+
+    
+
+    console.log(review14);
+
 
     //console.log("Hello2");
     //console.log("123456789012345678901234".length)
     /*
-    const review1 = await reviews.createReview(5, "Hello", "", Date(), (user5._id).toString(), (car3._id).toString(), (rentInfo1._id).toString());
+    let review1 = await reviews.createReview(5, "Hello", "", Date(), (user5._id).toString(), (car3._id).toString(), (rentInfo1._id).toString());
     console.log("hello3")
     console.log(review1);
-    const review2 = await reviews.createReview(4, "Hello2", "", Date(), (user7._id).toString(), (car12._id).toString(), (rentInfo2).toString());
+    let review2 = await reviews.createReview(4, "Hello2", "", Date(), (user7._id).toString(), (car12._id).toString(), (rentInfo2).toString());
     console.log(review2)
     console.log(await reviews.updateReview(review2._id, "Hello im a lender"))
     console.log(await reviews.getAllReviews())
