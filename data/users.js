@@ -145,7 +145,6 @@ async function getPastRentedCars(id){
      for(let arr of pastRented.pastRentedCars){
         const rentedCar = await rentingInfoCollection.findOne({_id:ObjectID(arr)});
         const carInfo= await carCollection.findOne({_id:ObjectID(rentedCar.carId)});
-        
         rentedCar.brand = carInfo.brand;
         rentedCar.model=carInfo.model;
         rentedCar.type=carInfo.type;
