@@ -907,8 +907,6 @@ async function main() {
 
 
     //let rentInfo1 = await rentingInfo.create("startdat", "end",false,  "", "");
-
-
     await db.serverConfig.close();
 
     console.log('Done!');
