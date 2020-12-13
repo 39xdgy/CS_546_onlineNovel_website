@@ -40,10 +40,16 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/home/welcome"
     && req.originalUrl!="/"
     && req.originalUrl!="/home/search"
+<<<<<<< HEAD
+    && req.originalUrl!="/cars/createCar"
+    && req.originalUrl!="/cars/carProfile/:id"
+    && req.originalUrl!="/rentingInfo/test"
+=======
     //&& req.originalUrl!="/cars/createCar"
     //&& req.originalUrl!="/cars/profile/:id"
     //&& req.originalUrl!="/cars/carProfile/:id"
     //&& req.originalUrl!="/rentingInfo/test"
+>>>>>>> origin/development
   )
   {
     res.status(401);
