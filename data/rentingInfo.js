@@ -19,7 +19,6 @@ async function create(startDate, endDate, status, bookingStatus, currentStatus, 
     if (!date_form_end || !date_form_start) throw "Error: date format is not correct";
     arr_start = startDate.split("-")
     arr_end = endDate.split("-")
-
     if (arr_start.length !== 3 || arr_end.length !== 3) throw "Error: date format is not correnct";
     [month, date, year] = arr_start
     console.log(date_form_start.getFullYear(), date_form_start.getMonth(), date_form_start.getDate(), arr_start)
@@ -30,7 +29,6 @@ async function create(startDate, endDate, status, bookingStatus, currentStatus, 
     if (date_form_end.getFullYear() != year || 
         date_form_end.getMonth() + 1 != month ||
         date_form_end.getDate() != date) throw "Error: endDate is not correct";
-
     */
     //if(!validateData.validateDate(startDate) || !validateDate(endDate)) throw "Error: date is not correct"
     if (totalPrice <= 0) throw "Error: price should be bigger then 0";

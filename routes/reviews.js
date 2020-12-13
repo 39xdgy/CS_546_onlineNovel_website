@@ -3,8 +3,10 @@ const { reviews } = require('../config/mongoCollections');
 const router = express.Router();
 const data = require('../data');
 const reviewsData = data.reviews;
-
-
+const dataInfo = require("../data");
+const validation = dataInfo.validate;
+const rentingData = data.rentingInfo;
+/*
 router.get('/:id', async(req, res) => {
     try {
         let review = await reviewsData.getReviewById(req.params.id);
@@ -13,9 +15,9 @@ router.get('/:id', async(req, res) => {
         res.status(404).json({ error: 'Book not found' });
         return;
     }
-});
+});*/
 
-
+/*
 router.get('/', async (req, res) => {
     try {
         let reviewsList = await reviewsData.getAllReviews();
@@ -24,16 +26,31 @@ router.get('/', async (req, res) => {
         res.status(404).json({ error: 'Book not found' });
         return;
     }
+});*/
+
+router.get('/postReview/:id', async (req, res) => {
+    try {
+        let rentId = req.params.id;
+        const oneRenting = await rentingData.getrentById(rentId);
+        req.session.ids = {userId : oneRenting.userId, carId : oneRenting.carId, rentId : rentId}
+        res.render('reviews/createReview');
+    } catch (error) {
+        console.log(error);
+        res.statusCode(500).send();
+    }
 });
 
 
-router.post('/', async (req, res) => {
+router.post('/submitReview', async (req, res) => {
     var reviewPostData = req.body;
-    
+    const errorList=[];
+
     if(!reviewPostData){
-        res.status(400).json({ error: 'You must provide review data' });
+        //res.status(400).json({ error: 'You must provide review data' });
+        validation
         return;
     }
+    /*
     if(!reviewPostData.rating){
         res.status(400).json({ error: 'You must provide review rating' });
         return;
@@ -42,6 +59,21 @@ router.post('/', async (req, res) => {
         res.status(400).json({ error: 'You must provide review comment' });
         return;
     }
+    */
+
+    try {
+        validation.validateNumber(reviewPostData.rating);
+    } catch (e) {
+        errorList.push("Rating: " + error);
+    }
+
+    try {
+        validation.validateString(reviewPostData.comments);
+    } catch (e) {
+        
+    }
+
+    /*
     if(!reviewPostData.dateOfReview){
         res.status(400).json({ error: 'You must provide review date of review' });
         return;
@@ -54,32 +86,57 @@ router.post('/', async (req, res) => {
         res.status(400).json({ error: 'You must provide review car id' });
         return;
     }
+    */
     
+    //need userid and carid
+
+    if(errorList.length>0){
+        res.status(400);
+        res.render("reviews/createReview",{
+            hasErrors:true,
+            errors:errorList,
+            reviews: reviewPostData
+        });
+        return;
+    }
+
+
 
     try {
-        const  {rating, comments, dateOfReview, userId, carId} = reviewPostData;
+        const  {rating, comments} = reviewPostData;
         let lenderReply = "";
-        const newReview = await reviewsData.createReview(rating, comments, lenderReply, dateOfReview, userId, carId);
+        let userId = req.session.ids.userId;
+        let dateOfReview = Date()
+        let carId = req.session.ids.carId;
+        const newReview = await reviewsData.createReview(rating, comments, lenderReply, dateOfReview, userId, carId, rentId);
+        
+        //get the jason renting info for carid and userid
+
         //console.log(newBook);
-        res.json(newReview);
+        //res.json(newReview);
+        const perUserReviews = await reviewsData.getReviewsPerUser(userId);
+
+        res.render("reviews/userReviews", {
+            success: true,
+            reviews: newReview,
+            allReviewsFlag: true,
+            message: "Review Created Successfully",
+            id: newCar._id
+        });
     } catch (e) {
         res.status(500).json({ error: e });
     }
 });
 
 
+
+
 router.patch('/:id', async (req, res) => {
     const requestReviewData = req.body;
-    /*{
-    "lendersReply": "Hello im a lender"
-    }*/
     
     if(Object.keys(requestReviewData).length !== 0){
         try {
-            
-            //console.log(requestReviewData.lendersReply);
             const updatedReview = await reviewsData.updateReview(req.params.id, requestReviewData.lendersReply);
-            //console.log("Hello2");
             res.json(updatedReview);
         } catch (e) {
             res.status(500).json({ error: e });
@@ -89,6 +146,9 @@ router.patch('/:id', async (req, res) => {
     }
 
 });
+
+
+
 
 router.delete('/:id', async (req, res) => {
     if(!req.params.id){
