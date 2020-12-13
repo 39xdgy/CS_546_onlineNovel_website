@@ -110,12 +110,12 @@ let exportedMethods = {
         if(typeof id !== 'string' || id.length === 0) throw 'Id should be a non empty string';
         if(id.length !== 24) throw 'Not a valid ID';
         let parsedID = ObjectID(id);
-        console.log("hello0");
+        //console.log("hello0");
         
         if(!lendersReply) throw "You must provide lenders reply";
-        console.log("hello1");
+        //console.log("hello1");
         if((lendersReply).length !== 0){
-            console.log("Hello2");
+            //console.log("Hello2");
             const reviewCollection = await reviews();
             const updatedInfo = await reviewCollection.updateOne({_id: parsedID}, {$set: {lendersReply: lendersReply}});
 
