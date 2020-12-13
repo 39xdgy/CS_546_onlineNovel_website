@@ -7,6 +7,14 @@
     border: width 5;
 }
 
+.carHomePic{
+  object-fit:contain;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border-color: black;
+  border: width 5;
+}
 
 html { 
     background: url(../images/car.png) no-repeat center center fixed; 
@@ -45,7 +53,7 @@ form{
 
 
 h1{
-    color:black;
+    color:white;
     font-weight: bold;
     text-align: center;
 }
@@ -53,6 +61,9 @@ h2{
     color:home;
     font-weight: bold;
     text-align: center;
+    background:white;
+    border:2px solid #333;
+    
 }
 
 .topnav {
@@ -176,5 +187,15 @@ table, th, td {
     color:red;
     font-weight: bold;
   }
+
+label{
+  font-weight: bold;
+}
+
+button{
+  font-weight: bold;
+  color:blue;
+}
+
 
 

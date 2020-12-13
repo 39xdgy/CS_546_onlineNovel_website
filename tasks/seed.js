@@ -996,6 +996,7 @@ async function main() {
 
     
 
+<<<<<<< HEAD
     console.log(review14);
 
 
@@ -1010,6 +1011,9 @@ async function main() {
     console.log(await reviews.updateReview(review2._id, "Hello im a lender"))
     console.log(await reviews.getAllReviews())
     */
+
+    //let rentInfo1 = await rentingInfo.create("startdat", "end",false,  "", "");
+>>>>>>> 2ee8d59331bd222f9c75b70cf7a85a6092cd1634
     await db.serverConfig.close();
 
     console.log('Done!');

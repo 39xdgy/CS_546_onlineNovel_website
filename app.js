@@ -27,7 +27,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 })) 
-/*
+
 app.use("/", async(req,res,next)=>{
  
   
@@ -40,22 +40,19 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/home/welcome"
     && req.originalUrl!="/"
     && req.originalUrl!="/home/search"
-    && req.originalUrl!="/cars/createCar"
-<<<<<<< HEAD
-    && req.originalUrl!="/cars/profile/:id"
-=======
-    && req.originalUrl!="/cars/carProfile/:id"
->>>>>>> d8b428e14083de8feebea37b43120d7afad78248
-    && req.originalUrl!="/rentingInfo/test"
+    //&& req.originalUrl!="/cars/createCar"
+    //&& req.originalUrl!="/cars/profile/:id"
+    //&& req.originalUrl!="/cars/carProfile/:id"
+    //&& req.originalUrl!="/rentingInfo/test"
   )
   {
     res.status(401);
     res.redirect("/home");
   }
-  
-  //next();
+  else
+  next();
 }); 
-*/
+
 
 app.use("/users/login", async(req,res,next)=>{
   if(req.session.AuthCookie)  

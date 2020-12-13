@@ -80,6 +80,7 @@
   {{#each cars}}
   <div class="column">
     <div class="card">
+       <img src="/home/carImage/{{_id}}" onerror="this.src='/public/images/car_no_image.jpg'" alt="Car Picture" class="carHomePic">
       {{#if ../login}}
       <h3><a href="/cars/profile/{{_id}}">{{brand}} {{model}}</a></h3>
       {{else}}
