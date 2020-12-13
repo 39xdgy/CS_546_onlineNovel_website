@@ -3,6 +3,7 @@ const router = express.Router();
 const dataInfo = require("../data");
 const homeInfo = dataInfo.home;
 const usersData = dataInfo.users;
+const carsData = dataInfo.cars;
 const validation = dataInfo.validate;
 const xss = require('xss');
 
@@ -11,7 +12,7 @@ let today=validation.formatDateInString(todayDate);
 
 router.get("/", async(req,res)=>{
     await usersData.updatePastRentedCars();
-    res.render("home/welcome",{minDate:today});
+    res.status(200).render("home/welcome",{minDate:today});
 });
 
 router.post("/home", async(req,res)=>{
@@ -19,9 +20,9 @@ router.post("/home", async(req,res)=>{
    const carList = await homeInfo.getTopRatedCars(req.body.zip);
    if(carList.length!=0){
     if(req.session.AuthCookie)
-   res.render("home/home",{cars:carList,availFlag:true,login:true,minDate:today,sortFlag:true});
+    res.status(200).render("home/home",{cars:carList,availFlag:true,login:true,minDate:today,sortFlag:true});
    else 
-   res.render("home/home",{cars:carList,availFlag:true,minDate:today,sortFlag:true});
+   res.status(200).render("home/home",{cars:carList,availFlag:true,minDate:today,sortFlag:true});
    }
    else{
     if(req.session.AuthCookie)
@@ -86,5 +87,24 @@ router.post("/home/search", async(req,res)=>{
     }
     
 });
+
+router.get("/carImage/:id", async(req,res)=>{
+    try{
+        const getCar = await carsData.getCarById(req.params.id);    
+        if(getCar.images == ""){
+            const carPicData = getCar.images[0];
+          return res.status(400).send({
+            message: 'No Profile Pic Found!'
+         })
+        } else {
+          res.contentType('image/jpeg');
+          res.send(carPicData.image.buffer);
+        }
+        return;
+    }
+    catch(e){
+        res.status(500).send();
+    }
+})
 
 module.exports=router;

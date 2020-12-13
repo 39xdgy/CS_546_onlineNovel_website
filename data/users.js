@@ -273,6 +273,83 @@ async function getAllOrders(userId){
     return returnArray;
 }
 
+//Use this function for replacing the whole column with new sent parameter
+async function updatePostedArray(id,postedArray){
+    let parsedId=ObjectID(id);
+    const updatedUser =
+    {
+        postedCars : postedArray
+    };
+    const userCollection = await usersColl();
+    const updatedInfo = await userCollection.updateOne({_id:parsedId},{ $set: updatedUser});
+}
+
+async function updatePastRentedArray(id,pastRentedArray){
+    let parsedId=ObjectID(id);
+    const updatedUser =
+    {
+        pastRentedCars : pastRentedArray
+    };
+    const userCollection = await usersColl();
+    const updatedInfo = await userCollection.updateOne({_id:parsedId},{ $set: updatedUser});
+}
+
+async function updateSavedCarsArray(id,savedCarsArray){
+    let parsedId=ObjectID(id);
+    const updatedUser =
+    {
+        savedCars : savedCarsArray
+    };
+    const userCollection = await usersColl();
+    const updatedInfo = await userCollection.updateOne({_id:parsedId},{ $set: updatedUser});
+}
+
+async function updateReviewsArray(id,reviewsArray){
+    let parsedId=ObjectID(id);
+    const updatedUser =
+    {
+        reviews : reviewsArray
+    };
+    const userCollection = await usersColl();
+    const updatedInfo = await userCollection.updateOne({_id:parsedId},{ $set: updatedUser});
+}
+
+async function updateRented(id,rentedCarVar){
+    let parsedId=ObjectID(id);
+    const updatedUser =
+    {
+        rentedCar : rentedCarVar
+    };
+    const userCollection = await usersColl();
+    const updatedInfo = await userCollection.updateOne({_id:parsedId},{ $set: updatedUser});
+}
+
+//Use these functions for pushing single variable to the Array
+async function updatePastRentedPatch(id,pastRentedCarVar){
+    let parsedId=ObjectID(id);
+    const userCollection = await usersColl();
+    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $push: { pastRentedCars: pastRentedCarVar }});
+}
+
+
+async function updatePostedCarPatch(id,postedCarVar){
+    let parsedId=ObjectID(id);
+    const userCollection = await usersColl();
+    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $push: { postedCars: postedCarVar }});
+}
+
+async function updateSavedCarPatch(id,savedCarVar){
+    let parsedId=ObjectID(id);
+    const userCollection = await usersColl();
+    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $push: { savedCars: savedCarVar }});
+}
+
+async function updateReviewPatch(id,reviewVar){
+    let parsedId=ObjectID(id);
+    const userCollection = await usersColl();
+    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $push: { reviews: reviewVar }});
+}
+
 module.exports={
     login,
     createUser,
@@ -285,5 +362,14 @@ module.exports={
     getSavedCars,
     getPostedCars,
     updatePastRentedCars,
-    getAllOrders
+    getAllOrders,
+    updatePastRentedArray,
+    updatePastRentedPatch,
+    updateSavedCarPatch,
+    updateSavedCarsArray,
+    updateRented,
+    updateReviewPatch,
+    updateReviewsArray,
+    updatePostedArray,
+    updatePostedCarPatch
 }

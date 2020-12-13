@@ -905,9 +905,29 @@ async function main() {
     let car23 = await cars.createCar(newCar23);
     let car24 = await cars.createCar(newCar24);
 
+    await users.updatePostedArray((user1._id).toString(),[(car1._id).toString()]);
+    await users.updatePostedCarPatch((user1._id).toString(),(car2._id).toString());
+
+    await users.updateSavedCarsArray((user1._id).toString(),[(car3._id).toString(),(car4._id).toString()]);
+    await users.updateSavedCarPatch((user1._id).toString(),(car5._id).toString());
 
     //let rentInfo1 = await rentingInfo.create("startdat", "end",false,  "", "");
 
+    let rentInfo1 = await rentingInfo.create("12/11/2018", "12/15/2018", false, "R", "C", 5*car3.price, (user1._id).toString(), (car3._id).toString());
+    let rentInfo2 = await rentingInfo.create("12/13/2018", "12/17/2018", true, "A", "C", 5*car4.price, (user1._id).toString(), (car4._id).toString());
+    let rentInfo3 = await rentingInfo.create("12/20/2018", "12/25/2018", true, "A", "C", 5*car4.price, (user1._id).toString(), (car4._id).toString());
+    let rentInfo4 = await rentingInfo.create("12/20/2020", "12/25/2020", false, "A", "O", 5*car4.price, (user1._id).toString(), (car4._id).toString());
+    
+    await users.updatePastRentedArray((user1._id).toString(),[(rentInfo1._id).toString(),(rentInfo2._id).toString()]);
+    await users.updatePastRentedPatch((user1._id).toString(),(rentInfo3._id).toString());
+    await users.updateRented((user1._id).toString(),(rentInfo4._id).toString());
+
+
+    let review1 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo2.userId).toString(), (rentInfo2.carId).toString(), (rentInfo2._id).toString());
+    let review2 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo1.userId).toString(), (rentInfo1.carId).toString(), (rentInfo1._id).toString());
+   
+    await users.updateReviewsArray((user1._id).toString(),[(review1._id).toString()]);
+    await users.updateReviewPatch((user1._id).toString(),(review2._id).toString());
 
     await db.serverConfig.close();
 
