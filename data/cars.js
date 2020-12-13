@@ -32,6 +32,12 @@ async function addCarPictures(id, carPictures) {
 
 
 async function createCar(carObject){
+    /*if (userId === undefined) {
+        userId=carObject.ownedBy;
+    }
+    userId = userId.toString();
+    console.log(userId);*/
+
     const newCar = {
         ownedBy : carObject.ownedBy,
         licensePlate : carObject.licensePlate,
