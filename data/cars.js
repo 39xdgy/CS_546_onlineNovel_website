@@ -1,5 +1,6 @@
 const mongoCollections = require('../config/mongoCollections');
 const cars = mongoCollections.cars;
+const users = mongoCollections.users;
 const {ObjectID} = require("mongodb"); 
 const validate = require("./validate");
 
@@ -29,7 +30,14 @@ async function addCarPictures(id, carPictures) {
     return updatedCar;
 }
 
+
 async function createCar(carObject){
+    /*if (userId === undefined) {
+        userId=carObject.ownedBy;
+    }
+    userId = userId.toString();
+    console.log(userId);*/
+
     const newCar = {
         ownedBy : carObject.ownedBy,
         licensePlate : carObject.licensePlate,
@@ -56,9 +64,20 @@ async function createCar(carObject){
 
     const carsCollections = await cars();
     const insertedInfo = await carsCollections.insertOne(newCar);
+    const usersCollection = await users();
+    const addedNewCar = await getCarById(insertedInfo.insertedId.toString());
+    //const user = await usersCollection.getUserById(ownedBy);
+    let parsedId = ObjectID(carObject.ownedBy);
+    const updateInfo = await usersCollection.updateOne(
+        {_id: parsedId},
+        {$addToSet: {postedCars: insertedInfo.insertedId.toString()}}
+    );
+    
+    if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw 'Update in user posted car failed';
+
     if(insertedInfo.insertedCount===0) throw `New User cannot be added`;
 
-    const addedNewCar = await getCarById(insertedInfo.insertedId.toString());
+    //const addedNewCar = await getCarById(insertedInfo.insertedId.toString());
     return addedNewCar;
 }
 
