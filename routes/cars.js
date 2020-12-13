@@ -3,6 +3,7 @@ const data = require("../data");
 const router = express.Router();
 const dataInfo = require('../data');
 const carsData = dataInfo.cars;
+const usersData = dataInfo.users;
 const validation = dataInfo.validate;
 const multer = require('multer');
 const path = require('path');
@@ -47,6 +48,9 @@ router.post('/createCar', async (req, res) => {
     const newCarData = req.body;
     const errorList = [];
     let allCars;
+    let userId = req.session.AuthCookie;
+    if (userId !== undefined)
+        newCarData.ownedBy = userId;
     try {
         allCars = await carsData.getAllCars();
     } catch(error) {
@@ -139,9 +143,12 @@ router.post('/createCar', async (req, res) => {
 
     try {
         const newCar = await carsData.createCar(newCarData);
+        let userId = newCar.ownedBy;
+        const user = await usersData.getUserById(userId);
         res.render("cars/carprofile", {
             success: true,
             cars: newCar,
+            user: user,
             carprofileFlag: true,
             message: "Car Created Successfully",
             id: newCar._id
@@ -156,7 +163,10 @@ router.post('/createCar', async (req, res) => {
 router.get('/profile/:id', async(req, res)=> {
     try{
         const car = await carsData.getCarById(req.params.id);
-        res.render("cars/carprofile", {cars: car, carprofileFlag:true, id: car._id});
+        let userId = car.ownedBy;
+        //console.log(userId);
+        const user = await usersData.getUserById(userId);
+        res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id});
     } catch(error){
         res.status(401);
         res.json({message:error});
