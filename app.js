@@ -41,11 +41,7 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/"
     && req.originalUrl!="/home/search"
     && req.originalUrl!="/cars/createCar"
-<<<<<<< HEAD
-    && req.originalUrl!="/cars/profile/:id"
-=======
     && req.originalUrl!="/cars/carProfile/:id"
->>>>>>> d8b428e14083de8feebea37b43120d7afad78248
     && req.originalUrl!="/rentingInfo/test"
   )
   {
