@@ -100,6 +100,8 @@ let exportedMethods = {
         if(insertedInfo.insertCount === 0) throw "Error: counld not add renting info";
         const newId = insertedInfo.insertedId;
         const new_review = await this.getReviewById(newId.toString());
+        
+
         return new_review;
     
     },
