@@ -11,7 +11,7 @@ let today=validation.formatDateInString(todayDate);
 
 router.get("/", async(req,res)=>{
     await usersData.updatePastRentedCars();
-    res.render("home/welcome",{minDate:today});
+    res.status(200).render("home/welcome",{minDate:today});
 });
 
 router.post("/home", async(req,res)=>{
@@ -19,9 +19,9 @@ router.post("/home", async(req,res)=>{
    const carList = await homeInfo.getTopRatedCars(req.body.zip);
    if(carList.length!=0){
     if(req.session.AuthCookie)
-   res.render("home/home",{cars:carList,availFlag:true,login:true,minDate:today,sortFlag:true});
+    res.status(200).render("home/home",{cars:carList,availFlag:true,login:true,minDate:today,sortFlag:true});
    else 
-   res.render("home/home",{cars:carList,availFlag:true,minDate:today,sortFlag:true});
+   res.status(200).render("home/home",{cars:carList,availFlag:true,minDate:today,sortFlag:true});
    }
    else{
     if(req.session.AuthCookie)
