@@ -9,16 +9,30 @@ const path = require('path');
 const upload = multer({ dest: 'public/uploads'});
 const fs = require('fs');
 const { default: Axios} = require('axios');
+const { cars } = require("../config/mongoCollections");
+const { stringify } = require("querystring");
 
-router.get('/carProfile/:id', async (req, res) => {
-    const carData = await carsData.getCarById(req.params.id);
-    res.render("cars/carProfile", {
-        success: true,
-        cars: carData,
-        carprofileFlag: true,
-        id: newCar._id
-    });
-})
+//images
+/*router.post('/cars/upload', upload.array('uploadedImages', 10), async (req, res) => {
+    var file = req.files;
+    let img;
+    let encode_image;
+    let returnArray=[];
+    let finalImg;
+    for(let arr of file){
+        img = fs.readFileSync(arr.path);
+        encode_image = img.toString('base64');
+        
+        finalImg = {
+        contentType: arr.mimetype,
+        image: Buffer.from(encode_image, 'base64')
+        }
+        returnArray.push(finalImg);
+    }
+save return array to db
+create a method in db to update images field
+});*/
+
 
 router.get('/createCar', async (req, res) => {
     try {
@@ -85,7 +99,7 @@ router.post('/createCar', async (req, res) => {
     } catch(error) {
         errorList.push("Street: " + error);
     }
-    try {
+    /*try {
         validation.validateString(newCarData.city);
     } catch(error) {
         errorList.push("City: " + error);
@@ -94,23 +108,38 @@ router.post('/createCar', async (req, res) => {
         validation.validateString(newCarData.state);
     } catch(error) {
         errorList.push("State: " + error);
+    }*/
+    try{
+        validation.validateString(newCarData.zip);
+        const { data } = await Axios.get("http://ziptasticapi.com/"+newCarData.zip);
+        if(data.error) 
+        {
+        newCarData.city="";
+        newCarData.state="";
+        throw 'Sent Parameter is invalid';
+        }
+        else{
+        newCarData.city=data.city;
+        newCarData.state=data.state;
+        }
+    }catch(error){
+        errorList.push("Zip: " + error);
     }
-    try {
+    /*try {
         validation.validateNumber(newCarData.zip);
     } catch(error) {
         errorList.push("Zip: " + error);
-    }
+    }*/
     try {
         validation.validateNumber(newCarData.price);
     } catch(error) {
         errorList.push("Price: " + error);
     }
-//Validation Ends
+//Validation Ends   
 
     try {
         const newCar = await carsData.createCar(newCarData);
-        //req.session.AuthCookie = newCar._id;
-        res.render("cars/carProfile", {
+        res.render("cars/carprofile", {
             success: true,
             cars: newCar,
             carprofileFlag: true,
@@ -123,5 +152,16 @@ router.post('/createCar', async (req, res) => {
         res.status(400).json({ Error: error });
     }
 });
+
+router.get('/profile/:id', async(req, res)=> {
+    try{
+        const car = await carsData.getCarById(req.params.id);
+        res.render("cars/carprofile", {cars: car, carprofileFlag:true, id: car._id});
+    } catch(error){
+        res.status(401);
+        res.json({message:error});
+    }
+})
+
 
 module.exports = router;

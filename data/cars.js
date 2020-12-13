@@ -19,15 +19,24 @@ async function getAllCars() {
     return carList;
 }
 
-async function createCar(carObject){
+async function addCarPictures(id, carPictures) {
+    const carsCollection = await cars();
+    let parsedId = ObjectID(id);
+    let updatedCarData = {};
+    updatedCarData.images = carPictures;
+    const updateInfoCar = await carsCollection.updateOne({ _id: parsedId }, { $set: updatedCarData });
+    const updatedCar = await getCarById(id);
+    return updatedCar;
+}
 
+async function createCar(carObject){
     const newCar = {
         ownedBy : carObject.ownedBy,
         licensePlate : carObject.licensePlate,
-        brand : carObject.brand,
-        model : carObject.model,
+        brand : carObject.brand.toLowerCase(),
+        model : carObject.model.toLowerCase(),
         makeYear : carObject.makeYear,
-        type : carObject.type,
+        type : carObject.type.toLowerCase(),
         color : carObject.color,
         features : carObject.features,
         noOfPassengers : carObject.noOfPassengers,
