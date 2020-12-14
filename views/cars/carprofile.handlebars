@@ -15,7 +15,7 @@
 <h1>Price/day: {{cars.price}}</h1>
 <div>
    {{#if carprofileFlag}}
-    <form id="carprofile-form-id" method="POST" action="/rentingInfo/find_date">
+    <form id="carprofile-form-id">
         <!-- <img> -->
         <br>
         <br>
@@ -107,7 +107,8 @@
                 <br>
                 <br>
             </form>
-            <button type="submit">Book</button>
+            <a href="/rentingInfo/find_date/{{cars._id}}">Book</a>
+            <a href="/">Save</a>
         </div>
     </form>
    {{/if}}

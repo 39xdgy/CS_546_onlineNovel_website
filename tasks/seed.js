@@ -408,7 +408,7 @@ async function main() {
         street : "John F Kennedy Blvd",
         city : "Jersey City",
         state : "NJ",
-        zip : 07306,
+        zip : "07306",
         price : 6.11,
     }
 
@@ -428,7 +428,7 @@ async function main() {
         street : "1St St",
         city : "Jersey City",
         state : "NJ",
-        zip : 07306,
+        zip : "07306",
         price : 25,
     }
 
@@ -448,7 +448,7 @@ async function main() {
         street : "Mall Drive West",
         city : "Jersey City",
         state : "NJ",
-        zip : 0730,
+        zip : "0730",
         price : 30,
     }
 
@@ -468,7 +468,7 @@ async function main() {
         street : "Montgomery Street",
         city : "Jersey City",
         state : "NJ",
-        zip : 07032,
+        zip : "07032",
         price : 32,
     }
 
@@ -488,7 +488,7 @@ async function main() {
         street : "John F Kennedy Blvd",
         city : "Jersey City",
         state : "NJ",
-        zip : 07307,
+        zip : "07307",
         price : 61,
     }
 
@@ -508,7 +508,7 @@ async function main() {
         street : "Washington St",
         city : "Hoboken",
         state : "NJ",
-        zip : 07037,
+        zip : "07037",
         price : 61,
     }
 
@@ -528,7 +528,7 @@ async function main() {
         street : "W Kinney St",
         city : "Newark",
         state : "NJ",
-        zip : 07103,
+        zip : "07103",
         price : 62,
     }
 
@@ -548,7 +548,7 @@ async function main() {
         street : "Central Avenue",
         city : "Jersey City",
         state : "NJ",
-        zip : 7087,
+        zip : "07087",
         price : 80,
     }
 
@@ -568,7 +568,7 @@ async function main() {
         street : "6th St",
         city : "North Bergen",
         state : "NJ",
-        zip : 07047,
+        zip : "07047",
         price : 85,
     }
 
@@ -589,7 +589,7 @@ async function main() {
         street : "Summit Ave",
         city : "Jersey City",
         state : "NJ",
-        zip : 07307,
+        zip : "07307",
         price : 78,
     }
 
@@ -610,7 +610,7 @@ async function main() {
         street : "W Kinney St",
         city : "Newark",
         state : "NJ",
-        zip : 07103,
+        zip : "07103",
         price : 68,
     }    
 
@@ -631,7 +631,7 @@ async function main() {
         street : "15th Ave",
         city : "Newark",
         state : "NJ",
-        zip : 07103,
+        zip : "07103",
         price : 65,
     }
 
@@ -651,7 +651,7 @@ async function main() {
         street : "Orange St",
         city : "Newark",
         state : "NJ",
-        zip : 07103,
+        zip : "07103",
         price : 80,
     }
 
@@ -671,7 +671,7 @@ async function main() {
         street : "Linden Ave",
         city : "Jersey City",
         state : "NJ",
-        zip : 07305,
+        zip : "07305",
         price : 80,
     }
 
@@ -691,7 +691,7 @@ async function main() {
         street : "Delmar Rd",
         city : "Jersey City",
         state : "NJ",
-        zip : 07305,
+        zip : "07305",
         price : 100,
     }
 
@@ -711,7 +711,7 @@ async function main() {
         street : "West St",
         city : "Jersey City",
         state : "NJ",
-        zip : 07306,
+        zip : "07306",
         price : 85,
     }
 
@@ -731,7 +731,7 @@ async function main() {
         street : "West St",
         city : "Jersey City",
         state : "NJ",
-        zip : 07306,
+        zip : "07306",
         price : 85,
     }
 
@@ -751,7 +751,7 @@ async function main() {
         street : "County Rd 643",
         city : "Jersey City",
         state : "NJ",
-        zip : 07306,
+        zip : "07306",
         price : 45,
     }
 
@@ -771,7 +771,7 @@ async function main() {
         street : "37th St",
         city : "Union City",
         state : "NJ",
-        zip : 7087,
+        zip : "07087",
         price : 45,
     }
 
@@ -791,7 +791,7 @@ async function main() {
         street : "Washington St",
         city : "Hoboken",
         state : "NJ",
-        zip : 07030 ,
+        zip : "07030" ,
         price : 105,
     }
 
@@ -811,7 +811,7 @@ async function main() {
         street : "Madison Ave",
         city : "Hoboken",
         state : "NJ",
-        zip : 7108,
+        zip : "07108",
         price : 80,
     }
 
@@ -831,7 +831,7 @@ async function main() {
         street : "River St",
         city : "Hoboken",
         state : "NJ",
-        zip : 07037,
+        zip : "07037",
         price : 61,
     }
 
@@ -851,7 +851,7 @@ async function main() {
         street : "Newport Pkwy",
         city : "Jersey City",
         state : "NJ",
-        zip : 07310,
+        zip : "07310",
         price : 62,
     }
 
@@ -872,7 +872,7 @@ async function main() {
         street : "Newport Pkwy",
         city : "Jersey City",
         state : "NJ",
-        zip : 07310,
+        zip : "07310",
         price : 70,
     }
 
