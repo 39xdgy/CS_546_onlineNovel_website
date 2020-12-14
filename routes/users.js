@@ -22,7 +22,7 @@ router.post('/upload/profilepic', upload.single('profilePicture'), async (req, r
   let index = str.indexOf(".");
   let extension = str.substr(index+1,str.length-1);
   if(extension.toLowerCase()!="png" && extension.toLowerCase()!="jpg" && extension.toLowerCase()!="jpeg")
-     throw "Kindly upload png or jpg file";
+     throw "Kindly upload png, jpg or jpeg file";
   let img = fs.readFileSync(req.file.path);
   let encode_image = img.toString('base64');
   
@@ -207,20 +207,16 @@ router.post("/login", async(req,res)=>{
     validation.validateEmailId(userData.emailID);
     }
     catch(error){
-        res.status(400);
-        res.render("users/login",{error:true,users:userData,message:"Email Id: " +error});
+        res.status(400).send({message:"Email Id: " + error});
         return;
     }
     try{
         const user = await usersData.login(userData.emailID, userData.password);
         req.session.AuthCookie=user._id;
         res.status(200).render("users/userProfile",{layout:null,profileFlag:true,users:user,id:user._id});
-        //res.redirect("/users/profile");
     }
     catch(error){
-        res.status(401).send();
-       // res.render("users/login",{layout:null,error:true,users:userData,message:error});
-    
+        res.status(401).send({message:error});
     }
 });
 
