@@ -1014,6 +1014,7 @@ async function main() {
     */
 
     //let rentInfo1 = await rentingInfo.create("startdat", "end",false,  "", "");
+
     /*
     let rentInfo1 = await rentingInfo.create("12/11/2018", "12/15/2018", false, "R", "C", 5*car3.price, (user1._id).toString(), (car3._id).toString());
     let rentInfo2 = await rentingInfo.create("12/13/2018", "12/17/2018", true, "A", "C", 5*car4.price, (user1._id).toString(), (car4._id).toString());
@@ -1031,6 +1032,7 @@ async function main() {
     await users.updateReviewsArray((user1._id).toString(),[(review1._id).toString()]);
     await users.updateReviewPatch((user1._id).toString(),(review2._id).toString());
     */
+
     await db.serverConfig.close();
 
     console.log('Done!');
