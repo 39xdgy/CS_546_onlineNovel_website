@@ -3,7 +3,7 @@ const { validateDate } = require('./validate');
 const validateData = require("./validate");
 const rentingInfo = mongoCollections.rentingInfo;
 const user_db = mongoCollections.users;
-const user_data_func = require("./users")
+const user_data_func = require("./users");
 
 
 async function create(startDate, endDate, status, bookingStatus, currentStatus, totalPrice, userId, carId){
@@ -19,7 +19,6 @@ async function create(startDate, endDate, status, bookingStatus, currentStatus, 
     if (!date_form_end || !date_form_start) throw "Error: date format is not correct";
     arr_start = startDate.split("-")
     arr_end = endDate.split("-")
-
     if (arr_start.length !== 3 || arr_end.length !== 3) throw "Error: date format is not correnct";
     [month, date, year] = arr_start
     console.log(date_form_start.getFullYear(), date_form_start.getMonth(), date_form_start.getDate(), arr_start)
@@ -30,7 +29,6 @@ async function create(startDate, endDate, status, bookingStatus, currentStatus, 
     if (date_form_end.getFullYear() != year || 
         date_form_end.getMonth() + 1 != month ||
         date_form_end.getDate() != date) throw "Error: endDate is not correct";
-
     */
     //if(!validateData.validateDate(startDate) || !validateDate(endDate)) throw "Error: date is not correct"
     if (totalPrice <= 0) throw "Error: price should be bigger then 0";
@@ -55,12 +53,21 @@ async function create(startDate, endDate, status, bookingStatus, currentStatus, 
 
     let user_db_func = await user_db()
 
-    await user_db_func.updateOne({_id: userId_obj}, {$set: {rentedCar: newId.toString()}});
+    let user_info = await user_data_func.getUserById(userId);
 
+    if(bookingStatus === "C"){
+        let past_list = user_info.pastRentedCars
+        past_list.push(newId.toString())
+        await user_db_func.updateOne({_id: userId_obj}, {$set: {pastRentedCars: past_list}});
+        return new_rented
+    }
 
-
-
-    return new_rented;
+    if(user_info.rentedCar === "") {
+        await user_db_func.updateOne({_id: userId_obj}, {$set: {rentedCar: newId.toString()}});
+        return new_rented;
+    }
+    else return new_rented;
+    
 }
 
 
@@ -153,10 +160,11 @@ async function reject(input_id){
     let user_info = await user_data_func.getUserById(renting_info.userId)
     
     
-    let list_postedCars = user_info.postedCars
+    let list_postedCars = user_info.pastRentedCars
     list_postedCars.push(user_info.rentedCar)
+    console.log(list_postedCars)
     let user_patch = {
-        postedCars: list_postedCars,
+        pastRentedCars: list_postedCars,
         rentedCar: ""
     }
     let rentingInfo_patch = {

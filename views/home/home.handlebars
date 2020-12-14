@@ -16,19 +16,20 @@
     <br>
     <br>
    
+  
+    <form class="search-form" method="POST" action="/home/search">
     <label>
-    <form class="search-form" method="POST" action="/home/search"> 
     Zip Code
-    <input type="number" name="zip" placeholder="Zip Code" size="5">
+    <input type="number" name="zip" placeholder="Zip Code">
     </label>
     <label>
   
     Pickup Date
-    <input type="date" name="fromDate" id="fromDate" placeholder="From Date" min="{{minDate}}">
+    <input type="date" name="fromDate" id="fromDate" min="{{minDate}}">
     </label>
     <label>
     Drop off Date
-    <input type="date" name="toDate" id="toDate" placeholder="To Date" disabled>
+    <input type="date" name="toDate" id="toDate" disabled>
     </label>
     <label>
     Type Of Car
