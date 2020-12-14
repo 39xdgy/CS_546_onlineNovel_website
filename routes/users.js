@@ -21,7 +21,7 @@ router.post('/upload/profilepic', upload.single('profilePicture'), async (req, r
   let str = req.file.originalname;
   let index = str.indexOf(".");
   let extension = str.substr(index+1,str.length-1);
-  if(extension.toLowerCase()!="png" && extension.toLowerCase()!="jpg")
+  if(extension.toLowerCase()!="png" && extension.toLowerCase()!="jpg" && extension.toLowerCase()!="jpeg")
      throw "Kindly upload png or jpg file";
   let img = fs.readFileSync(req.file.path);
   let encode_image = img.toString('base64');

@@ -3,6 +3,7 @@ const router = express.Router();
 const dataInfo = require("../data");
 const homeInfo = dataInfo.home;
 const usersData = dataInfo.users;
+const carsData = dataInfo.cars;
 const validation = dataInfo.validate;
 const xss = require('xss');
 
@@ -86,5 +87,24 @@ router.post("/home/search", async(req,res)=>{
     }
     
 });
+
+router.get("/carImage/:id", async(req,res)=>{
+    try{
+        const getCar = await carsData.getCarById(req.params.id);    
+        if(getCar.images == ""){
+            const carPicData = getCar.images[0];
+          return res.status(400).send({
+            message: 'No Profile Pic Found!'
+         })
+        } else {
+          res.contentType('image/jpeg');
+          res.send(carPicData.image.buffer);
+        }
+        return;
+    }
+    catch(e){
+        res.status(500).send();
+    }
+})
 
 module.exports=router;
