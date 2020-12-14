@@ -107,8 +107,10 @@
                 <br>
                 <br>
             </form>
-            <a href="/rentingInfo/find_date/{{cars._id}}">Book</a>
-            <a href="/">Save</a>
+            {{#if bookFlag}}
+            <button><a href="/rentingInfo/find_date/{{cars._id}}">Book</a></button>
+            {{/if}}
+            <button><a href="/">Save</a></button>
         </div>
     </form>
    {{/if}}

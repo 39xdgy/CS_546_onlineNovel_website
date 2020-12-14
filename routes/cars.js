@@ -201,7 +201,7 @@ router.get('/profile/:id', async(req, res)=> {
         if (userId === owner)
             res.render("cars/carprofile", {cars: car, carprofileFlag:true, editFlag:true, user: user, id: car._id});
         else 
-        res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, carId: car._id});
+        res.render("cars/carprofile", {cars: car, carprofileFlag:true, bookFlag:true, user: user, carId: car._id});
     } catch(error){
         res.status(401);
         res.json({message:error});
