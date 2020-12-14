@@ -55,7 +55,7 @@ async function create(startDate, endDate, status, bookingStatus, currentStatus, 
 
     let user_info = await user_data_func.getUserById(userId);
 
-    if(bookingStatus === "C"){
+    if(currentStatus === "C"){
         let past_list = user_info.pastRentedCars
         past_list.push(newId.toString())
         await user_db_func.updateOne({_id: userId_obj}, {$set: {pastRentedCars: past_list}});

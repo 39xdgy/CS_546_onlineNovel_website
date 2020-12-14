@@ -64,13 +64,13 @@ router.post('/submitReview', async (req, res) => {
     try {
         validation.validateNumber(reviewPostData.rating);
     } catch (e) {
-        errorList.push("Rating: " + error);
+        errorList.push(`Rating: ${e}`);
     }
 
     try {
         validation.validateString(reviewPostData.comments);
     } catch (e) {
-        
+        errorList.push(`comments: ${e}`);
     }
 
     /*

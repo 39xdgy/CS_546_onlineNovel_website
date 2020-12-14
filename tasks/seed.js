@@ -998,7 +998,7 @@ async function main() {
     await users.updateSavedCarsArray((user1._id).toString(),[(car3._id).toString(),(car4._id).toString()]);
     await users.updateSavedCarPatch((user1._id).toString(),(car5._id).toString());
 
-    console.log(review14);
+    
 
 
     //console.log("Hello2");
@@ -1014,7 +1014,7 @@ async function main() {
     */
 
     //let rentInfo1 = await rentingInfo.create("startdat", "end",false,  "", "");
-    /*
+    
     let rentInfo1 = await rentingInfo.create("12/11/2018", "12/15/2018", false, "R", "C", 5*car3.price, (user1._id).toString(), (car3._id).toString());
     let rentInfo2 = await rentingInfo.create("12/13/2018", "12/17/2018", true, "A", "C", 5*car4.price, (user1._id).toString(), (car4._id).toString());
     let rentInfo3 = await rentingInfo.create("12/20/2018", "12/25/2018", true, "A", "C", 5*car4.price, (user1._id).toString(), (car4._id).toString());
@@ -1027,10 +1027,10 @@ async function main() {
 
     let review1 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo2.userId).toString(), (rentInfo2.carId).toString(), (rentInfo2._id).toString());
     let review2 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo1.userId).toString(), (rentInfo1.carId).toString(), (rentInfo1._id).toString());
-   
+    
     await users.updateReviewsArray((user1._id).toString(),[(review1._id).toString()]);
     await users.updateReviewPatch((user1._id).toString(),(review2._id).toString());
-    */
+    
     await db.serverConfig.close();
 
     console.log('Done!');

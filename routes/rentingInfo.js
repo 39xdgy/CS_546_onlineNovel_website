@@ -17,21 +17,22 @@ router.get('/', async (req, res) => {
 router.get('/find_date', async (req, res) => {
     try{
         
-        let car_id = req.session.car
+        let user_id = req.session.AuthCookie
+        console.log(user_id + typeof(user_id))
         let user_info = await userData.getUserById(req.session.AuthCookie)
         let user_name = user_info.emailID
-        //test data
-        req.session.car="5fcc4716b985898448140df6";
+        //test
+        req.session.car = '5fd69741f72d5d06dcb70f9a'
         let booked_date_arr = await rentingInfoData.getrentByCarId(req.session.car);
         let out_arr = []
         for(let i in booked_date_arr){
             out_arr.push([booked_date_arr[i].startDate.toISOString().split('T')[0], booked_date_arr[i].endDate.toISOString().split('T')[0]])
         }
-        console.log(out_arr)
+        //console.log(out_arr)
         let car_info = await carData.getCarById(req.session.car)
         let car_name = car_info.brand + " " + car_info.module
-        
-        res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, booked_date_arr: out_arr});
+        let price = car_info.price
+        res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, price: price, booked_date_arr: out_arr});
     } catch(e){
         console.log(e)
         res.status(404).render("rentingInfo/create_renting", {error_flag: true, message: e})
@@ -71,17 +72,12 @@ router.get('/confirm/:id', async (req, res) => {
         let car_name = car_info.brand + " " + car_info.module
         let car_owner = car_info.ownedBy;
 
+        let link_user = `/users/customerProfile/${rent_info.userId}`
+        let link_car_owner = `/users/customerProfile/${car_owner}`
+
         if(car_owner !== req.session.AuthCookie){
-            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, is_login: false})
-        }
-        
-        else if(rent_info.bookingStatus === "A"){
-            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, is_login: true})
-        }
-        else if(rent_info.bookingStatus === "R"){
-            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, is_login: true})
-        }
-        else res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, car_name: car_name, is_login: true})
+            res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, link_user: link_user, link_car_owner: link_car_owner, car_name: car_name, is_login: false})
+        } else res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, link_user: link_user, link_car_owner: link_car_owner, car_name: car_name, is_login: true})
     } catch(e){
         res.status(404).json({message: "Error"})
     }
