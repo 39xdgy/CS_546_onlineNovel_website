@@ -998,7 +998,7 @@ async function main() {
     await users.updateSavedCarsArray((user1._id).toString(),[(car3._id).toString(),(car4._id).toString()]);
     await users.updateSavedCarPatch((user1._id).toString(),(car5._id).toString());
 
-    console.log(review14);
+    
 
 
     //console.log("Hello2");
@@ -1028,7 +1028,7 @@ async function main() {
 
     let review1 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo2.userId).toString(), (rentInfo2.carId).toString(), (rentInfo2._id).toString());
     let review2 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo1.userId).toString(), (rentInfo1.carId).toString(), (rentInfo1._id).toString());
-   
+    
     await users.updateReviewsArray((user1._id).toString(),[(review1._id).toString()]);
     await users.updateReviewPatch((user1._id).toString(),(review2._id).toString());
     */
