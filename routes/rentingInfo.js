@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/find_date', async (req, res) => {
+router.get('/find_date/:id', async (req, res) => {
     try{
         
         let user_id = req.session.AuthCookie
@@ -22,7 +22,8 @@ router.get('/find_date', async (req, res) => {
         let user_info = await userData.getUserById(req.session.AuthCookie)
         let user_name = user_info.emailID
         //test
-        req.session.car = '5fd69741f72d5d06dcb70f9a'
+        //req.session.car = '5fd69741f72d5d06dcb70f9a'
+        req.session.car = req.params.id;
         let booked_date_arr = await rentingInfoData.getrentByCarId(req.session.car);
         let out_arr = []
         for(let i in booked_date_arr){
@@ -39,7 +40,7 @@ router.get('/find_date', async (req, res) => {
     }
 })
 
-router.post('/find_date', async (req, res) => {
+router.post('/find_date/:id', async (req, res) => {
     try{
         if(!req.body || !req.body.start_date || !req.body.end_date){
             res.status(401).render('rentingInfo/create_renting', {error_flag: true, message: "Missing dates"})
@@ -48,10 +49,10 @@ router.post('/find_date', async (req, res) => {
         let endDate = req.body.end_date
         let calculate_start = new Date(startDate)
         let calculate_end = new Date(endDate)
-        let carId = req.session.car
+        let carId = req.params.id;
         let difference_in_time = calculate_end.getTime() - calculate_start.getTime()
         let difference_in_day = difference_in_time / (1000 * 3600 * 24);
-        let car_info = await carData.getCarById(req.session.car)
+        let car_info = await carData.getCarById(carId)
         let totalPrice = car_info.price * (difference_in_day + 1)
         let new_rent = await rentingInfoData.create(startDate, endDate, false,"PFA","O", totalPrice, req.session.AuthCookie, carId)
 
