@@ -2,7 +2,7 @@
 Please write review about the car facilities and the service provided by the owner.
 <div class="col-sm-12 col-md-4">
     <form id="newReviewForm" method="POST" action="/reviews/submitReview">
-        <label>Rating: 
+        <label>Overall Rating: 
             <select id="newRating" name="rating" required>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -10,7 +10,43 @@ Please write review about the car facilities and the service provided by the own
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select>
-            </label><br>
+        </label><br>
+        <label>Car Condition: 
+            <select id="newCarCondition" name="carCondition" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </label><br>
+        <label>Owner Service: 
+            <select id="newOwnerService" name="ownerService" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </label><br>
+        <label>Car Pick Ease: 
+            <select id="newCarPickUp" name="carPickUp" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </label><br>
+        <label>Owner Service: 
+            <select id="newOwnerService" name="ownerService" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </label><br>
         <label>Comments: 
             <textarea id="newComment" name="comment"></textarea>
         </label><br>

@@ -200,6 +200,7 @@ router.get('/profile/:id', async(req, res)=> {
         let owner = car.ownedBy;
         //console.log(userId);
 
+
         //const user = await usersData.getUserById(userId);
 
         carReviews = await reviewsData.getreviewsPerCar(req.params.id);
@@ -210,6 +211,13 @@ router.get('/profile/:id', async(req, res)=> {
             res.render("cars/carprofile", {cars: car, carprofileFlag:true, editFlag:true, user: user, id: car._id, reviews: carReviews});
         else 
         res.render("cars/carprofile", {cars: car, carprofileFlag:true, bookFlag:true, user: user, carId: car._id, reviews: carReviews});
+        /*
+        const user = await usersData.getUserById(userId);
+
+        carReviews = await reviewsData.getreviewsPerCar((car._id).toString());
+
+        res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id, reviews: carReviews,});
+        */
     } catch(error){
         res.status(401);
         res.json({message:error});
