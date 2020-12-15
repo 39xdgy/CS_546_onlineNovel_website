@@ -1120,9 +1120,6 @@ async function main() {
     await users.updateSavedCarsArray((user25._id).toString(),[(car7._id).toString(),(car10._id).toString()]);
 
 
-
-
-
     await db.serverConfig.close();
 
     console.log('Done!');

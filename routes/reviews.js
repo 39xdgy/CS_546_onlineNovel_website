@@ -14,6 +14,7 @@ router.get('/postReview/:id', async (req, res) => {
         let rentId = req.params.id;
         const oneRenting = await rentingData.getrentById(rentId);
         req.session.ids = {userId : oneRenting.userId, carId : oneRenting.carId, rentId : rentId}
+        const car = await carInfo.getCarById((oneRenting.carId).toString())
         res.render('reviews/createReview', {carName: car.brand + " " + car.model});
     } catch (error) {
         console.log(error);
