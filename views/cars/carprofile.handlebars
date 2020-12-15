@@ -4,12 +4,12 @@
     <a href="/users/history">Past Rented Cars</a>
     <a href="/users/posted">My Cars</a>
     <a href="/users/orders">Orders</a>
-     <a href="/users/saved" id="saved-id">Saved Cars</a>
-     <a href="/users/profile" id="profile-id">Profile</a>
-     <a href="/users/editUser" id="edit-id">Edit Profile</a>
-     <a href="/cars/createCar" id="car-id">Post Car</a>
+    <a href="/users/saved" id="saved-id">Saved Cars</a>
+    <a href="/users/profile" id="profile-id">Profile</a>
+    <a href="/users/editUser" id="edit-id">Edit Profile</a>
+    <a href="/cars/createCar" id="car-id">Post Car</a>
     <a href="/users/logout" id="logout-id">Logout</a>
-    </div>
+</div>
 
 <h1>{{cars.brand}} - {{cars.model}}</h1>
 <h1>Price/day: {{cars.price}}</h1>
@@ -107,6 +107,10 @@
                 <br>
                 <br>
             </form>
+            {{#if bookFlag}}
+            <button><a href="/rentingInfo/find_date/{{cars._id}}">Book</a></button>
+            {{/if}}
+            <button><a href="/">Save</a></button>
         </div>
         <div>
             {{#each reviews}}
@@ -124,8 +128,19 @@
     </form>
    {{/if}}
 </div>
+<div>
+    {{#if editFlag}}
+    <form action="/cars/upload/carPictures/{{cars._id}}" enctype="multipart/form-data" method="POST">
+    <h3>Update your car pictures</h3>
+   <img src="/cars/carpics/{{cars._id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
+    <br>
+    <br>
+    <input type="file" name="carPictures" accept=".png, .jpeg" class="btn" required/>
+    <input type="submit" value="Upload and Submit"/>
+    </form>
+    {{/if}}
+</div>
 
    
-
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src ="../public/js/editUser.js"></script>

@@ -34,7 +34,7 @@ async function getSearchResult(searchData){
     vmodel={ $regex: /./ };
 
     const carCollection = await carsColl();
-    const carResult=await carCollection.find({model:vmodel,brand:vbrand,type:vtype,zip:vzip}).toArray();
+    const carResult=await carCollection.find({model:vmodel,brand:vbrand,type:vtype,zip:vzip}).limit(50).toArray();
     let modifiedList = carResult.map((arr)=> {
         arr._id=arr._id.toString();
         return arr;

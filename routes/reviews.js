@@ -67,13 +67,21 @@ router.post('/submitReview', async (req, res) => {
     try {
         validation.validateNumber(Number.parseInt(reviewPostData.rating));
     } catch (e) {
+<<<<<<< HEAD
         errorList.push("Rating: " + e);
+=======
+        errorList.push(`Rating: ${e}`);
+>>>>>>> 232365ac21869e35927767ee5ff2ce8bde44636d
     }
 
     try {
         validation.validateString(reviewPostData.comment);
     } catch (e) {
+<<<<<<< HEAD
         errorList.push("Comments: " + e);
+=======
+        errorList.push(`comments: ${e}`);
+>>>>>>> 232365ac21869e35927767ee5ff2ce8bde44636d
     }
 
 

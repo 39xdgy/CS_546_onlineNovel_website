@@ -6,6 +6,7 @@
 
     let get_booked_arr = $("#start_date").attr('booked_date').split(',')
     let dateRange = [];
+
     function find_cloest_date(toDate, dateRange){
         for(let i in dateRange){
             let check_date = new Date(dateRange[i])
@@ -15,6 +16,24 @@
         }
         console.log("cannot find it")
     }
+
+    function set_price(){
+        let price = $("#price").attr("single_price"),
+            start_date = $("#start_date").val(),
+            end_date = $("#end_date").val()
+
+        start_date = new Date(start_date)
+        end_date = new Date(end_date)
+
+        let day_diff = (end_date.getTime() - start_date.getTime()) / (24*3600*1000)
+        let total = parseInt(price) * day_diff
+
+        if(total > 0) document.getElementById('price').innerHTML = `Price: ${total}`
+        else document.getElementById('price').innerHTML = `Price: 0`
+        return total
+    }
+
+
 
     $("#start_date").datepicker({
         beforeShowDay: function (date){
@@ -38,7 +57,7 @@
 
     $('#start_date').change(function(){
         
-        var toDate = $('#start_date').val();
+        let toDate = $('#start_date').val();
         $('#end_date').prop("disabled", false);
         let maxDate = find_cloest_date(new Date(toDate), dateRange)
         console.log(toDate, maxDate)
@@ -47,6 +66,29 @@
             maxDate: maxDate
         })
 
+        if($("#end_Date").val() !== "") set_price()
+
     });
+
+     
+
+    $('#end_date').change(function(){
+        let price = set_price()
+        /*
+        if(price <= 0){
+            $('#end_date').val('');
+            $('#end_date').prop("disabled", true);
+            let toDate = $('#start_date').val();
+            let maxDate = find_cloest_date(new Date(toDate), dateRange)
+            //console.log(toDate, maxDate)
+            $("#end_date").datepicker({
+                minDate: undefined,
+                maxDate: undefined
+            })
+            $.datepicker._clearDate(this);
+        }
+        */
+        
+    })
 
 })(window.jQuery);

@@ -16,7 +16,9 @@ const data = require('../data');
 const reviewsData = data.reviews;
 
 //images
-/*router.post('/cars/upload', upload.array('uploadedImages', 10), async (req, res) => {
+router.post('/upload/carPictures/:id', upload.array('carPictures', 10), async (req, res) => {
+    
+    const car = await carsData.getCarById(req.params.id);
     var file = req.files;
     let img;
     let encode_image;
@@ -32,10 +34,39 @@ const reviewsData = data.reviews;
         }
         returnArray.push(finalImg);
     }
-save return array to db
-create a method in db to update images field
-});*/
+    const user = await usersData.getUserById(req.session.AuthCookie);
+    const addingCarPictures = await carsData.addCarPictures(req.params.id, returnArray);
+    res.render("cars/carprofile", {
+        success: true,
+        cars: addingCarPictures,
+        user: user,
+        carprofileFlag: true,
+        editFlag: true,
+        message: "Car Images Posted Successfully",
+        carId: addingCarPictures._id
+    });
+//save return array to db
+//create a method in db to update images field
+});
 
+router.get('/carpics/:id', async (req, res) => {
+    try{
+    const car = await carsData.getCarById(req.params.id);
+    const carImages = car.images;
+    if(profilepicData == ""){
+      return res.status(400).send({
+        message: 'No Profile Pic Found!'
+     })
+    } else {
+      res.contentType('image/jpeg');
+      res.send(carImages.image.buffer);
+    }
+    return;
+}
+catch(e){
+    res.status(500).send();
+}
+  });
 
 router.get('/createCar', async (req, res) => {
     try {
@@ -153,7 +184,7 @@ router.post('/createCar', async (req, res) => {
             user: user,
             carprofileFlag: true,
             message: "Car Created Successfully",
-            id: newCar._id
+            carId: newCar._id
         });
     }
     catch(error) {
@@ -163,15 +194,24 @@ router.post('/createCar', async (req, res) => {
 });
 
 router.get('/profile/:id', async(req, res)=> {
+    let  userId= req.session.AuthCookie;
     try{
         const car = await carsData.getCarById(req.params.id);
-        let userId = car.ownedBy;
+        let owner = car.ownedBy;
         //console.log(userId);
+<<<<<<< HEAD
         const user = await usersData.getUserById(userId);
 
         carReviews = await reviewsData.getreviewsPerCar((car._id).toString());
 
         res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id, reviews: carReviews,});
+=======
+        const user = await usersData.getUserById(owner);
+        if (userId === owner)
+            res.render("cars/carprofile", {cars: car, carprofileFlag:true, editFlag:true, user: user, id: car._id});
+        else 
+        res.render("cars/carprofile", {cars: car, carprofileFlag:true, bookFlag:true, user: user, carId: car._id});
+>>>>>>> 232365ac21869e35927767ee5ff2ce8bde44636d
     } catch(error){
         res.status(401);
         res.json({message:error});
