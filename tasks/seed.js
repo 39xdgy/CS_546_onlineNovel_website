@@ -1121,12 +1121,6 @@ async function main() {
 
 
 
-    await users.updatePostedArray((user1._id).toString(),[(car1._id).toString()]);
-    await users.updatePostedCarPatch((user1._id).toString(),(car2._id).toString());
-
-    await users.updateSavedCarsArray((user1._id).toString(),[(car3._id).toString(),(car4._id).toString()]);
-    await users.updateSavedCarPatch((user1._id).toString(),(car5._id).toString());
-
 
 
     await db.serverConfig.close();
