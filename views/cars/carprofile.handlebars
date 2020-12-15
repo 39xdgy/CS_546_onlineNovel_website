@@ -131,7 +131,7 @@
     {{#if editFlag}}
     <form action="/cars/upload/carPictures/{{cars._id}}" enctype="multipart/form-data" method="POST">
     <h3>Update your car pictures</h3>
-   <img src="/cars/carpics/{{cars._id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
+   <img src="/cars/carpics/{{cars._id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="carPictures">
     <br>
     <br>
     <input type="file" name="carPictures" accept=".png, .jpeg" class="btn" required/>

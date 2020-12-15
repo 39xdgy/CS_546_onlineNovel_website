@@ -203,7 +203,7 @@ router.get('/profile/:id', async(req, res)=> {
 
         //const user = await usersData.getUserById(userId);
 
-        carReviews = await reviewsData.getreviewsPerCar((car._id).toString());
+        carReviews = await reviewsData.getreviewsPerCar(req.params.id);
 
         //res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id, reviews: carReviews,});
         const user = await usersData.getUserById(owner);
