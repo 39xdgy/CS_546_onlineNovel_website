@@ -1,12 +1,19 @@
-<h1>Write Review</h1>
+<h2>Write Review for {{carName}}</h2>
+Please write review about the car facilities and the service provided by the owner.
 <div class="col-sm-12 col-md-4">
     <form id="newReviewForm" method="POST" action="/reviews/submitReview">
         <label>Rating: 
-            <input id="newRating" type="number" name="rating" required>
-            </label>
+            <select id="newRating" name="rating" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            </label><br>
         <label>Comments: 
             <textarea id="newComment" name="comment"></textarea>
-        </label>
+        </label><br>
         <input type="submit" value="Submit Review"/>
     </form>
 </div>

@@ -7,6 +7,9 @@ const carInfo = require('./cars');
 const userInfo = require('./users');
 
 
+const usersCollection = mongoCollections.users;
+const carsCollection = mongoCollections.cars;
+
 let exportedMethods = {
     async getReviewById(id) {
         id = id.toString();
@@ -55,7 +58,7 @@ let exportedMethods = {
         if(typeof carId !== 'string' || carId.length === 0 || carId.length !== 24) throw "The id should be an non empty string";
 
         const reviewCollection = await reviews();
-        const reviewList = await reviewCollection.find({'carId': carId}).toArray();
+        const reviewList = await reviewCollection.find({"carId": carId}).toArray();
 
         if(!reviewList) throw "No books in the system";
         reviewList.forEach((val) => {
@@ -65,15 +68,15 @@ let exportedMethods = {
         return reviewList;
     },
 
-    async createReview(rating, comments, lenderReply = "", dateOfReview, userId, carId, rentId) {
+    async createReview(rating, comment, lenderReply, dateOfReview, userId, carId, rentId) {
         //console.log("helloaboce errors")
-        if(!rating || !comments || !dateOfReview ||!userId || !carId) throw "Input not provided";
+        if(!rating || !comment || !dateOfReview ||!userId || !carId) throw "Input not provided";
         if(typeof rating !== 'number') throw 'Rating should be number';
-        if(typeof comments  !== 'string' || comments.length === 0) throw 'The comments should be an non empty string';
-        if(typeof lenderReply  !== 'string') throw 'The rating should be a string';
-        if(typeof dateOfReview  !== 'string') throw 'The date of review should be string';
-        if(typeof userId  !== 'string' || userId.length !== 24 || userId.length === 0) throw 'The userid should be an non empty string';
-        if(typeof carId  !== 'string' || carId.length !== 24 || carId.length === 0) throw 'The carid should be an non empty string';
+        if(typeof comment  !== 'string' || comment.length === 0) throw 'The comments should be an non empty string';
+        //if(typeof lenderReply  !== 'string') throw 'The rating should be a string';
+        //if(typeof dateOfReview  !== 'string') throw 'The date of review should be string';
+        //if(typeof userId  !== 'string' || userId.length !== 24 || userId.length === 0) throw 'The userid should be an non empty string';
+        //if(typeof carId  !== 'string' || carId.length !== 24 || carId.length === 0) throw 'The carid should be an non empty string';
         //console.log("hello4");
         //[month, day, year] = dateOfReview.split("/");
         
@@ -85,13 +88,13 @@ let exportedMethods = {
 
         let newReview = {
             rating: rating,
-            comments: comments,
+            comment: comment,
             lendersReply: lenderReply,
             dateOfReview: dateOfReview,
             userId: userId,
             userName: user.firstName + " " + user.lastName,
             carId: carId,
-            carname: car.brand + " " + car.model,
+            carName: car.brand + " " + car.model,
         }
         //console.log("hello5")
     
@@ -101,6 +104,14 @@ let exportedMethods = {
         const newId = insertedInfo.insertedId;
         const new_review = await this.getReviewById(newId.toString());
         
+
+        let users = await usersCollection();
+        let userUpdate = await users.updateOne({_id:ObjectID(new_review.userId)},{ $push: { reviews: (new_review._id).toString()}});
+
+
+        let cars = await carsCollection();
+        let carUpdate = await cars.updateOne({_id:ObjectID(new_review.carId)},{ $push: { reviews: (new_review._id).toString()}});
+
 
         return new_review;
     
@@ -127,7 +138,7 @@ let exportedMethods = {
     },
 
     async removeReview(id) {
-        if(!id) throw 'Provide ID to search a book';
+        if(!id) throw 'Provide ID to search a review';
         id = id.toString();
         if(typeof id !== 'string' || id.length === 0) throw 'Id should be a non empty string';
         if(id.length !== 24) throw 'Not a valid ID';
@@ -137,7 +148,15 @@ let exportedMethods = {
     
         const reviewCollection = await reviews();
         const deleteInfo = await reviewCollection.removeOne({_id: parsedID});
-        if(deleteInfo.deletedCount === 0) throw `Could not delete book with id of ${parsedID}`;
+        if(deleteInfo.deletedCount === 0) throw `Could not delete review with id of ${parsedID}`;
+
+        let user = await usersCollection();
+        let userUpdate = await user.updateOne({_id:ObjectID(review.userId)},{ $pull: { reviews: (review._id).toString()}});
+
+
+        let car = await carsCollection();
+        let carUpdate = await user.updateOne({_id:ObjectID(review.carId)},{ $pull: { reviews: (review._id).toString()}});
+
     
         return {reviewID: id, deleted: true};   
         //return true;

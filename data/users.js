@@ -103,6 +103,47 @@ async function createUser(userObject){
     return addedNewUser;
 }
 
+async function createUserWithoutHash(userObject){
+    // hashing password @SmitaRath
+    validate.validateString(userObject.firstName);
+    if(userObject.lastName.trim()){
+        validate.validateString(userObject.lastName);
+        userObject.lastName=userObject.lastName.trim();
+    }
+    const userDob = validate.validateDate(userObject.dob);
+    validate.validateEmailId(userObject.emailID);
+    validate.validateDriverLicenseNumber(userObject.driverLicense,userObject.state);
+    validate.validateString(userObject.zip);
+    //const hash = await bcrypt.hash(userObject.password,saltRounds);
+
+    //creating new user object @SmitaRath
+    const newUser = {
+        firstName : userObject.firstName.trim(),
+        lastName : userObject.lastName,
+        dob : userDob,
+        emailID : userObject.emailID.toLowerCase(),
+        driverLicense : userObject.driverLicense.toUpperCase(),
+        profilePicture : "",
+        city : userObject.city,
+        state : userObject.state,
+        zip : userObject.zip,
+        hashedPassword : userObject.password,
+        reviews : [],
+        rentedCar : "",
+        postedCars : [],
+        pastRentedCars : [],
+        savedCars : []
+    }
+
+    const userCollections = await usersColl();
+    const insertedInfo = await userCollections.insertOne(newUser);
+    if(insertedInfo.insertedCount===0) throw `New User cannot be added`;
+
+    const addedNewUser = await getUserById(insertedInfo.insertedId.toString());
+   // addedNewUser.dob=validate.formatDateInString(addedNewUser.dob);
+    return addedNewUser;
+}
+
 //updating user
 async function updateUser(userObject,id){
     let parsedId = ObjectID(id);
@@ -353,6 +394,7 @@ async function updateReviewPatch(id,reviewVar){
 module.exports={
     login,
     createUser,
+    createUserWithoutHash,
     updateUser,
     getUserById,
     getAllUsers,

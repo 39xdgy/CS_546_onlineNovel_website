@@ -12,6 +12,8 @@ const fs = require('fs');
 const { default: Axios} = require('axios');
 const { cars } = require("../config/mongoCollections");
 const { stringify } = require("querystring");
+const data = require('../data');
+const reviewsData = data.reviews;
 
 //images
 router.post('/upload/carPictures/:id', upload.array('carPictures', 10), async (req, res) => {
@@ -197,11 +199,19 @@ router.get('/profile/:id', async(req, res)=> {
         const car = await carsData.getCarById(req.params.id);
         let owner = car.ownedBy;
         //console.log(userId);
+<<<<<<< HEAD
+        const user = await usersData.getUserById(userId);
+
+        carReviews = await reviewsData.getreviewsPerCar((car._id).toString());
+
+        res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id, reviews: carReviews,});
+=======
         const user = await usersData.getUserById(owner);
         if (userId === owner)
             res.render("cars/carprofile", {cars: car, carprofileFlag:true, editFlag:true, user: user, id: car._id});
         else 
         res.render("cars/carprofile", {cars: car, carprofileFlag:true, bookFlag:true, user: user, carId: car._id});
+>>>>>>> 232365ac21869e35927767ee5ff2ce8bde44636d
     } catch(error){
         res.status(401);
         res.json({message:error});
