@@ -12,6 +12,8 @@ const fs = require('fs');
 const { default: Axios} = require('axios');
 const { cars } = require("../config/mongoCollections");
 const { stringify } = require("querystring");
+const data = require('../data');
+const reviewsData = data.reviews;
 
 //images
 /*router.post('/cars/upload', upload.array('uploadedImages', 10), async (req, res) => {
@@ -166,7 +168,10 @@ router.get('/profile/:id', async(req, res)=> {
         let userId = car.ownedBy;
         //console.log(userId);
         const user = await usersData.getUserById(userId);
-        res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id});
+
+        carReviews = await reviewsData.getreviewsPerCar((car._id).toString());
+
+        res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id, reviews: carReviews,});
     } catch(error){
         res.status(401);
         res.json({message:error});

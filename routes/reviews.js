@@ -6,34 +6,36 @@ const reviewsData = data.reviews;
 const dataInfo = require("../data");
 const validation = dataInfo.validate;
 const rentingData = data.rentingInfo;
-/*
-router.get('/:id', async(req, res) => {
-    try {
-        let review = await reviewsData.getReviewById(req.params.id);
-        res.json(review);
-    } catch (e) {
-        res.status(404).json({ error: 'Book not found' });
-        return;
-    }
-});*/
+const carInfo = require('../data/cars')
 
-/*
-router.get('/', async (req, res) => {
-    try {
-        let reviewsList = await reviewsData.getAllReviews();
-        res.json(reviewsList);
-    } catch (e) {
-        res.status(404).json({ error: 'Book not found' });
-        return;
-    }
-});*/
 
 router.get('/postReview/:id', async (req, res) => {
     try {
         let rentId = req.params.id;
         const oneRenting = await rentingData.getrentById(rentId);
         req.session.ids = {userId : oneRenting.userId, carId : oneRenting.carId, rentId : rentId}
-        res.render('reviews/createReview');
+        res.render('reviews/createReview', {carName: car.brand + " " + car.model});
+    } catch (error) {
+        console.log(error);
+        res.statusCode(500).send();
+    }
+});
+
+
+router.get('/reply/:id', async (req, res) => {
+    //car id
+    try {
+        let rentId = req.params.id;
+        req.session.ids = {userId : oneRenting.userId, carId : oneRenting.carId, rentId : rentId}
+        let carsWithNoReply = [];
+        const carsWithReviews = await reviewsData.getreviewsPerCar(rentId);
+        for(let i = 0; i < carsWithReviews.length; i++){
+            if(carsWithReviews[i].lenderReply === ""){
+                carsWithNoReply.push(carsWithNoReply[i]);
+            }
+        }
+        
+        res.render('reviews/ownerReplies', {reviews : carsWithNoReply});
     } catch (error) {
         console.log(error);
         res.statusCode(500).send();
@@ -43,6 +45,7 @@ router.get('/postReview/:id', async (req, res) => {
 
 router.post('/submitReview', async (req, res) => {
     var reviewPostData = req.body;
+
     const errorList=[];
 
     if(!reviewPostData){
@@ -62,33 +65,17 @@ router.post('/submitReview', async (req, res) => {
     */
 
     try {
-        validation.validateNumber(reviewPostData.rating);
+        validation.validateNumber(Number.parseInt(reviewPostData.rating));
     } catch (e) {
-        errorList.push("Rating: " + error);
+        errorList.push("Rating: " + e);
     }
 
     try {
-        validation.validateString(reviewPostData.comments);
+        validation.validateString(reviewPostData.comment);
     } catch (e) {
-        
+        errorList.push("Comments: " + e);
     }
 
-    /*
-    if(!reviewPostData.dateOfReview){
-        res.status(400).json({ error: 'You must provide review date of review' });
-        return;
-    }
-    if(!reviewPostData.userId){
-        res.status(400).json({ error: 'You must provide review user id' });
-        return;
-    }
-    if(!reviewPostData.carId){
-        res.status(400).json({ error: 'You must provide review car id' });
-        return;
-    }
-    */
-    
-    //need userid and carid
 
     if(errorList.length>0){
         res.status(400);
@@ -97,31 +84,33 @@ router.post('/submitReview', async (req, res) => {
             errors:errorList,
             reviews: reviewPostData
         });
-        return;
+        
     }
 
 
 
     try {
-        const  {rating, comments} = reviewPostData;
+        let {rating, comment} = reviewPostData;
+        rating = parseInt(rating);
         let lenderReply = "";
         let userId = req.session.ids.userId;
         let dateOfReview = Date()
         let carId = req.session.ids.carId;
-        const newReview = await reviewsData.createReview(rating, comments, lenderReply, dateOfReview, userId, carId, rentId);
+        let rentId = req.session.ids.rentId;
+        const newReview = await reviewsData.createReview(rating, comment, lenderReply, dateOfReview, userId, carId, rentId);
         
-        //get the jason renting info for carid and userid
+        const car = await carInfo.getCarById(carId);
+        let isLender = false;
+        if(userId === (car.ownedBy).toString()){
+            isLender = true;
+        }
 
-        //console.log(newBook);
-        //res.json(newReview);
-        const perUserReviews = await reviewsData.getReviewsPerUser(userId);
-
+        userReviews = await reviewsData.getReviewsPerUser(userId)
         res.render("reviews/userReviews", {
             success: true,
-            reviews: newReview,
-            allReviewsFlag: true,
+            reviews: userReviews,
             message: "Review Created Successfully",
-            id: newCar._id
+            ///id: newReview._id
         });
     } catch (e) {
         res.status(500).json({ error: e });
@@ -131,13 +120,27 @@ router.post('/submitReview', async (req, res) => {
 
 
 
-router.patch('/:id', async (req, res) => {
+router.post('/reply/:id', async (req, res) => {
     const requestReviewData = req.body;
-    
+    //review id
     if(Object.keys(requestReviewData).length !== 0){
         try {
-            const updatedReview = await reviewsData.updateReview(req.params.id, requestReviewData.lendersReply);
-            res.json(updatedReview);
+            const updatedReview = await reviewsData.updateReview(req.params.id, requestReviewData.lenderReply);
+            //const updatedReview = await reviewsData.updateReview(req.params.id, "Thank you");
+            let carsWithNoReply = [];
+        const carsWithReviews = await reviewsData.getreviewsPerCar(rentId);
+        for(let i = 0; i < carsWithReviews.length; i++){
+            if(carsWithReviews[i].lenderReply === ""){
+                carsWithNoReply.push(carsWithNoReply[i]);
+            }
+        }
+        
+        res.render('reviews/ownerReplies', {
+            success: true,
+            reviews : carsWithNoReply,
+            message: "Review Created Successfully"
+        });
+
         } catch (e) {
             res.status(500).json({ error: e });
         }
@@ -150,7 +153,7 @@ router.patch('/:id', async (req, res) => {
 
 
 
-router.delete('/:id', async (req, res) => {
+router.post('/delete/:id', async (req, res) => {
     if(!req.params.id){
         res.status(400).json({ error: 'You must Supply and ID to delete' });
         return;
@@ -159,13 +162,20 @@ router.delete('/:id', async (req, res) => {
     try {
         await reviewsData.getReviewById(req.params.id);
     } catch (e) {
-        res.status(404).json({ error: 'Book not found' });
+        res.status(404).json({ error: 'Review not found' });
         return;
     }
 
     try {
         const deletedReview = await reviewsData.removeReview(req.params.id);
-        res.json(deletedReview);
+        //res.json(deletedReview);
+        userReviews = await reviewsData.getReviewsPerUser(userId)
+        res.render("reviews/userReviews", {
+            success: true,
+            reviews: userReviews,
+            message: "Review Created Successfully",
+            ///id: newReview._id
+        });
     } catch (e) {
         res.status(500).json({ error: e });
     }
