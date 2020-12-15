@@ -383,6 +383,7 @@ async function updateSavedCarPatch(id,savedCarVar){
     let parsedId=ObjectID(id);
     const userCollection = await usersColl();
     const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $push: { savedCars: savedCarVar }});
+    return updatedUserData
 }
 
 async function updateReviewPatch(id,reviewVar){
