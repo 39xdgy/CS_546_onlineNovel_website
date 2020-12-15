@@ -476,11 +476,8 @@ async function main() {
         street : "Mall Drive West",
         city : "Jersey City",
         state : "NJ",
-<<<<<<< HEAD
         zip : "07307",
-=======
         zip : "0730",
->>>>>>> 232365ac21869e35927767ee5ff2ce8bde44636d
         price : 30,
     }
     
@@ -1123,8 +1120,7 @@ async function main() {
     await users.updateSavedCarsArray((user24._id).toString(),[(car4._id).toString(),(car5._id).toString(), (car20._id).toString()]);
     await users.updateSavedCarsArray((user25._id).toString(),[(car7._id).toString(),(car10._id).toString()]);
 
-<<<<<<< HEAD
-=======
+
     await users.updatePostedArray((user1._id).toString(),[(car1._id).toString()]);
     await users.updatePostedCarPatch((user1._id).toString(),(car2._id).toString());
 
@@ -1153,7 +1149,7 @@ async function main() {
     let rentInfo2 = await rentingInfo.create("12/13/2018", "12/17/2018", true, "A", "C", 5*car4.price, (user1._id).toString(), (car4._id).toString());
     let rentInfo3 = await rentingInfo.create("12/20/2018", "12/25/2018", true, "A", "C", 5*car4.price, (user1._id).toString(), (car4._id).toString());
     let rentInfo4 = await rentingInfo.create("12/20/2020", "12/25/2020", false, "A", "O", 5*car4.price, (user1._id).toString(), (car4._id).toString());
->>>>>>> 232365ac21869e35927767ee5ff2ce8bde44636d
+
     
     //current cars
     let rentInfo23 = await rentingInfo.create("12/20/2020", "12/25/2020", false, "A", "O", 5*car4.price, (user16._id).toString(), (car4._id).toString());
@@ -1180,8 +1176,6 @@ async function main() {
     await users.updateRented((user25._id).toString(),(rentInfo32._id).toString());
 
 
-<<<<<<< HEAD
-=======
     let review1 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo2.userId).toString(), (rentInfo2.carId).toString(), (rentInfo2._id).toString());
     let review2 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo1.userId).toString(), (rentInfo1.carId).toString(), (rentInfo1._id).toString());
     
@@ -1189,7 +1183,6 @@ async function main() {
     await users.updateReviewPatch((user1._id).toString(),(review2._id).toString());
     */
 
->>>>>>> 232365ac21869e35927767ee5ff2ce8bde44636d
     await db.serverConfig.close();
 
     console.log('Done!');

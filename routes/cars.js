@@ -12,7 +12,7 @@ const fs = require('fs');
 const { default: Axios} = require('axios');
 const { cars } = require("../config/mongoCollections");
 const { stringify } = require("querystring");
-const data = require('../data');
+//const data = require('../data');
 const reviewsData = data.reviews;
 
 //images
@@ -45,21 +45,21 @@ router.post('/upload/carPictures/:id', upload.array('carPictures', 10), async (r
         message: "Car Images Posted Successfully",
         carId: addingCarPictures._id
     });
-//save return array to db
-//create a method in db to update images field
 });
 
 router.get('/carpics/:id', async (req, res) => {
     try{
     const car = await carsData.getCarById(req.params.id);
     const carImages = car.images;
-    if(profilepicData == ""){
+    if(carImages == ""){
       return res.status(400).send({
         message: 'No Profile Pic Found!'
      })
     } else {
-      res.contentType('image/jpeg');
-      res.send(carImages.image.buffer);
+        for (let arr of carImages){
+        res.contentType('image/jpeg');
+        res.send(arr.image.buffer);
+        }
     }
     return;
 }
@@ -199,19 +199,17 @@ router.get('/profile/:id', async(req, res)=> {
         const car = await carsData.getCarById(req.params.id);
         let owner = car.ownedBy;
         //console.log(userId);
-<<<<<<< HEAD
-        const user = await usersData.getUserById(userId);
+
+        //const user = await usersData.getUserById(userId);
 
         carReviews = await reviewsData.getreviewsPerCar((car._id).toString());
 
-        res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id, reviews: carReviews,});
-=======
+        //res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id, reviews: carReviews,});
         const user = await usersData.getUserById(owner);
         if (userId === owner)
-            res.render("cars/carprofile", {cars: car, carprofileFlag:true, editFlag:true, user: user, id: car._id});
+            res.render("cars/carprofile", {cars: car, carprofileFlag:true, editFlag:true, user: user, id: car._id, reviews: carReviews});
         else 
-        res.render("cars/carprofile", {cars: car, carprofileFlag:true, bookFlag:true, user: user, carId: car._id});
->>>>>>> 232365ac21869e35927767ee5ff2ce8bde44636d
+        res.render("cars/carprofile", {cars: car, carprofileFlag:true, bookFlag:true, user: user, carId: car._id, reviews: carReviews});
     } catch(error){
         res.status(401);
         res.json({message:error});

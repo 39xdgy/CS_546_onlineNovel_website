@@ -358,6 +358,18 @@ catch(e){
 }
 })
 
+/*router.post("/saveCar/:id", async(req, res)=>{
+    const carId = req.params.id;
+    try{
+        const saveCar = await usersData.updateSavedCarPatch(req.session.AuthCookie, carId);
+        const savedInfo = await usersData.getSavedCars(req.session.AuthCookie);
+        res.render("users/userdashboard", {cars:savedInfo, heading:"Saved Cars", postedsavedFlag: true});
+    } catch(e) {
+        res.status(500).send();
+    }
+});*/
+
+
 router.get("/saved", async(req,res)=>{
     try{
     const savedInfo = await usersData.getSavedCars(req.session.AuthCookie);
