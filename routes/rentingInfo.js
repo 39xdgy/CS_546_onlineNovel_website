@@ -18,7 +18,6 @@ router.get('/find_date/:id', async (req, res) => {
     try{
         
         let user_id = req.session.AuthCookie
-        console.log(user_id + typeof(user_id))
         let user_info = await userData.getUserById(req.session.AuthCookie)
         let user_name = user_info.emailID
         //test
@@ -31,7 +30,7 @@ router.get('/find_date/:id', async (req, res) => {
         }
         //console.log(out_arr)
         let car_info = await carData.getCarById(req.session.car)
-        let car_name = car_info.brand + " " + car_info.module
+        let car_name = car_info.brand + " " + car_info.model
         let price = car_info.price
         res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, price: price, booked_date_arr: out_arr});
     } catch(e){
@@ -40,7 +39,7 @@ router.get('/find_date/:id', async (req, res) => {
     }
 })
 
-router.post('/find_date/:id', async (req, res) => {
+router.post('/find_date', async (req, res) => {
     try{
         if(!req.body || !req.body.start_date || !req.body.end_date){
             res.status(401).render('rentingInfo/create_renting', {error_flag: true, message: "Missing dates"})
@@ -49,10 +48,11 @@ router.post('/find_date/:id', async (req, res) => {
         let endDate = req.body.end_date
         let calculate_start = new Date(startDate)
         let calculate_end = new Date(endDate)
-        let carId = req.params.id;
+        
+        let carId = req.session.car;
         let difference_in_time = calculate_end.getTime() - calculate_start.getTime()
         let difference_in_day = difference_in_time / (1000 * 3600 * 24);
-        let car_info = await carData.getCarById(carId)
+        let car_info = await carData.getCarById(carId.toString())
         let totalPrice = car_info.price * (difference_in_day + 1)
         let new_rent = await rentingInfoData.create(startDate, endDate, false,"PFA","O", totalPrice, req.session.AuthCookie, carId)
 
@@ -70,7 +70,7 @@ router.get('/confirm/:id', async (req, res) => {
         let user_name = user_info.emailID
 
         let car_info = await carData.getCarById(rent_info.carId)
-        let car_name = car_info.brand + " " + car_info.module
+        let car_name = car_info.brand + " " + car_info.model
         let car_owner = car_info.ownedBy;
 
         let link_user = `/users/customerProfile/${rent_info.userId}`
