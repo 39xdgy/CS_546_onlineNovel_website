@@ -57,38 +57,35 @@
 
     $('#start_date').change(function(){
         
+        document.getElementById('price').innerHTML = `Price: 0`
+        $('#end_date').val('');
+        $("#end_date").datepicker("destroy");
+
         let toDate = $('#start_date').val();
         $('#end_date').prop("disabled", false);
         let maxDate = find_cloest_date(new Date(toDate), dateRange)
-        console.log(toDate, maxDate)
+        toDate = new Date(toDate)
+        toDate.setDate(toDate.getDate() + 1)
         $("#end_date").datepicker({
-            minDate: new Date(toDate),
+            minDate: toDate,
             maxDate: maxDate
         })
-
-        if($("#end_Date").val() !== "") set_price()
-
+        
     });
 
      
 
     $('#end_date').change(function(){
         let price = set_price()
-        /*
+        
         if(price <= 0){
             $('#end_date').val('');
             $('#end_date').prop("disabled", true);
             let toDate = $('#start_date').val();
             let maxDate = find_cloest_date(new Date(toDate), dateRange)
             //console.log(toDate, maxDate)
-            $("#end_date").datepicker({
-                minDate: undefined,
-                maxDate: undefined
-            })
-            $.datepicker._clearDate(this);
+            $("#end_date").datepicker("destroy");
         }
-        */
-        
     })
 
 })(window.jQuery);

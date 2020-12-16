@@ -12,18 +12,20 @@
     </div> 
 
 
-<h1>Ranting form</h1>
+<h1>Renting form</h1>
+
 
 
 
 
 <form method = "POST" id = "renting_info_form" action="/rentingInfo/find_date/{{cars._id}}">
+<form method = "POST" action = "/rentingInfo/find_date"  id = "renting_info_form">
     
     <label id = "user_id" name = "user_id">User: {{user_id}}</label><br>
 
     <label id = "car_id" name = "car_id">Car: {{car_id}}</label><br>
 
-    <label single_price = {{price}} id = "price">Price: 0</label>
+    <label single_price = {{price}} id = "price">Price: 0</label><br>
     
     <label>startDate</label>
     <input booked_date = {{booked_date_arr}} type="text" id = "start_date" class = "date_input" name = "start_date" min = {{min_date}}><br>
