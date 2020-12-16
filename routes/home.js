@@ -106,6 +106,6 @@ router.get('/home/carImage/:id', async(req,res)=>{
     catch(e){
         res.status(500).send();
     }
-})
+});
 
 module.exports=router;

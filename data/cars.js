@@ -49,7 +49,7 @@ async function createCar(carObject){
         features : carObject.features,
         noOfPassengers : carObject.noOfPassengers,
         bootSpace : carObject.bootSpace,
-        //images : carObject.images,
+        images : "",
         houseNo : carObject.houseNo,
         street : carObject.street,
         city : carObject.city,
