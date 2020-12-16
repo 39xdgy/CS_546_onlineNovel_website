@@ -47,19 +47,19 @@ router.post('/upload/carPictures/:id', upload.array('carPictures', 10), async (r
     });
 });
 
-router.get('/carpics/:id', async (req, res) => {
+router.get('/carpics/:index', async (req, res) => {
     try{
-    const car = await carsData.getCarById(req.params.id);
+    const car = await carsData.getCarById(req.session.carImageId);
     const carImages = car.images;
     if(carImages == ""){
       return res.status(400).send({
         message: 'No Profile Pic Found!'
      })
     } else {
-        for (let arr of carImages){
+
         res.contentType('image/jpeg');
-        res.send(arr.image.buffer);
-        }
+        res.send(carImages[req.params.index].image.buffer);
+
     }
     return;
 }
@@ -206,6 +206,7 @@ router.post('/createCar', async (req, res) => {
 });
 
 router.get('/profile/:id', async(req, res)=> {
+    req.session.carImageId=req.params.id;
     let  userId= req.session.AuthCookie;
     try{
         const car = await carsData.getCarById(req.params.id);

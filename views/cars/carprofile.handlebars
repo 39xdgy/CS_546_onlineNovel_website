@@ -12,15 +12,46 @@
 </div>
 
 <h1>{{cars.brand}} - {{cars.model}}</h1>
-<h1>Price/day: {{cars.price}}</h1>
+<h2>Price/day: {{cars.price}}</h2>
 <div>
    {{#if carprofileFlag}}
+  
+        {{#if cars.images}}   
+          <div class="slide">
+
+            
+             {{#each cars.images}}
+             
+             <img src="/cars/carpics/{{@index}}" onerror="this.src='/public/images/car_no_image.jpg'" alt="Car Pictures" class="carPicture">
+              
+             {{/each}}
+        </div>
+             {{else}}
+             <img src='/public/images/car_no_image.jpg' alt="Car Picture" class="carProfileNA">
+              {{/if}}
+                  <br>
+    <br>  
+
+    <div>
+    {{#if editFlag}}
+    <form action="/cars/upload/carPictures/{{cars._id}}" enctype="multipart/form-data" method="POST">
+    <h3>Update your car pictures</h3>
+    <br>
+    <br>
+    <label>
+    <input type="file" name="carPictures" accept=".png, .jpeg" class="btn" multiple required/>
+    </label>
+    <input type="submit" value="Upload and Submit"/>
+    </form>
+    {{/if}}
+    </div>
+
+    <br>
+    <br>
+   
     <form id="carprofile-form-id">
-        <br>
-        <br>
-        <label>
-            <img src="/cars/carpics/{{cars._id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="carPictures">
-        </label>
+ 
+        <h3>Car Details</h3>
         <br>
         <br>
 
@@ -117,34 +148,42 @@
             {{/if}}
             <button><a href="/users/saveCar/{{cars._id}}">Save</a></button>
         </div>
-        <div>
+  
+
+
+   </form>
+   {{/if}}
+   </div>
+
+ 
+   
+    <div>
+            {{#if reviews}}
             {{#each reviews}}
-                <form id="view-form">
-                <label>Name: {{userName}} </label> <br>
-                <label>Rating: {{rating}} </label> <br>
-                <label>Comment: {{comment}} </label><br>
+
+
+                <form class="view-form">
+                 <img src="/users/profilepic/{{userId}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="reviewerPic">
+                <label id="username-id">{{userName}} </label>
+                <label>( {{rating}} )</label> <br> 
+                 <label>{{comment}} </label><br><br>
                 {{#if lendersReply.length}}
-                    <label>Owner Reply: {{lendersReply}}> </label><br>
+                    <label>
+                        Owner : {{lendersReply}}
+                    </label>
                 {{else}}
+               
                 {{/if}}
                 </form>
             {{/each}}
-        </div>
-    </form>
-   {{/if}}
-</div>
-<div>
-    {{#if editFlag}}
-    <form action="/cars/upload/carPictures/{{cars._id}}" enctype="multipart/form-data" method="POST">
-    <h3>Update your car pictures</h3>
-   <img src="/cars/carpics/{{cars._id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="carPictures">
-    <br>
-    <br>
-    <input type="file" name="carPictures" accept=".png, .jpeg" class="btn" required/>
-    <input type="submit" value="Upload and Submit"/>
-    </form>
-    {{/if}}
-</div>
+            {{else}}
+            <form class="view-form">
+                 <p class="message-class">Reviews not available</p>
+            </form>
+            {{/if}}
+    </div>
+
+
 
    
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>

@@ -73,8 +73,9 @@
 
     <div>
     {{#if editFlag}}
-    <h2>Update your profile picture</h2>
+ 
     <form action="/users/upload/profilepic"  enctype="multipart/form-data" method="POST"> 
+     <h3>Update your profile picture</h3>
     <img src="/users/profilepic/{{id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
     <br>
     <br>
@@ -88,11 +89,12 @@
              {{/if}}
     </form>
     
-    <br>
-    <br>
-    <h2>Update your profile details</h2>
+   
+   
     <form id="useredit-form-id" method="POST" action="/users/editUser">
-
+       <h3>Update your profile details</h3>
+        <br>
+        <br>
     <label>
         First Name *
         <input type="text" name="firstName" id="firstName-id" placeholder="First Name" value="{{users.firstName}}" required>

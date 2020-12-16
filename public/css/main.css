@@ -7,14 +7,38 @@
     border: width 5;
 }
 
-.carPictures{
+.carPicture{
   object-fit: contain;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  border-color: black;
-  border: width 5;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    border-color: black;
+    border: width 5;
 }
+
+#carprofile-form-id{
+  float:left;
+}
+
+.view-form{
+  float:right;
+  text-align:left;
+  
+}
+
+.carPicturesUpdate{
+  float:left;
+}
+
+.slide {
+  width: auto;
+  height: 500px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+
 .carHomePic{
   object-fit: contain;
   width: 200px;
@@ -23,6 +47,52 @@
   border-color: black;
   border: width 5;
 }
+
+.reviewerPic{
+  object-fit: cover;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border-color: black;
+  border: width 5;
+}
+
+#username-id{
+  text-align: center;
+}
+
+.carProfileNA{
+  object-fit: contain;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border-color: black;
+  border: width 5;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.carDashboardPic{
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border-color: black;
+  border: width 5;
+}
+
+
+
+.carDetails{
+  float:left;
+}
+
+.reviews{
+  float:right;
+}
+
 
 html { 
     background: url(../images/car.png) no-repeat center center fixed; 
@@ -61,9 +131,11 @@ form{
 
 
 h1{
-    color:white;
+    color:black;
     font-weight: bold;
     text-align: center;
+    background:white;
+    border:2px solid #333;
 }
 h2{
     color:home;
@@ -72,6 +144,14 @@ h2{
     background:white;
     border:2px solid #333;
     
+}
+h3{
+  color:home;
+  font-weight: bold;
+  text-align: center;
+  background:black;
+  border:2px solid #333;
+  color:white;
 }
 
 .topnav {
@@ -204,6 +284,12 @@ button{
   font-weight: bold;
   color:blue;
 }
+
+.homeheading{
+  font-weight: bold;
+  background-color: white;
+}
+
 
 
 
