@@ -976,7 +976,7 @@ async function main() {
 
     await users.updateSavedCarsArray((user16._id).toString(),[(car3._id).toString(),(car4._id).toString(), (car10._id).toString(), (car14._id).toString()]);
     let rentInfo2 = await rentingInfo.create("12/20/2020", "12/25/2020", true, "A", "O", 5*car4.price, (user16._id).toString(), (car4._id).toString());
-    await users.updateRented((user1._id).toString(),(rentInfo2._id).toString());
+    await users.updateRented((user16._id).toString(),(rentInfo2._id).toString());
     
     let rentInfo3 = await rentingInfo.create("12/13/2018", "12/17/2018", true, "A", "C", 5*car4.price, (user18._id).toString(), (car4._id).toString());
     let review3 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo2.userId).toString(), (rentInfo2.carId).toString(), (rentInfo2._id).toString());
