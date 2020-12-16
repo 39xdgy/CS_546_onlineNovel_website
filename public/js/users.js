@@ -4,6 +4,26 @@ let submitBtn =  document.getElementById('submit-id');
 //let editForm = $('#useredit-form-id');
 let li;
 if(createForm){
+
+    let today=new Date(new Date().setFullYear(new Date().getFullYear() - 18));
+      let maxdate = formatDateInString(today);
+    $('#dob-id').attr({ "max":maxdate});
+
+
+    function formatDateInString(argument){
+        let month = argument.getMonth() + 1;
+        let day = argument.getDate();
+        if(day<10){
+            day = 0 + "" + day;
+        }
+        if(month<10){
+            month = 0 + "" + month;
+        }
+        let year = argument.getFullYear();
+        let formatDate = `${year}-${month}-${day}`;
+        return formatDate;
+    }
+    
     
     createForm.addEventListener('submit',(event) =>{
         $('ul').empty();

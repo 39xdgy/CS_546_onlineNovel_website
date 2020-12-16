@@ -358,13 +358,15 @@ catch(e){
 }
 })
 
-router.post("/saveCar/:id", async(req, res)=>{
+router.get("/saveCar/:id", async(req, res)=>{
     const carId = req.params.id;
     try{
         const saveCar = await usersData.updateSavedCarPatch(req.session.AuthCookie, carId);
-        const savedInfo = await usersData.getSavedCars(req.session.AuthCookie);
-        res.render("users/userdashboard", {cars:savedInfo, heading:"Saved Cars", postedsavedFlag: true});
+        //const savedInfo = await usersData.getSavedCars(req.session.AuthCookie);
+        //res.render("users/userdashboard", {cars:savedInfo, heading:"Saved Cars", postedsavedFlag: true});
+        res.redirect("/users/saved");
     } catch(e) {
+        console.log(e);
         res.status(500).send();
     }
 });
@@ -374,7 +376,7 @@ router.get("/saved", async(req,res)=>{
     try{
     const savedInfo = await usersData.getSavedCars(req.session.AuthCookie);
     if(savedInfo.length!=0)
-    res.status(200).render("users/userdashboard",{cars:savedInfo,heading:"Saved Cars",postedsavedFlag:true});
+    res.status(200).render("users/userdashboard",{cars:savedInfo,heading:"Saved Cars",savedFlag:true});
     else
     res.render("users/userdashboard",{Message:"You have not added any car to your saved list",heading:"Saved Cars"});
 }
@@ -400,7 +402,7 @@ router.get("/posted", async(req,res)=>{
     try{
     const postedCarsInfo = await usersData.getPostedCars(req.session.AuthCookie);
     if(postedCarsInfo.length!=0)
-    res.status(200).render("users/userdashboard",{cars:postedCarsInfo,heading:"Posted Cars",postedsavedFlag:true});
+    res.status(200).render("users/userdashboard",{cars:postedCarsInfo,heading:"Posted Cars",postedFlag:true});
     else
     res.render("users/userdashboard",{Message:"You have not posted any car",heading:"Posted Cars"});
 }
