@@ -79,9 +79,20 @@ router.get('/createCar', async (req, res) => {
 
 router.post('/createCar', async (req, res) => {
     const newCarData = req.body;
+    const f1 = req.body.f1;
+    const f2 = req.body.f2;
+    const f3 = req.body.f3;
+    const f4 = req.body.f4;
+    console.log(f1, f2, f3, f4);
     const errorList = [];
     let allCars;
     let userId = req.session.AuthCookie;
+    let featuesArr = [];
+    if(f1!== undefined) featuesArr.push(f1);
+    if(f2!== undefined) featuesArr.push(f2);
+    if(f3!== undefined) featuesArr.push(f3);
+    if(f4!== undefined) featuesArr.push(f4);
+    newCarData.features= featuesArr;
     if (userId !== undefined)
         newCarData.ownedBy = userId;
     try {
@@ -116,6 +127,7 @@ router.post('/createCar', async (req, res) => {
     } catch(error) {
         errorList.push("Features: " + error);
     }*/
+    
     try {
         validation.validateNumber(newCarData.noOfPassengers);
     } catch(error) {
@@ -200,7 +212,7 @@ router.get('/profile/:id', async(req, res)=> {
         let owner = car.ownedBy;
         //console.log(userId);
 
-
+    
         //const user = await usersData.getUserById(userId);
 
         carReviews = await reviewsData.getreviewsPerCar(req.params.id);

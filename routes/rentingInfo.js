@@ -52,6 +52,7 @@ router.post('/find_date', async (req, res) => {
         let carId = req.session.car;
         let difference_in_time = calculate_end.getTime() - calculate_start.getTime()
         let difference_in_day = difference_in_time / (1000 * 3600 * 24);
+        let car_info = await carData.getCarById(carID)
         let car_info = await carData.getCarById(carId.toString())
         let totalPrice = car_info.price * (difference_in_day + 1)
         let new_rent = await rentingInfoData.create(startDate, endDate, false,"PFA","O", totalPrice, req.session.AuthCookie, carId)

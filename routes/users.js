@@ -358,7 +358,7 @@ catch(e){
 }
 })
 
-/*router.post("/saveCar/:id", async(req, res)=>{
+router.post("/saveCar/:id", async(req, res)=>{
     const carId = req.params.id;
     try{
         const saveCar = await usersData.updateSavedCarPatch(req.session.AuthCookie, carId);
@@ -367,7 +367,7 @@ catch(e){
     } catch(e) {
         res.status(500).send();
     }
-});*/
+});
 
 
 router.get("/saved", async(req,res)=>{
