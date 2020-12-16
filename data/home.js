@@ -20,16 +20,19 @@ async function getSearchResult(searchData){
     vzip = searchData.zip;
     else
     vzip={ $regex: /./ };
-    if(searchData.type)
-    vtype=searchData.type.toLowerCase();
+    if(searchData.type){
+        vtype = new RegExp(searchData.type.toLowerCase());
+    }
     else
     vtype={ $regex: /./ };
     if(searchData.brand)
-    vbrand=searchData.brand.toLowerCase();
+    {
+    vbrand=new RegExp(searchData.brand.toLowerCase());
+    }
     else
     vbrand={ $regex: /./ };
     if(searchData.model)
-    vmodel=searchData.model.toLowerCase();
+    vmodel=new RegExp(searchData.model.toLowerCase());
     else
     vmodel={ $regex: /./ };
 
