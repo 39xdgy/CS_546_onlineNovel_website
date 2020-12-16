@@ -7,6 +7,7 @@ const dataInfo = require("../data");
 const validation = dataInfo.validate;
 const rentingData = data.rentingInfo;
 const carInfo = require('../data/cars')
+const xss = require('xss');
 
 
 router.get('/postReview/:id', async (req, res) => {
@@ -27,7 +28,7 @@ router.get('/reply/:id', async (req, res) => {
     //car id
     try {
         let rentId = req.params.id;
-        req.session.ids = {userId : oneRenting.userId, carId : oneRenting.carId, rentId : rentId}
+        req.session.ids = {userId : rentId.userId, carId : rentId.carId, rentId : rentId}
         let carsWithNoReply = [];
         const carsWithReviews = await reviewsData.getreviewsPerCar(rentId);
         for(let i = 0; i < carsWithReviews.length; i++){
@@ -46,12 +47,13 @@ router.get('/reply/:id', async (req, res) => {
 
 router.post('/submitReview', async (req, res) => {
     var reviewPostData = req.body;
-
+    xss(req.body.rating);
+    xss(req.body.comment)
     const errorList=[];
 
     if(!reviewPostData){
         //res.status(400).json({ error: 'You must provide review data' });
-        validation
+        //validation
         return;
     }
     /*
@@ -91,8 +93,17 @@ router.post('/submitReview', async (req, res) => {
 
 
     try {
-        let {rating, comment} = reviewPostData;
+        let {rating, carCondition, ownerService, carPickUp, cleanliness,comment} = reviewPostData;
         rating = parseInt(rating);
+        carCondition = parseInt(carCondition);
+        ownerService = parseInt(ownerService);
+        carPickUp = parseInt(carPickUp);
+        cleanliness = parseInt(cleanliness);
+
+        let averageRating = parseFloat((rating + carCondition + ownerService + carPickUp + cleanliness) / 5);
+        
+        rating = averageRating;
+
         let lenderReply = "";
         let userId = req.session.ids.userId;
         let dateOfReview = Date()
@@ -101,6 +112,7 @@ router.post('/submitReview', async (req, res) => {
         const newReview = await reviewsData.createReview(rating, comment, lenderReply, dateOfReview, userId, carId, rentId);
         
         const car = await carInfo.getCarById(carId);
+        await carInfo.updateCarRating((carInfo._id).toString(), averageRating)
         let isLender = false;
         if(userId === (car.ownedBy).toString()){
             isLender = true;
@@ -124,6 +136,7 @@ router.post('/submitReview', async (req, res) => {
 router.post('/reply/:id', async (req, res) => {
     const requestReviewData = req.body;
     //review id
+    xss(req.body.lenderReply)
     if(Object.keys(requestReviewData).length !== 0){
         try {
             const updatedReview = await reviewsData.updateReview(req.params.id, requestReviewData.lenderReply);

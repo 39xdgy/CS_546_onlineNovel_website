@@ -33,7 +33,7 @@ router.get('/find_date/:id', async (req, res) => {
         let car_info = await carData.getCarById(req.session.car)
         let car_name = car_info.brand + " " + car_info.module
         let price = car_info.price
-        res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, price: price, booked_date_arr: out_arr});
+        res.status(200).render("rentingInfo/create_renting", { user_id: user_name, car_id: car_name, carId:req.session.car, price: price, booked_date_arr: out_arr});
     } catch(e){
         console.log(e)
         res.status(404).render("rentingInfo/create_renting", {error_flag: true, message: e})
@@ -52,7 +52,8 @@ router.post('/find_date/:id', async (req, res) => {
         let carId = req.params.id;
         let difference_in_time = calculate_end.getTime() - calculate_start.getTime()
         let difference_in_day = difference_in_time / (1000 * 3600 * 24);
-        let car_info = await carData.getCarById(carId)
+        console.log(carId.length);
+        let car_info = await carData.getCarById(carId.toString())
         let totalPrice = car_info.price * (difference_in_day + 1)
         let new_rent = await rentingInfoData.create(startDate, endDate, false,"PFA","O", totalPrice, req.session.AuthCookie, carId)
 
