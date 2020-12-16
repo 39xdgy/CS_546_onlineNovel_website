@@ -7,6 +7,14 @@
     border: width 5;
 }
 
+.carPictures{
+  object-fit: contain;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border-color: black;
+  border: width 5;
+}
 .carHomePic{
   object-fit: contain;
   width: 200px;

@@ -150,8 +150,7 @@ async function main() {
         profilePicture : "",
         city : "Hoboken",
         state : "NJ",
-        zip : "07806",
-        
+        zip : "07806"
     }
 
     let newUser11 = {
