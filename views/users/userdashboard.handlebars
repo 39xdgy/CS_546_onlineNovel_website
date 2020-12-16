@@ -21,6 +21,7 @@
  <table>
   <thead>
     <tr>
+      <th scope="col">Car Image</th> 
      <th>Car Page</th>
      <th>Brand</th>
      <th scope="col">Model</th>
@@ -30,11 +31,13 @@
      <th scope="col">Booking Status</th>
      <th scope="col">Total Price</th> 
       <th scope="col">Add Review</th> 
+      
     </tr>
   </thead>
   <tbody>
      {{#each cars}} 
     <tr>
+      <td><img src="/home/carImage/{{carId}}" onerror="this.src='/public/images/car_no_image.jpg'" alt="Car Picture" class="carDashboardPic"></td>
       <td><a href="/cars/profile/{{carId}}">Car Details</a></td>
       <td>{{brand}}</td>
       <td>{{model}}</td>
@@ -63,6 +66,7 @@
  <table>
   <thead>
     <tr>
+       <th scope="col">Car Image</th> 
      <th>Car Page</th>
      <th>Brand</th>
      <th scope="col">Model</th>
@@ -75,6 +79,8 @@
   </thead>
   <tbody>
     <tr>
+        <td><img src="/home/carImage/{{cars.carId}}" onerror="this.src='/public/images/car_no_image.jpg'" alt="Car Picture" class="carDashboardPic"></td>
+     
         <td><a href="/cars/profile/{{cars.carId}}">Car Details</a></td>
       <td>{{cars.brand}}</td>
       <td>{{cars.model}}</td>
@@ -98,6 +104,7 @@
  <table class="table-center">
   <thead>
     <tr>
+       <th scope="col">Car Image</th> 
      <th>Car Page</th>
      <th>Brand</th>
      <th scope="col">Model</th>
@@ -112,6 +119,8 @@
   <tbody>
      {{#each cars}} 
     <tr>
+      <td><img src="/home/carImage/{{_id}}" onerror="this.src='/public/images/car_no_image.jpg'" alt="Car Picture" class="carDashboardPic"></td>
+     
       <td><a href="/cars/profile/{{_id}}">Car Details</a></td>
       <td>{{brand}}</td>
       <td>{{model}}</td>
@@ -133,6 +142,7 @@
  <table>
   <thead>
     <tr>
+     <th scope="col">Car Image</th> 
      <th>Car Page</th>
      <th>Brand</th>
      <th scope="col">Model</th>
@@ -149,6 +159,8 @@
   <tbody>
      {{#each cars}} 
     <tr>
+       <td><img src="/home/carImage/{{carId}}" onerror="this.src='/public/images/car_no_image.jpg'" alt="Car Picture" class="carDashboardPic"></td>
+     
       <td><a href="/cars/profile/{{carId}}">Car Details</a></td>
       <td>{{brand}}</td>
       <td>{{model}}</td>
