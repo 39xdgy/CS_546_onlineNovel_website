@@ -266,7 +266,7 @@ async function updatePastRentedCars(){
         
         const rentingData = await rentingInfoCollection.findOne({_id:ObjectID(user.rentedCar)});
         if(rentingData.endDate.getDate()<today.getDate()){
-            const updatedUserData = await userCollection.updateOne({_id:ObjectID(user._id)},{ $push: { pastRentedCars: user.rentedCar },$set:{rentedCar:""}});
+            const updatedUserData = await userCollection.updateOne({_id:ObjectID(user._id)},{ $addToSet : { pastRentedCars: user.rentedCar },$set:{rentedCar:""}});
         }
     }
 
@@ -369,27 +369,27 @@ async function updateRented(id,rentedCarVar){
 async function updatePastRentedPatch(id,pastRentedCarVar){
     let parsedId=ObjectID(id);
     const userCollection = await usersColl();
-    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $push: { pastRentedCars: pastRentedCarVar }});
+    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $addToSet : { pastRentedCars: pastRentedCarVar }});
 }
 
 
 async function updatePostedCarPatch(id,postedCarVar){
     let parsedId=ObjectID(id);
     const userCollection = await usersColl();
-    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $push: { postedCars: postedCarVar }});
+    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $addToSet : { postedCars: postedCarVar }});
 }
 
 async function updateSavedCarPatch(id,savedCarVar){
     let parsedId=ObjectID(id);
     const userCollection = await usersColl();
-    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $push: { savedCars: savedCarVar }});
+    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $addToSet : { savedCars: savedCarVar }});
     return updatedUserData
 }
 
 async function updateReviewPatch(id,reviewVar){
     let parsedId=ObjectID(id);
     const userCollection = await usersColl();
-    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $push: { reviews: reviewVar }});
+    const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $addToSet : { reviews: reviewVar }});
 }
 
 module.exports={
