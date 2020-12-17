@@ -69,17 +69,9 @@ let exportedMethods = {
     },
 
     async createReview(rating, comment, lenderReply, dateOfReview, userId, carId, rentId) {
-        //console.log("helloaboce errors")
         if(!rating || !comment || !dateOfReview ||!userId || !carId) throw "Input not provided";
         if(typeof rating !== 'number') throw 'Rating should be number';
         if(typeof comment  !== 'string' || comment.length === 0) throw 'The comments should be an non empty string';
-        //if(typeof lenderReply  !== 'string') throw 'The rating should be a string';
-        //if(typeof dateOfReview  !== 'string') throw 'The date of review should be string';
-        //if(typeof userId  !== 'string' || userId.length !== 24 || userId.length === 0) throw 'The userid should be an non empty string';
-        //if(typeof carId  !== 'string' || carId.length !== 24 || carId.length === 0) throw 'The carid should be an non empty string';
-        //console.log("hello4");
-        //[month, day, year] = dateOfReview.split("/");
-        
         //car infor
         const car = await carInfo.getCarById(carId);
         //userInfo
@@ -89,14 +81,14 @@ let exportedMethods = {
         let newReview = {
             rating: rating,
             comment: comment,
-            lendersReply: lenderReply,
+            lenderReply: lenderReply,
             dateOfReview: dateOfReview,
             userId: userId,
+            rentingId: rentId,
             userName: user.firstName + " " + user.lastName,
             carId: carId,
             carName: car.brand + " " + car.model,
         }
-        //console.log("hello5")
     
         const reviewCollections = await reviews();
         const insertedInfo = await reviewCollections.insertOne(newReview);
@@ -117,7 +109,7 @@ let exportedMethods = {
     
     },
     
-    async updateReview(id, lendersReply){
+    async updateReview(id, lenderReply){
         id = id.toString();
         if(!id) throw 'Provide ID to search a book';
         if(typeof id !== 'string' || id.length === 0) throw 'Id should be a non empty string';
@@ -125,12 +117,11 @@ let exportedMethods = {
         let parsedID = ObjectID(id);
         //console.log("hello0");
         
-        if(!lendersReply) throw "You must provide lenders reply";
-        //console.log("hello1");
-        if((lendersReply).length !== 0){
-            //console.log("Hello2");
+        if(!lenderReply) throw "You must provide lender reply";
+
+        if((lenderReply).length !== 0){
             const reviewCollection = await reviews();
-            const updatedInfo = await reviewCollection.updateOne({_id: parsedID}, {$set: {lendersReply: lendersReply}});
+            const updatedInfo = await reviewCollection.updateOne({_id: parsedID}, {$set: {lenderReply: lenderReply}});
 
             if(!updatedInfo.matchedCount && !updateInfo.modifiedCount) throw 'Update failed';
         }
@@ -159,7 +150,6 @@ let exportedMethods = {
 
     
         return {reviewID: id, deleted: true};   
-        //return true;
     }
 }
 

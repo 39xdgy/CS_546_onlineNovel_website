@@ -50,11 +50,7 @@
       <td>Rejected</td>
       {{/if}}
       <td>{{totalPrice}}</td>
-       {{#if review}}
-       <td><a href="/reviews/postReview/{{_id}}">Post Review</a></td>
-       {{else}}
-       <td>Posted or Not Required</td>
-       {{/if}}
+      <td><a href="/reviews/postReview/{{_id}}">Post Review</a></td>
       </tr>
    
     {{/each}}
@@ -100,7 +96,7 @@
 
 
 
-{{#if postedsavedFlag}}
+{{#if postedFlag}}
  <table class="table-center">
   <thead>
     <tr>
@@ -131,6 +127,42 @@
       <td>{{rating}}</td>
       <td>{{price}}</td>
       <td><a href="/reviews/reply/{{_id}}">Reply To Review</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{/if}}
+
+{{#if savedFlag}}
+ <table class="table-center">
+  <thead>
+    <tr>
+       <th scope="col">Car Image</th> 
+     <th>Car Page</th>
+     <th>Brand</th>
+     <th scope="col">Model</th>
+     <th scope="col">Type</th>
+     <th scope="col">Color</th>
+     <th scope="col">License Plate</th>
+      <th scope="col">Make Year</th>
+     <th scope="col">Rating</th>
+     <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+     {{#each cars}} 
+    <tr>
+      <td><img src="/home/carImage/{{_id}}" onerror="this.src='/public/images/car_no_image.jpg'" alt="Car Picture" class="carDashboardPic"></td>
+     
+      <td><a href="/cars/profile/{{_id}}">Car Details</a></td>
+      <td>{{brand}}</td>
+      <td>{{model}}</td>
+      <td>{{type}}</td>
+      <td>{{color}}</td>
+      <td>{{licensePlate}}</td>
+      <td>{{makeYear}}</td>
+      <td>{{rating}}</td>
+      <td>{{price}}</td>
     </tr>
     {{/each}}
   </tbody>

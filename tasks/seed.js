@@ -976,11 +976,11 @@ async function main() {
 
     await users.updateSavedCarsArray((user16._id).toString(),[(car3._id).toString(),(car4._id).toString(), (car10._id).toString(), (car14._id).toString()]);
     let rentInfo2 = await rentingInfo.create("12/20/2020", "12/25/2020", true, "A", "O", 5*car4.price, (user16._id).toString(), (car4._id).toString());
-    await users.updateRented((user1._id).toString(),(rentInfo2._id).toString());
+    await users.updateRented((user16._id).toString(),(rentInfo2._id).toString());
     
     let rentInfo3 = await rentingInfo.create("12/13/2018", "12/17/2018", true, "A", "C", 5*car4.price, (user18._id).toString(), (car4._id).toString());
     let review3 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo2.userId).toString(), (rentInfo2.carId).toString(), (rentInfo2._id).toString());
-    await users.updatePastRentedPatch((user16._id).toString(),(rentInfo1._id).toString());
+    await users.updatePastRentedPatch((user18._id).toString(),(rentInfo1._id).toString());
     
     
     let rentInfo4 = await rentingInfo.create("15/1/2017", "21/1/2017", false, "R", "C", 5*car7.price, (user25._id).toString(), (car7._id).toString());
@@ -1026,7 +1026,7 @@ async function main() {
     
     
     let rentInfo14 = await rentingInfo.create("8/15/2018", "7/24/2018", false, "R", "C", 9*car15.price, (user23._id).toString(), (car14._id).toString());
-    let review14 = await reviews.createReview(3, "Good Car", "", Date(), (rentInfo14.userId).toString(), (rentInfo14.carId).toString(), (rentInfo14._id).toString());
+    //let review14 = await reviews.createReview(3, "Good Car", "", Date(), (rentInfo14.userId).toString(), (rentInfo14.carId).toString(), (rentInfo14._id).toString());
     await users.updatePastRentedPatch((user23._id).toString(),(rentInfo14._id).toString());
 
     let rentInfo15 = await rentingInfo.create("7/15/2018", "7/23/2018", false, "R", "C", 8*car20.price, (user20._id).toString(), (car14._id).toString());
@@ -1054,7 +1054,7 @@ async function main() {
     await users.updatePastRentedPatch((user20._id).toString(),(rentInfo20._id).toString());
     
     let rentInfo21 = await rentingInfo.create("7/1/2018", "7/25/2018", true, "A", "C", 25*car2.price, (user23._id).toString(), (car2._id).toString());
-    let review21 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo21.userId).toString(), (rentInfo21.carId).toString(), (rentInfo21._id).toString());
+    //let review21 = await reviews.createReview(5, "Good Car", "", Date(), (rentInfo21.userId).toString(), (rentInfo21.carId).toString(), (rentInfo21._id).toString());
     await users.updatePastRentedPatch((user23._id).toString(),(rentInfo21._id).toString());
 
     let rentInfo22 = await rentingInfo.create("7/5/2020", "7/25/2020", true, "A", "C", 20*car1.price, (user16._id).toString(), (car1._id).toString());
@@ -1076,8 +1076,8 @@ async function main() {
     review15 = await reviews.updateReview((review15._id).toString(), "It my pleasure");
     
     review4 = await reviews.updateReview((review4._id).toString(), "It my pleasure");
-    review14 = await reviews.updateReview((review14._id).toString(), "We will make it more better");
-    review21 = await reviews.updateReview((review21._id).toString(), "It my pleasure");
+    //review14 = await reviews.updateReview((review14._id).toString(), "We will make it more better");
+    //review21 = await reviews.updateReview((review21._id).toString(), "It my pleasure");
     review20 = await reviews.updateReview((review20._id).toString(), "It my pleasure");
     
     

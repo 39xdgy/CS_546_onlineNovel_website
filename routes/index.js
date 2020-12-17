@@ -3,6 +3,7 @@ const userRoutes = require('./users');
 const carsRoutes = require('./cars');
 const reviewsRoutes = require('./reviews');
 const homeRoutes = require('./home');
+const adminRoutes = require('./admin')
 
 const constructorMethod = (app) => {
     app.use('/rentingInfo', rentingInfoRoutes);
@@ -10,6 +11,7 @@ const constructorMethod = (app) => {
     app.use('/cars', carsRoutes); 
     app.use('/reviews', reviewsRoutes); 
     app.use('/',homeRoutes);
+    app.use('/admin', adminRoutes);
 
     app.use('*', (req, res) => {
         res.status(404).json({ Error: 'Page not found'});
