@@ -36,6 +36,7 @@ router.post('/upload/carPictures/:id', upload.array('carPictures', 10), async (r
     }
     const user = await usersData.getUserById(req.session.AuthCookie);
     const addingCarPictures = await carsData.addCarPictures(req.params.id, returnArray);
+    let carReviews = await reviewsData.getreviewsPerCar(req.params.id);
     res.render("cars/carprofile", {
         success: true,
         cars: addingCarPictures,
@@ -43,7 +44,8 @@ router.post('/upload/carPictures/:id', upload.array('carPictures', 10), async (r
         carprofileFlag: true,
         editFlag: true,
         message: "Car Images Posted Successfully",
-        carId: addingCarPictures._id
+        carId: addingCarPictures._id,
+        reviews: carReviews
     });
 });
 
@@ -211,12 +213,11 @@ router.get('/profile/:id', async(req, res)=> {
     try{
         const car = await carsData.getCarById(req.params.id);
         let owner = car.ownedBy;
-        //console.log(userId);
 
     
         //const user = await usersData.getUserById(userId);
 
-        carReviews = await reviewsData.getreviewsPerCar(req.params.id);
+        let carReviews = await reviewsData.getreviewsPerCar(req.params.id);
 
         //res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id, reviews: carReviews,});
         const user = await usersData.getUserById(owner);
@@ -224,13 +225,7 @@ router.get('/profile/:id', async(req, res)=> {
             res.render("cars/carprofile", {cars: car, carprofileFlag:true, editFlag:true, user: user, id: car._id, reviews: carReviews});
         else 
         res.render("cars/carprofile", {cars: car, carprofileFlag:true, bookFlag:true, user: user, carId: car._id, reviews: carReviews});
-        /*
-        const user = await usersData.getUserById(userId);
 
-        carReviews = await reviewsData.getreviewsPerCar((car._id).toString());
-
-        res.render("cars/carprofile", {cars: car, carprofileFlag:true, user: user, id: car._id, reviews: carReviews,});
-        */
     } catch(error){
         res.status(401);
         res.json({message:error});

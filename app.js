@@ -41,6 +41,10 @@ app.use("/", async(req,res,next)=>{
     && req.originalUrl!="/"
     && req.originalUrl!="/home/search"
     && (!req.originalUrl.match(/carImage/))
+    && req.originalUrl!="/admin"
+    && req.originalUrl!="/admin/adminLogin"
+    && req.originalUrl!="/admin/homePage"
+    && req.originalUrl!=="/admin/adminDelete"
     //&& req.originalUrl!="/cars/createCar"
     //&& req.originalUrl!="/cars/profile/:id"
     //&& req.originalUrl!="/cars/carProfile/:id"
