@@ -50,7 +50,12 @@
       <td>Rejected</td>
       {{/if}}
       <td>{{totalPrice}}</td>
-      <td><a href="/reviews/postReview/{{_id}}">Post Review</a></td>
+      <td>
+      {{#if review}}
+       <td><a href="/reviews/postReview/{{_id}}">Post Review</a></td>
+       {{else}}
+       <td>Posted or Not Required</td>
+       {{/if}}
       </tr>
    
     {{/each}}
@@ -110,6 +115,7 @@
       <th scope="col">Make Year</th>
      <th scope="col">Rating</th>
      <th scope="col">Price</th>
+     <th scope="col">Add Reply</th> 
     </tr>
   </thead>
   <tbody>
