@@ -449,4 +449,56 @@ router.get("/customerProfile/:id",async(req,res)=>{
     }
 });
 
+/*
+router.post("/changePassword", async(req,res)=>{
+    let errorList=[];
+    let newUserData = req.body;
+    let id=req.session.AuthCookie;
+
+    try{
+        validation.validateString(newUserData.password);
+        validation.validateString(newUserData.confirm);
+        if(newUserData.password!=newUserData.confirm)
+            throw `Password and confirm password are not same`;
+    }
+    catch(error){
+        errorList.push(error);
+    }
+
+    
+    try{
+        const checkPassword = await usersData.checkOldPassword(id,newUserData.password);
+    }
+    catch(error){
+        errorList.push(error);
+    }
+   const user = await userData.getUserById(id);
+    if(errorList.length>0){
+        res.status(400);
+        res.render("users/userProfile",{
+            hasErrorsPass:true,
+            errorsPass:errorList,
+            users:user,
+            editFlag:true,
+            id:userId
+        });
+        return;
+    }
+
+    try{
+        const changePassword = await usersData.changePassword(id,newUserData.password);
+        res.status(200).render("users/userProfile",{
+            profileFlag:true,
+            users:user,
+            success:true,
+            message:"Password Changed Successfully",
+            id:user._id
+        });
+    }
+    catch(error){
+
+    }
+
+}); */
+
 module.exports = router;

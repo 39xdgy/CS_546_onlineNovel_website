@@ -74,8 +74,8 @@
     <div>
     {{#if editFlag}}
  
-    <form action="/users/upload/profilepic"  enctype="multipart/form-data" method="POST"> 
-     <h3>Update your profile picture</h3>
+    <form id="profilepictureForm" action="/users/upload/profilepic"  enctype="multipart/form-data" method="POST"> 
+     <h3>Change your profile picture</h3>
     <img src="/users/profilepic/{{id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
     <br>
     <br>
@@ -89,10 +89,11 @@
              {{/if}}
     </form>
     
+
    
    
     <form id="useredit-form-id" method="POST" action="/users/editUser">
-       <h3>Update your profile details</h3>
+       <h3>Change your Profile details</h3>
         <br>
         <br>
     <label>
@@ -145,6 +146,43 @@
     {{/if}}
     </div> 
     </form>
+
+
+    <form id="password-form-id" action="/users/changePassword" method="POST">
+    <h3>Change your Password</h3>
+    <label>
+        New Password *
+        <input type="password" name="password" id="password-id" required placeholder="password">
+    </label>
+    <br>
+    <br>
+    <label>
+        Confirm Password *
+        <input type="password" name="confirm" id="confirm-id" required placeholder="confirm password">
+    </label>
+    <br>
+    <br>
+    <button type="submit">Submit</button>
+
+
+      <div id="divpassworderror-id" class="error">
+    
+    <ul id="passworderrorlist-id">
+      {{#if hasErrorsPass}}
+    {{#each errorsPass}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+    {{/if}}
+   </ul>
+
+    {{#if success}}
+    <p>{{message}}</p>
+    {{/if}}
+    </div> 
+    </form>
+
     {{/if}}
     </div>
 
