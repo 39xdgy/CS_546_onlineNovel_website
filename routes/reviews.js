@@ -27,15 +27,22 @@ router.get('/postReview/:id', async (req, res) => {
 router.get('/reply/:id', async (req, res) => {
     //car id
     try {
-        let rentId = req.params.id;
-        req.session.ids = {userId : rentId.userId, carId : rentId.carId, rentId : rentId}
+        let carId = req.params.id;
+        //req.session.ids = {userId : rentId.userId, carId : rentId.carId, rentId : rentId}
         let carsWithNoReply = [];
-        const carsWithReviews = await reviewsData.getreviewsPerCar(rentId);
-        for(let i = 0; i < carsWithReviews.length; i++){
-            if(carsWithReviews[i].lenderReply === ""){
+        const carsWithReviews = await reviewsData.getreviewsPerCar(carId);
+        /*for(let i = 0; i < carsWithReviews.length; i++){
+            console.log(carsWithReviews[i].lenderReply);
+            if(carsWithReviews[i].lenderReply == ""){
                 carsWithNoReply.push(carsWithNoReply[i]);
             }
-        }
+        }*/
+
+        carsWithReviews.forEach((val) => {
+            if(val.lenderReply === "") {
+                carsWithNoReply.push(val);
+            }
+        });
         
         res.render('reviews/ownerReplies', {reviews : carsWithNoReply});
     } catch (error) {
@@ -112,18 +119,17 @@ router.post('/submitReview', async (req, res) => {
         const newReview = await reviewsData.createReview(rating, comment, lenderReply, dateOfReview, userId, carId, rentId);
         
         const car = await carInfo.getCarById(carId);
-        await carInfo.updateCarRating((carInfo._id).toString(), averageRating)
-        let isLender = false;
-        if(userId === (car.ownedBy).toString()){
+        await carInfo.updateCarRating((car._id).toString(), averageRating)
+        //let isLender = false;
+        /*if(userId === (car.ownedBy).toString()){
             isLender = true;
-        }
+        }*/
 
         userReviews = await reviewsData.getReviewsPerUser(userId)
         res.render("reviews/userReviews", {
             success: true,
             reviews: userReviews,
-            message: "Review Created Successfully",
-            ///id: newReview._id
+            message: "Review Created Successfully"
         });
     } catch (e) {
         res.status(500).json({ error: e });
@@ -140,14 +146,13 @@ router.post('/reply/:id', async (req, res) => {
     if(Object.keys(requestReviewData).length !== 0){
         try {
             const updatedReview = await reviewsData.updateReview(req.params.id, requestReviewData.lenderReply);
-            //const updatedReview = await reviewsData.updateReview(req.params.id, "Thank you");
             let carsWithNoReply = [];
-        const carsWithReviews = await reviewsData.getreviewsPerCar(rentId);
-        for(let i = 0; i < carsWithReviews.length; i++){
-            if(carsWithReviews[i].lenderReply === ""){
-                carsWithNoReply.push(carsWithNoReply[i]);
+        const carsWithReviews = await reviewsData.getreviewsPerCar(updatedReview.carId);
+        carsWithReviews.forEach((val) => {
+            if(val.lenderReply === "") {
+                carsWithNoReply.push(val);
             }
-        }
+        });
         
         res.render('reviews/ownerReplies', {
             success: true,
@@ -169,7 +174,7 @@ router.post('/reply/:id', async (req, res) => {
 
 router.post('/delete/:id', async (req, res) => {
     if(!req.params.id){
-        res.status(400).json({ error: 'You must Supply and ID to delete' });
+        res.status(400).json({ error: 'You must Supply an ID to delete' });
         return;
     }
 
@@ -182,13 +187,12 @@ router.post('/delete/:id', async (req, res) => {
 
     try {
         const deletedReview = await reviewsData.removeReview(req.params.id);
-        //res.json(deletedReview);
-        userReviews = await reviewsData.getReviewsPerUser(userId)
+
+        userReviews = await reviewsData.getReviewsPerUser(req.session.ids.userId)
         res.render("reviews/userReviews", {
             success: true,
             reviews: userReviews,
-            message: "Review Created Successfully",
-            ///id: newReview._id
+            message: "Review Created Successfully"
         });
     } catch (e) {
         res.status(500).json({ error: e });
