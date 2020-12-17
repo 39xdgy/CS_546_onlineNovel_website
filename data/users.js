@@ -203,7 +203,11 @@ async function getPastRentedCars(id){
         else rentedCar.review=false; 
         pastRentedArray.push(rentedCar);
      }
-     return pastRentedArray;
+     //return pastRentedArray;
+     let sortData= pastRentedArray.sort((a,b)=>{
+        return new Date(b.endDate)-new Date(a.endDate);
+    });
+    return sortData.slice(0,50);
 }
 
 async function getSavedCars(id){
@@ -217,7 +221,7 @@ async function getSavedCars(id){
        carInfo._id=carInfo._id.toString();
        savedCars.push(carInfo);
     }
-    return savedCars;
+    return savedCars.slice(0,50);
 }
 
 async function getCurrentlyRentedCar(id){
@@ -250,7 +254,7 @@ async function getPostedCars(id){
         arr._id=arr._id.toString();
         return arr;
     });
-    return modifiedList;
+    return modifiedList.slice(0,50);
 }
 
 async function updatePastRentedCars(){
@@ -311,7 +315,12 @@ async function getAllOrders(userId){
             returnArray.push(arr1);
         }
     }
-    return returnArray;
+
+    //returnArray;
+    let sortData= returnArray.sort((a,b)=>{
+        return new Date(b.startDate)-new Date(a.startDate);
+    });
+    return sortData.slice(0,50);
 }
 
 //Use this function for replacing the whole column with new sent parameter
