@@ -401,16 +401,27 @@ async function updateReviewPatch(id,reviewVar){
     const updatedUserData = await userCollection.updateOne({_id:parsedId},{ $addToSet : { reviews: reviewVar }});
 }
 
-/*async function checkOldPassword(id,passwordVar){
+async function checkOldPassword(id,passwordVar){
     let loginResult = false;
     const userCollections = await usersColl();
     const user = await userCollections.findOne({_id:ObjectID(id)});
     if(user===null) throw `User not available`;
     user._id=user._id.toString();
     loginResult = await bcrypt.compare(passwordVar,user.hashedPassword);
-    if(loginResult) return true;
-    else throw `New password is same as old password`;
-} */
+    if(loginResult) throw `New password is same as old password`;
+    else 
+    return;
+} 
+
+async function changePassword(id,passwordVar){
+    checkOldPassword(id,passwordVar);
+    const hash = await bcrypt.hash(passwordVar,saltRounds);
+    const userCollections = await usersColl();
+    const updatedInfo = await userCollections.updateOne({_id:ObjectID(id)},{$set:{hashedPassword:hash}});
+    if(updatedInfo.modifiedCount==0) return false;
+    else
+    return true;
+}
 
 module.exports={
     login,
@@ -435,5 +446,6 @@ module.exports={
     updateReviewsArray,
     updatePostedArray,
     updatePostedCarPatch,
-    checkOldPassword
+    checkOldPassword,
+    changePassword
 }

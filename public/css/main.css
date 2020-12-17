@@ -23,6 +23,10 @@ float: right;
 #profilepictureForm{
   float: left;
 }
+.message-succ{
+  font-weight: bold;
+  color:green;
+}
 
 #carprofile-form-id{
   float:left;
@@ -288,10 +292,6 @@ label{
   font-weight: bold;
 }
 
-button{
-  font-weight: bold;
-  color:blue;
-}
 
 .homeheading{
   font-weight: bold;

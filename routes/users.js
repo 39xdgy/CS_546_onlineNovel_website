@@ -253,6 +253,7 @@ router.post("/editUser", async(req,res)=>{
     const newUserData = req.body;
     const errorList=[];
     let allUsers;
+    let changeLog=0;
     try{
     allUsers = await usersData.getAllUsers();
     existingUser = await usersData.getUserById(userId);
@@ -260,8 +261,14 @@ router.post("/editUser", async(req,res)=>{
     catch(error){
         console.log(error);
     }
+
+    
+
+
     try{
         validation.validateString(newUserData.firstName);
+        if(existingUser.firstName!=newUserData.firstName.trim())
+            changeLog=changeLog+1;
     }
     catch(error){
         errorList.push("First Name: " + error);
@@ -270,6 +277,8 @@ router.post("/editUser", async(req,res)=>{
     {
         try{
             validation.validateString(newUserData.lastName);
+            if(existingUser.lastName!=newUserData.lastName.trim())
+            changeLog=changeLog+1;
         }
         catch(error){
             errorList.push("Last Name: " + error);
@@ -277,36 +286,48 @@ router.post("/editUser", async(req,res)=>{
     }
     try{
         validation.validateDate(newUserData.dob);
+        if(existingUser.dob!=newUserData.dob)
+            changeLog=changeLog+1;
     }
     catch(error){
         errorList.push("Date Of Birth: " + error);
     }
 
     try{
-        validation.validateString(newUserData.zip);
-        const { data } = await Axios.get("http://ziptasticapi.com/"+newUserData.zip);
-        if(data.error) {
-        newUserData.city="";
-        newUserData.state="";
-        throw `Sent parameter is invalid`;
+
+        if(existingUser.zip!=newUserData.zip)
+        {
+            changeLog=changeLog+1;
+            validation.validateString(newUserData.zip);
+            const { data } = await Axios.get("http://ziptasticapi.com/"+newUserData.zip);
+            if(data.error) {
+            newUserData.city="";
+            newUserData.state="";
+            throw `Sent parameter is invalid`;
+            }
+            else{
+                newUserData.city=data.city;
+                newUserData.state=data.state;  
+            }
         }
         else{
-            newUserData.city=data.city;
-            newUserData.state=data.state;  
+        newUserData.city=existingUser.city;
+        newUserData.state=existingUser.state;
         }
     }
     catch(error){
         errorList.push("Zip: " + error);
     }
 
-    if(newUserData.zip!=existingUser.zip && newUserData.driverLicense.toUpperCase()===existingUser.driverLicense){
+    if(newUserData.state!==existingUser.state && newUserData.driverLicense.toUpperCase()===existingUser.driverLicense){
         {
-          errorList.push("Driver's License: " + "should be changed if zip code changes" );
+          errorList.push("Driver's License: " + "Should be changed if your address state is changed" );
         }
     }
 
     if(newUserData.driverLicense.toUpperCase()!=existingUser.driverLicense)
     {
+        changeLog=changeLog+1;
     try{
         let existingDriverLicense = allUsers.find( obj => {
             return obj.driverLicense === newUserData.driverLicense.toUpperCase()
@@ -319,6 +340,10 @@ router.post("/editUser", async(req,res)=>{
         errorList.push("Driver's License: " + error);
     }
 }
+
+
+    if(changeLog===0)
+        errorList.push("Kindly provide new details to update");
 
     if(errorList.length>0){
         res.status(400);
@@ -449,11 +474,11 @@ router.get("/customerProfile/:id",async(req,res)=>{
     }
 });
 
-/*
+
 router.post("/changePassword", async(req,res)=>{
     let errorList=[];
     let newUserData = req.body;
-    let id=req.session.AuthCookie;
+    let userId=req.session.AuthCookie;
 
     try{
         validation.validateString(newUserData.password);
@@ -467,12 +492,12 @@ router.post("/changePassword", async(req,res)=>{
 
     
     try{
-        const checkPassword = await usersData.checkOldPassword(id,newUserData.password);
+        const checkPassword = await usersData.checkOldPassword(userId,newUserData.password);
     }
     catch(error){
         errorList.push(error);
     }
-   const user = await userData.getUserById(id);
+   const user = await usersData.getUserById(userId);
     if(errorList.length>0){
         res.status(400);
         res.render("users/userProfile",{
@@ -486,19 +511,19 @@ router.post("/changePassword", async(req,res)=>{
     }
 
     try{
-        const changePassword = await usersData.changePassword(id,newUserData.password);
+        const changePassword = await usersData.changePassword(userId,newUserData.password);
         res.status(200).render("users/userProfile",{
-            profileFlag:true,
+            editFlag:true,
             users:user,
-            success:true,
+            successPass:true,
             message:"Password Changed Successfully",
             id:user._id
         });
     }
     catch(error){
-
+        res.status(500).send();
     }
 
-}); */
+}); 
 
 module.exports = router;

@@ -11,12 +11,21 @@ let todayDate=new Date();
 let today=validation.formatDateInString(todayDate);
 
 router.get("/", async(req,res)=>{
+    try{
     await usersData.updatePastRentedCars();
     res.status(200).render("home/welcome",{minDate:today});
+    }
+    catch(error){
+        res.status(500).send();
+    }
 });
 
 router.post("/home", async(req,res)=>{
-    xss(req.body.zip);
+   try{
+   if(!req.session.AuthCookie){
+   await usersData.updatePastRentedCars();
+   }
+   xss(req.body.zip);
    const carList = await homeInfo.getTopRatedCars(req.body.zip);
    if(carList.length!=0){
     if(req.session.AuthCookie)
@@ -30,17 +39,27 @@ router.post("/home", async(req,res)=>{
     else
     res.render("home/home",{Message:"Cars are not available for the provided  zip code, try different zip code",minDate:today});
 }
+    }
+    catch(error){
+        res.status(500).send();
+    }
 
 });
 
 router.get("/home", async(req,res)=>{
+    try{
     if(req.session.AuthCookie)
     res.render("home/home",{Message:"Search cars based on your preference",login:true,minDate:today});
     else
     res.render("home/home",{Message:"Search cars based on your preference",minDate:today});
+    }
+    catch(error){
+        res.status(500).send();
+    }
 });
 
 router.post("/home/search", async(req,res)=>{
+    try{
     xss(req.body.zip);
     xss(req.body.type);
     xss(req.body.brand);
@@ -85,6 +104,10 @@ router.post("/home/search", async(req,res)=>{
         else
         res.render("home/home",{cars:sortData,availFlag:true,sortFlag:true,minDate:today});
     }
+}
+catch(e){
+    res.status(500).send();
+}
     
 });
 

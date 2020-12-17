@@ -66,6 +66,13 @@ app.use("/users/login", async(req,res,next)=>{
     next();
 });
 
+app.use("/users/createUser", async(req,res,next)=>{
+  if(req.session.AuthCookie)  
+    res.redirect("/users/profile");
+    else
+    next();
+});
+
 
 
 configRoutes(app);
