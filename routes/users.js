@@ -479,6 +479,8 @@ router.post("/changePassword", async(req,res)=>{
     let errorList=[];
     let newUserData = req.body;
     let userId=req.session.AuthCookie;
+    //xss(newUserData.password);
+    //xss(newUserData.confirm);
 
     try{
         validation.validateString(newUserData.password);
