@@ -119,7 +119,7 @@ router.post('/submitReview', async (req, res) => {
         const newReview = await reviewsData.createReview(rating, comment, lenderReply, dateOfReview, userId, carId, rentId);
         
         const car = await carInfo.getCarById(carId);
-        await carInfo.updateCarRating((car._id).toString(), averageRating)
+        //await carInfo.updateCarRating((car._id).toString(), averageRating)
         //let isLender = false;
         /*if(userId === (car.ownedBy).toString()){
             isLender = true;
