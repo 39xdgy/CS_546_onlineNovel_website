@@ -358,12 +358,12 @@ catch(e){
 }
 })
 
-router.post("/saveCar/:id", async(req, res)=>{
+router.get("/saveCar/:id", async(req, res)=>{
     const carId = req.params.id;
     try{
         const saveCar = await usersData.updateSavedCarPatch(req.session.AuthCookie, carId);
         const savedInfo = await usersData.getSavedCars(req.session.AuthCookie);
-        res.render("users/userdashboard", {cars:savedInfo, heading:"Saved Cars", postedsavedFlag: true});
+        res.redirect("/users/saved");
     } catch(e) {
         res.status(500).send();
     }
