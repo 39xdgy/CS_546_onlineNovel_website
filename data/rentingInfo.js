@@ -129,6 +129,7 @@ async function patchrentingInfo(input_id, patch_obj){
     if(patch_obj.endDate) patch_info.endDate = patch_obj.endDate
     if(patch_obj.bookingStatus) patch_info.bookingStatus = patch_obj.bookingStatus
     if(patch_obj.currentStatus) patch_info.currentStatus = patch_obj.currentStatus
+    if(patch_obj.status) patch_info.status = patch_obj.status
     if(patch_obj.totalPrice) patch_info.totalPrice = patch_obj.totalPrice
 
     await renting_db_func.updateOne({_id: obj_id}, {$set: patch_info})
