@@ -77,6 +77,8 @@ let exportedMethods = {
         //userInfo
         const user = await userInfo.getUserById(userId);
 
+        let all_reviews = await this.getreviewsPerCar(carId)
+
 
         let newReview = {
             rating: rating,
@@ -96,6 +98,11 @@ let exportedMethods = {
         const newId = insertedInfo.insertedId;
         const new_review = await this.getReviewById(newId.toString());
         
+        let car_info = await carInfo.getCarById(carId)
+        let new_rating = (car_info.rating * all_reviews.length + rating) / (all_reviews.length + 1)
+
+        await carInfo.updateCarRating(carId, new_rating)
+
 
         let users = await usersCollection();
         let userUpdate = await users.updateOne({_id:ObjectID(new_review.userId)},{ $push: { reviews: (new_review._id).toString()}});
