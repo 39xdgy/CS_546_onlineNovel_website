@@ -99,7 +99,7 @@ async function getrentByCarId(input_id){
     obj_id = myDBfunction(input_id);
 
     const renting_db_func = await rentingInfo()
-    const rent_info = await renting_db_func.find({'carId': input_id}, {projection: {_id: 0, startDate: 1, endDate: 1}}).toArray();
+    const rent_info = await renting_db_func.find({'carId': input_id, 'bookingStatus': 'A', 'currentStatus': 'O'}, {projection: {_id: 0, startDate: 1, endDate: 1}}).toArray();
 
     return rent_info
 }
