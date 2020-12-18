@@ -107,11 +107,12 @@
             Boot Space
             <input type="number" name="bootSpace" id="bootSpaceCP-id" placeholder="Boot Space" value="{{cars.bootSpace}}" required disabled>
         </label>
+          
         <br>
         <br>
-        <div>
+        
             <h3>Pick-Up and Drop Location</h3>
-            <form id="caraddress-id">
+
                 <label>
                     House No:
                     <input type="number" name="houseNo" id="houseNoCP-id" placeholder="House No" value="{{cars.houseNo}}" required disabled>
@@ -142,18 +143,19 @@
                 </label>
                 <br>
                 <br>
-            </form>
+           
             {{#if bookFlag}}
-            <button><a href="/rentingInfo/find_date/{{cars._id}}">Book</a></button>
+            <a href="/rentingInfo/find_date/{{cars._id}}">Book</a>
             {{/if}}
-            <button><a href="/users/saveCar/{{cars._id}}">Save</a></button>
+            <a href="/users/saveCar/{{cars._id}}">Save</a>
+             </form>
         </div>
   
 
 
-   </form>
+
    {{/if}}
-   </div>
+
 
  
    
