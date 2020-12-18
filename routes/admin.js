@@ -25,8 +25,10 @@ router.post('/homePage', async (req, res) => {
     const adminName = req.body.name;
     const password = req.body.password;
 
+
     if(req.body.name !== "admin" || await bcrypt.compare(req.body.password,"2b$12$ceorTH4j1CBNH85RxB6QE.1tFwr3evK54xTNYr7MCPtsAgQtmNIXS")){
         res.status(400).render("admin/adminLogin");
+
         return;
     }
 

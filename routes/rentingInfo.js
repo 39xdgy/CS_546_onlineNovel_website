@@ -5,6 +5,8 @@ const rentingInfoData = data.rentingInfo;
 const carData = data.cars;
 const userData = data.users;
 
+const xss = require('xss');
+
 router.get('/', async (req, res) => {
     try{
         const renting_list = await rentingInfoData.getAllRenting();
@@ -44,6 +46,8 @@ router.post('/find_date', async (req, res) => {
         if(!req.body || !req.body.start_date || !req.body.end_date){
             res.status(401).render('rentingInfo/create_renting', {error_flag: true, message: "Missing dates"})
         }
+        xss(req.body.start_date)
+        xss(req.body.end_date)
         let startDate = req.body.start_date
         let endDate = req.body.end_date
         let calculate_start = new Date(startDate)
@@ -60,7 +64,7 @@ router.post('/find_date', async (req, res) => {
         res.redirect("/rentingInfo/confirm/" + new_rent._id)
     } catch(e){
         console.log(e)
-        res.status(404).json({message: e})
+        res.status(404).render("rentingInfo/create_renting", {error_flag: true, message: e})
     }
 })
 
@@ -81,7 +85,7 @@ router.get('/confirm/:id', async (req, res) => {
             res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, link_user: link_user, link_car_owner: link_car_owner, car_name: car_name, is_login: false})
         } else res.status(200).render("rentingInfo/confirm", {new_rent: rent_info, user_name: user_name, link_user: link_user, link_car_owner: link_car_owner, car_name: car_name, is_login: true})
     } catch(e){
-        res.status(404).json({message: "Error"})
+        res.status(404).render("rentingInfo/confirm", {error_flag: true, message: e})
     }
     
 })
@@ -89,7 +93,7 @@ router.get('/confirm/:id', async (req, res) => {
 router.post('/confirm/approve/:id', async(req, res) => {
     try{
         let input_id = req.params.id
-        let renting_info = await rentingInfoData.approve(input_id)
+        await rentingInfoData.approve(input_id)
         res.json({success: true, message: "You got approved!"})
     } catch(e){
         res.status(404).json({message: "Error"})
@@ -106,19 +110,7 @@ router.post('/confirm/reject/:id', async(req, res) => {
     }
 })
 
-router.get('/:id', async (req, res) => {
-    const renting_id = req.params.id
-    if(!renting_id){
-        res.status(400).json({error: "Error on the id"})
-        return 
-    }
-    try{
-        const rentingInfo = await rentingInfoData.getrentByUserId(renting_id);
-        res.status(200).render("rentingInfo/order_history", {order: rentingInfo})
-    } catch(e){
-        res.status(404).json({message: e})
-    }
-})
+
 
 
 module.exports = router;

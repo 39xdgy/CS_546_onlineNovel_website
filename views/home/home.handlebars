@@ -49,6 +49,7 @@
     <br>
     <button type="submit">Search</button>
     
+    {{#if login}}
     {{#if sortFlag}}
     <br>
     <br>
@@ -62,6 +63,8 @@
     </label>
     <button type="submit">Sort</button>
     {{/if}}
+    {{/if}}
+
 </form>
 <br>
 <br>
@@ -84,9 +87,9 @@
     <div class="card">
        <img src="/home/carImage/{{_id}}" onerror="this.src='/public/images/car_no_image.jpg'" alt="Car Picture" class="carHomePic">
       {{#if ../login}}
-      <h3 class="homeheading"><a href="/cars/profile/{{_id}}" target="_blank">{{brand}} {{model}}</a></h3>
+      <p class="homecarheading"><a href="/cars/profile/{{_id}}" target="_blank">{{brand}} {{model}}</a></p>
       {{else}}
-      <h3>{{brand}} {{model}}</h3>
+      <p class="homeheading">{{brand}} {{model}}</p>
       {{/if}}
       <p>Type: {{type}}</p>
       <p>Color: {{color}}</p>
