@@ -66,7 +66,7 @@ router.post("/home/search", async(req,res)=>{
     xss(req.body.model);
     xss(req.body.fromDate);
     xss(req.body.toDate);
-    
+
     if(!req.body.sort)
     {
         const carList = await homeInfo.getSearchResult(req.body);

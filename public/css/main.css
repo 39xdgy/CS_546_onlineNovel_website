@@ -294,8 +294,18 @@ label{
 
 
 .homeheading{
-  font-weight: bold;
-  background-color: white;
+  font-weight: bolder;
+  background-color:black;
+    color:home;
+  color:white;
+  font-size: large;
+}
+
+.homecarheading{
+  font-weight: bolder;
+  background-color:peachpuff;
+    color:black;
+  font-size: large;
 }
 
 

@@ -75,12 +75,13 @@
     {{#if editFlag}}
  
     <form id="profilepictureForm" action="/users/upload/profilepic"  enctype="multipart/form-data" method="POST"> 
-     <h3>Change your profile picture</h3>
+     <p class="homeheading">Change your profile picture</p>
     <img src="/users/profilepic/{{id}}" onerror="this.src='/public/images/blank-profile-picture-973460_640.png'" alt="Profile Picture" class="profilePic">
     <br>
     <br>
-
+            <label>
             <input type="file" name="profilePicture" accept=".png, .jpeg, .jpg" class="btn" required/>
+            </label>
         
             <input type="submit" value="Upload and Submit"/>
 
@@ -93,7 +94,7 @@
    
    
     <form id="useredit-form-id" method="POST" action="/users/editUser">
-       <h3>Change your Profile details</h3>
+       <p class="homeheading">Change your Profile details</p>
         <br>
         <br>
     <label>
@@ -149,7 +150,7 @@
 
 
     <form id="password-form-id" action="/users/changePassword" method="POST">
-    <h3>Change your Password</h3>
+    <p class="homeheading">Change your Password</p>
     <label>
         New Password *
         <input type="password" name="password" id="password-id" required placeholder="password">

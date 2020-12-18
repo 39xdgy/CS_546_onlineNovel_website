@@ -477,10 +477,11 @@ router.get("/customerProfile/:id",async(req,res)=>{
 
 router.post("/changePassword", async(req,res)=>{
     let errorList=[];
+    xss(req.body.password);
+    xss(req.body.confirm);
     let newUserData = req.body;
     let userId=req.session.AuthCookie;
-    //xss(newUserData.password);
-    //xss(newUserData.confirm);
+
 
     try{
         validation.validateString(newUserData.password);
