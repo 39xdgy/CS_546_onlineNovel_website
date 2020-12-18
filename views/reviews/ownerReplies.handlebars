@@ -13,10 +13,10 @@
 
 
 <div>
-    <h3>All Reviews to your {{carName}}</h3>
+    <h1>All Reviews to your {{carName}}</h1>
     {{#if reviews.length}}
         {{#each reviews}}
-            <form id="replyForm" method="POST" action="/reviews/reply/{{_id}}">
+            <form method="POST" action="/reviews/reply/{{_id}}">
                 <label>Name: {{userName}} </label> <br>
                 <label>Rating: {{rating}} </label> <br>
                 <label>Comment: {{comment}} </label><br>
@@ -28,5 +28,5 @@
     {{else}}
         <h1>Your are all done.. No reviews to reply for {{carName}}...</h1>
     {{/if}}
-    <a href="/users/posted">Back to your Posted Cars</a>
+    
 </div>
