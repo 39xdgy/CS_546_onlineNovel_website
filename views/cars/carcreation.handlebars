@@ -129,8 +129,22 @@
         <br>
         <button type="submit" id="submit-id">Create Car</button>
         <button type="reset">Clear Form</button>
+
+        <div id="diverror-id" class="error">
+    <ul id="errorlist-id">
+      {{#if hasErrors}}
+    {{#each errors}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+    {{/if}}
+   </ul>
+   </div>
     </form>
 </div>
 
+
+
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<script src ="../public/js/users.js"></script>
+<script src ="../public/js/cars.js"></script>
