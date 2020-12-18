@@ -55,7 +55,11 @@ router.get('/reply/:id', async (req, res) => {
 router.post('/submitReview', async (req, res) => {
     var reviewPostData = req.body;
     xss(req.body.rating);
-    xss(req.body.comment)
+    xss(req.body.comment);
+    xss(req.body.carCondition);
+    xss(req.body.ownerService);
+    xss(req.body.carPickUp);
+     xss(req.body.cleanliness)
     const errorList=[];
 
     if(!reviewPostData){
