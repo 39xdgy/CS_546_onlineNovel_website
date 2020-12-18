@@ -55,7 +55,11 @@ router.get('/reply/:id', async (req, res) => {
 router.post('/submitReview', async (req, res) => {
     var reviewPostData = req.body;
     xss(req.body.rating);
-    xss(req.body.comment)
+    xss(req.body.comment);
+    xss(req.body.carCondition);
+    xss(req.body.ownerService);
+    xss(req.body.carPickUp);
+     xss(req.body.cleanliness)
     const errorList=[];
 
     if(!reviewPostData){
@@ -119,7 +123,7 @@ router.post('/submitReview', async (req, res) => {
         const newReview = await reviewsData.createReview(rating, comment, lenderReply, dateOfReview, userId, carId, rentId);
         
         const car = await carInfo.getCarById(carId);
-        await carInfo.updateCarRating((car._id).toString(), averageRating)
+        //await carInfo.updateCarRating((car._id).toString(), averageRating)
         //let isLender = false;
         /*if(userId === (car.ownedBy).toString()){
             isLender = true;
