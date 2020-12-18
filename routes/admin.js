@@ -25,7 +25,8 @@ router.post('/homePage', async (req, res) => {
     const password = req.body.password;
 
     if(req.body.name !== "admin" || req.body.password !== "admin@123"){
-        res.status(400).send({message:"Email Id: " + error});
+         res.status(400).render("admin/adminLogin",{error:true,message:"Email ID or password is invalid"});
+        //res.status(400).send({message:"Email Id: " + "EmailID or Password is wrong"});
         return;
     }
 

@@ -1,5 +1,26 @@
 let editForm = document.getElementById('useredit-form-id'); 
 
+
+let passwordFrom=document.getElementById('password-form-id');
+
+if(passwordFrom){
+    passwordFrom.addEventListener('submit',(event) =>{
+        $('ul').empty();
+        $('p').empty();
+        event.preventDefault();
+        if(($('#password-id').val() != $('#confirm-id').val()))
+        {
+         li ='<li> Password and  Confirm Password are not same</li>';
+        $('#passworderrorlist-id').append(li);
+        $('#password-id').val('');
+        $('#confirm-id').val('');
+        }
+
+        if($("#passworderrorlist-id").has("li").length == 0) 
+        passwordFrom.submit();
+    });
+}
+
 if(editForm)
 {
 
