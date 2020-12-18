@@ -3,14 +3,12 @@
     let acc_btn = $("#accept_button")
     let rej_btn = $("#reject_button")
     let confirm_form = $("#confirm_form")
-    let booking_status = $("#message").attr('state')
+    let booking_status = $("#state").val()
     
     //let login_user = $().session.get('car')
-    console.log($("#car_info").attr("is_login"))
-    console.log($("#car_info").attr("is_login") == "true")
     
 
-    if(booking_status === "PFA" && $("#car_info").attr("is_login") == "true"){
+    if(booking_status === "PFA" && $("#is_login").val() == "true"){
         acc_btn.attr('disabled', false)
         rej_btn.attr('disabled', false)
     }

@@ -18,7 +18,7 @@
     }
 
     function set_price(){
-        let price = $("#price").attr("single_price"),
+        let price = $("#single_price").val(),
             start_date = $("#start_date").val(),
             end_date = $("#end_date").val()
 
