@@ -12,11 +12,11 @@
 </div>
 
 <div id="allTheReviewsByUser">
-    <a href="/views/users/userdashboard">Back To our Profile</a>
-    <h3>Your All Reviews</h3>
+    
+    <h1>Your All Reviews</h1>
     {{#if reviews.length}}
         {{#each reviews}}
-            <form id="deleteForm" method="POST" action="/reviews/delete/{{_id}}">
+            <form  method="POST" action="/reviews/delete/{{_id}}">
                 <label>Name: {{carName}} </label> <br>
                 <label>Rating: {{rating}} </label> <br>
                 <label>Comment: {{comment}} </label><br>
@@ -30,5 +30,5 @@
     {{else}}
         <h1>No Reviews left to delete....</h1>
     {{/if}}
-    <a href="/users/history">Back to your Posted Cars</a>
+   
 </div>
