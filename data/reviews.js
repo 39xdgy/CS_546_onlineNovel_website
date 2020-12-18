@@ -111,6 +111,7 @@ let exportedMethods = {
         let cars = await carsCollection();
         let carUpdate = await cars.updateOne({_id:ObjectID(new_review.carId)},{ $push: { reviews: (new_review._id).toString()}});
 
+        //await carsInfo.updateCarRating((car._id).toString(), rating)
 
         return new_review;
     

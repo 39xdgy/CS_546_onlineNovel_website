@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const adminData = data.admin;
-
+const bcrypt = require("bcrypt");
+const saltRounds = 12;
 const xss = require('xss');
 const dataInfo = require('../data');
 const reviewsData = dataInfo.reviews;
@@ -24,9 +25,10 @@ router.post('/homePage', async (req, res) => {
     const adminName = req.body.name;
     const password = req.body.password;
 
-    if(req.body.name !== "admin" || req.body.password !== "admin@123"){
-         res.status(400).render("admin/adminLogin",{error:true,message:"Email ID or password is invalid"});
-        //res.status(400).send({message:"Email Id: " + "EmailID or Password is wrong"});
+
+    if(req.body.name !== "admin" || await bcrypt.compare(req.body.password,"2b$12$ceorTH4j1CBNH85RxB6QE.1tFwr3evK54xTNYr7MCPtsAgQtmNIXS")){
+        res.status(400).render("admin/adminLogin");
+
         return;
     }
 
