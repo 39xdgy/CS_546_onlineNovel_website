@@ -117,6 +117,7 @@ async function updateCarRating(id, rating) {
     const carsCollection = await cars();
     let parsedId = ObjectID(id);
     let updatedCarData = {};
+    
     updatedCarData.rating = rating;
     const updateInfoCar = await carsCollection.updateOne({_id: parsedId}, {$set: updatedCarData});
     if(updateInfoCar.modifiedCount === 0 && updateInfoCar.deletedCount === 0) throw "Could not update rating";

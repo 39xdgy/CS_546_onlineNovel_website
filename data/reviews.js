@@ -111,6 +111,7 @@ let exportedMethods = {
         let cars = await carsCollection();
         let carUpdate = await cars.updateOne({_id:ObjectID(new_review.carId)},{ $push: { reviews: (new_review._id).toString()}});
 
+        //await carsInfo.updateCarRating((car._id).toString(), rating)
 
         return new_review;
     
@@ -143,11 +144,20 @@ let exportedMethods = {
         let parsedID = ObjectID(id);
     
         var review = await this.getReviewById(id);
-    
+        let delete_review_rating = review.rating
+        let all_reviews = await this.getreviewsPerCar(review.carId)
+        let all_length = all_reviews.length
+        let car_info = await carInfo.getCarById(review.carId)
+        let carId = review.carId
+        let avg_rating = car_info.rating
+
         const reviewCollection = await reviews();
         const deleteInfo = await reviewCollection.removeOne({_id: parsedID});
         if(deleteInfo.deletedCount === 0) throw `Could not delete review with id of ${parsedID}`;
 
+        let updated_rating = ((avg_rating * all_length) - delete_review_rating) / (all_length - 1)
+        await carInfo.updateCarRating(carId, updated_rating)
+        
         let user = await usersCollection();
         let userUpdate = await user.updateOne({_id:ObjectID(review.userId)},{ $pull: { reviews: (review._id).toString()}});
 
