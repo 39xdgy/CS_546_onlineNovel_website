@@ -4,6 +4,7 @@ const carsRoutes = require('./cars');
 const reviewsRoutes = require('./reviews');
 const homeRoutes = require('./home');
 const adminRoutes = require('./admin')
+const path = require('path');
 
 const constructorMethod = (app) => {
     app.use('/rentingInfo', rentingInfoRoutes);
@@ -14,7 +15,8 @@ const constructorMethod = (app) => {
     app.use('/admin', adminRoutes);
 
     app.use('*', (req, res) => {
-        res.status(404).json({ Error: 'Page not found'});
+        res.status(404);
+        res.sendFile(path.resolve('static/rentaride.html'));
     });
 };
 
