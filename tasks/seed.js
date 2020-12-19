@@ -16,7 +16,7 @@ async function main() {
     let newUser1 = {
         firstName : "Kristain",
         lastName : "Parker",
-        password: "mydognameistom",
+        password: "2b$12$ax5nHhn3frvGtvhoFeVIu.lCDmDYL1QyZ6NbTDKzkItc0nR.CLKVK",
         dob : "1995-11-23",
         emailID : "KristainParker@gmail.com",
         driverLicense : "A12345678900986",
@@ -30,7 +30,7 @@ async function main() {
     let newUser2 = {
         firstName : "Hanna",
         lastName : "Dom",
-        password: "iloveyou3000",
+        password: "2b$12$UbPeFh75B2kshncXJuXeSu0p70zanHW.HokfDrrCvnSV1wJucA11O",
         dob : "1988-10-01",
         emailID : "Hanna123@yahoo.com",
         driverLicense : "X99997777766666",
@@ -44,7 +44,7 @@ async function main() {
     let newUser3 = {
         firstName : "Peter",
         lastName : "Parker",
-        password: "spiderman2002",
+        password: "2b$12$JvmpGpm8SmQ96Rc4gohFmulIROSJP3bHph70GS1jpR2ziw1Z.ZHqy",
         dob : "1978-05-20",
         emailID : "spiderman@gmail.com",
         driverLicense : "Z12340987654321",
@@ -58,7 +58,7 @@ async function main() {
     let newUser4 = {
         firstName : "James",
         lastName : "Bond",
-        password: "ikill7",
+        password: "2b$12$JvmpGpm8SmQ96Rc4gohFmulIROSJP3bHph70GS1jpR2ziw1Z.ZHqy",
         dob : "1985-11-20",
         emailID : "iloveM@gmail.com",
         driverLicense : "J12341234512345",
@@ -72,7 +72,7 @@ async function main() {
     let newUser5 = {
         firstName : "Jane",
         lastName : "Watson",
-        password: "peterparker",
+        password: "2b$12$xoJ9s7XySnSWt8b3e/2R9OVg1.2xJ2ycjkKM1xaSYrvx4k1laKZBG",
         dob : "1990-01-26",
         emailID : "janewatson@gmail.com",
         driverLicense : "J12341234512345",
@@ -86,7 +86,7 @@ async function main() {
     let newUser6 = {
         firstName : "Tasmania",
         lastName : "Loko",
-        password: "jimmy12345",
+        password: "2b$12$Ldga6hOWLtuVpyHLvUfDNuT5v8yXxfYxAynaeChz2iLKX3B7dlcva",
         dob : "1982-04-01",
         emailID : "tloko@gmail.com",
         driverLicense : "N12349876012345",
@@ -100,7 +100,7 @@ async function main() {
     let newUser7 = {
         firstName : "James",
         lastName : "Mac",
-        password: "mypc1234@#",
+        password: "2b$12$7Ql3npWEjzEN.kky9bCxSOYMolDxKpj6AGAbaJCo1G.1fUwE319cG",
         dob : "1972-02-11",
         emailID : "jamesmac1234@gmail.com",
         driverLicense : "F12349876009876",
@@ -114,7 +114,7 @@ async function main() {
     let newUser8 = {
         firstName : "Tylor",
         lastName : "Bailey",
-        password: "holdon0997",
+        password: "2b$12$rr/FRbMLNxJfDkhe.Dsk0O0WMPC4Ya.Tx3cGNBqjl7p9okJnvYAhe",
         dob : "1975-06-19",
         emailID : "tylorBailey789@gmail.com",
         driverLicense : "E12345432109876",
@@ -129,7 +129,7 @@ async function main() {
     let newUser9 = {
         firstName : "Anthony",
         lastName : "Marchi",
-        password: "boston9898",
+        password: "2b$12$A8hCsGVBVBsJ1SlTWxUT0u4LfIhOtSdsU9SrQGoGpejoBOuql5h82",
         dob : "1985-09-29",
         emailID : "AnthonyMarchi@gmail.com",
         driverLicense : "Q45675432109876",
@@ -143,7 +143,7 @@ async function main() {
     let newUser10 = {
         firstName : "Jessica",
         lastName : "Kuptchik",
-        password: "lambo12345678",
+        password: "2b$12$Rmsq/zgAlGbaESX18xZgdeW0ula.65CNHu8SE2LeHS7pURTmssP4e",
         dob : "1993-10-21",
         emailID : "mynameisJessica@gmail.com",
         driverLicense : "Z45674567845678",
@@ -156,7 +156,7 @@ async function main() {
     let newUser11 = {
         firstName : "Natalie",
         lastName : "Todaro",
-        password: "hellothere12345",
+        password: "2b$12$3/60doy961ycqyU5lUfV8uJygsYCfWxLKS8GK6me6yetlgBjKGNT.",
         dob : "1991-11-05",
         emailID : "NatalieTodaro@stevens.com",
         driverLicense : "K09871098710987",
@@ -171,7 +171,7 @@ async function main() {
     let newUser12 = {
         firstName : "Erick",
         lastName : "Cardy",
-        password: "senorita56789",
+        password: "2b$12$dYoexPEq82BF0czoMIC8rOCYozmRA0Wsd4xxh1QFpc2E.AK3nBJHy",
         dob : "1981-01-25",
         emailID : "ErickCardy@yahoo.com",
         driverLicense : "C34561230912309",
@@ -185,7 +185,7 @@ async function main() {
     let newUser13 = {
         firstName : "Roma",
         lastName : "Rothwell",
-        password: "lasvegas2020",
+        password: "2b$12$a.rUOVoiORjltkMZVYjDFOiLYqR0XHOT12jt.JIwsBdQMY5NLRgSe",
         dob : "1985-07-27",
         emailID : "romarothwell@yahoo.com",
         driverLicense : "A94728374638274",
@@ -199,7 +199,7 @@ async function main() {
     let newUser14 = {
         firstName : "Henry",
         lastName : "Mane",
-        password: "ghostrider",
+        password: "2b$12$pK7KXd0zpDUpCKlRaFKFPeZWl9fvPbfdP4yjclfNd2aK4zkj.TvLK",
         dob : "1979-06-20",
         emailID : "Henry5678@gmail.com",
         driverLicense : "O90288374682746",
@@ -213,7 +213,7 @@ async function main() {
     let newUser15 = {
         firstName : "Todd",
         lastName : "Gilmore",
-        password: "torrymyname",
+        password: "2b$12$nEvdR/y.882qzT82U2lLl.6q5hBEMAXj3lXV9gSVt9bSP9LDgqeFC",
         dob : "1992-07-15",
         emailID : "toddpodd1234@hotmail.com",
         driverLicense : "V29858901287395",
@@ -228,7 +228,7 @@ async function main() {
     let newUser16 = {
         firstName : "Aolanie",
         lastName : "Salloum",
-        password: "aolanie1234",
+        password: "2b$12$Z5ohHKMV09khWW5oTomWveRoE6mVb33AcfRN50l1heM9KrWzyKDTG",
         dob : "1987-08-05",
         emailID : "aolanie.salloum@hotmail.com",
         driverLicense : "V29987301287395",
@@ -243,7 +243,7 @@ async function main() {
     let newUser17 = {
         firstName : "Pamela",
         lastName : "Schaber",
-        password: "pamela3456",
+        password: "$2b$12$b8rZ28rEJFyID1XJVgsTJuUD2Nq9BOHel3TP3dePKVs54oxRhczWG",
         dob : "1987-09-23",
         emailID : "pamela0987@hotmail.com",
         driverLicense : "V29858987687395",
@@ -257,7 +257,7 @@ async function main() {
     let newUser18 = {
         firstName : "Eric",
         lastName : "Truong",
-        password: "lambo1234",
+        password: "2b$12$rDleANHaEnzDLVKU/glN/OIRz3y3ZMIXF9aDwdSkoNjb3f.K4Cj7i",
         dob : "1982-08-20",
         emailID : "erictruong12345@gmail.com",
         driverLicense : "K73645901287395",
@@ -271,7 +271,7 @@ async function main() {
     let newUser19 = {
         firstName : "Kaitlyn",
         lastName : "Murtagh",
-        password: "myWorld1234",
+        password: "2b$12$ZDl81C10AvKjOJNrFmBej.H4xutazYxlqDWgIn1kMUNcrlSzjiRKG",
         dob : "1987-04-20",
         emailID : "kaitlynmurtagh@yahoo.com",
         driverLicense : "G26773901287395",
@@ -285,7 +285,7 @@ async function main() {
     let newUser20 = {
         firstName : "Joe",
         lastName : "Mattern",
-        password: "ironman789",
+        password: "2b$12$6cvNfp.vYdDMlbB9Zyv1CeV7yWHzvLiZcn49hVvw5z.OzgFWfpRdy",
         dob : "1974-05-23",
         emailID : "joe12345@gmail.com",
         driverLicense : "L29988901287395",
@@ -299,7 +299,7 @@ async function main() {
     let newUser21 = {
         firstName : "Lyla",
         lastName : "Lehman",
-        password: "computer@123",
+        password: "2b$12$iQuikUW/KxNY5h92dQlOcuVScs8PsO5lwlP5bXRaNwUi.FnfngN3.",
         dob : "1990-10-22",
         emailID : "lyla.lehman@wemail.com",
         driverLicense : "V29858900987395",
@@ -313,7 +313,7 @@ async function main() {
     let newUser22 = {
         firstName : "Sparsh",
         lastName : "Pandey",
-        password: "sparch#0987",
+        password: "2b$12$3XRGsDsmqjZMrDIKnyrm3OU7usyMoC7sGExI/hBQqlFhBQcPc38e27",
         dob : "1996-06-01",
         emailID : "sparsh.pandey@rutgers.com",
         driverLicense : "B29858901209875",
@@ -327,7 +327,7 @@ async function main() {
     let newUser23 = {
         firstName : "Lily",
         lastName : "Cupp",
-        password: "iamlily12345",
+        password: "2b$12$V68phKivD4MDLVvqDLMMtOx0H/oGUPTMWWW/Mxyc3zcQB6uxtLWX6",
         dob : "1992-07-15",
         emailID : "Lilycupp1992@gmail.com",
         driverLicense : "R29858963547395",
@@ -341,7 +341,7 @@ async function main() {
     let newUser24 = {
         firstName : "Hannah",
         lastName : "Veloce",
-        password: "jimmy@0987",
+        password: "2b$12$9zExSDFICx5zXdo1xv0XZupCp5u9866awg91wZnflC0xDqL8rayPq",
         dob : "1996-12-12",
         emailID : "hannahveloce112@gmail.com",
         driverLicense : "V29858901278335",
@@ -355,7 +355,7 @@ async function main() {
     let newUser25 = {
         firstName : "Alexis",
         lastName : "Kates",
-        password: "alexis@12345",
+        password: "2b$12$QmjEsXBDFiSWn7Bz/BPNZew.XXcEbGS9/LNjpeAc0vGoYmrT24x/2",
         dob : "1985-02-10",
         emailID : "alexiskate@nyu.com",
         driverLicense : "V29858901287395",
@@ -365,7 +365,7 @@ async function main() {
         zip : "07198",
         
     }
-
+    /*
     let user1 = await users.createUser(newUser1);
     let user2 = await users.createUser(newUser2);
     let user3 = await users.createUser(newUser3);
@@ -391,7 +391,8 @@ async function main() {
     let user23 = await users.createUser(newUser23);
     let user24 = await users.createUser(newUser24);
     let user25 = await users.createUser(newUser25);
-/*
+    */
+
     let user1 = await users.createUserWithoutHash(newUser1);
     let user2 = await users.createUserWithoutHash(newUser2);
     let user3 = await users.createUserWithoutHash(newUser3);
@@ -417,7 +418,6 @@ async function main() {
     let user23 = await users.createUserWithoutHash(newUser23);
     let user24 = await users.createUserWithoutHash(newUser24);
     let user25 = await users.createUserWithoutHash(newUser25);
-*/
 
     let newCar1 = {
         ownedBy : (user1._id).toString(),

@@ -16,7 +16,7 @@
     <h3>Your All Reviews</h3>
     {{#if reviews.length}}
         {{#each reviews}}
-            <form id="deleteForm" method="POST" action="/reviews/delete/{{_id}}">
+            <form  method="POST" action="/reviews/delete/{{_id}}">
                 <label>Name: {{carName}} </label> <br>
                 <label>Rating: {{rating}} </label> <br>
                 <label>Comment: {{comment}} </label><br>
